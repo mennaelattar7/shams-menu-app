@@ -1,0 +1,113 @@
+#left-sidebar {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* الهيدر */
+#left-sidebar .navbar-brand {
+    flex-shrink: 0;
+}
+
+/* الكونتينر */
+.sidebar-scroll {
+    flex: 1;
+    overflow: hidden;
+}
+
+/* المكان اللي بيعمل scroll */
+.sidebar-inner {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+}
+
+/* ===== Scrollbar Styling ===== */
+.sidebar-inner::-webkit-scrollbar {
+    width: 10px;
+}
+
+.sidebar-inner::-webkit-scrollbar-thumb {
+    background: #F4CE6A;
+    border-radius: 6px;
+}
+
+.sidebar-inner::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+.theme-cyan .sidebar-nav .metismenu>li ul .active a
+{
+    color: #F4CE6A;
+}
+.theme-cyan .sidebar-nav .metismenu>li.active>a
+{
+    color: #F4CE6A;
+}
+.theme-cyan .sidebar-nav .metismenu>li.active>a i
+{
+    color: #391550;
+    background: #F4CE6A;
+}
+
+/*center navbar*/
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Left */
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+/* Center */
+.navbar-center {
+    flex: 1; /* تاخد المساحة الوسط */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+}
+
+/* Right */
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+.navbar-title {
+
+    color: #fff;
+}
+
+.navbar-center .nav-item
+{
+    padding: 10px 15px;
+}
+.navbar-center .nav-item.active
+{
+    background-color: #F4CE6A;
+}
+.navbar-center .nav-item.active a
+{
+    color: #391550;
+}
+.theme-cyan .sidebar-nav .metismenu ul a:hover::before {
+    content: none !important;
+}
+.theme-cyan .sidebar-nav .metismenu a:hover, .theme-cyan .sidebar-nav .metismenu a:focus {
+    color: #F4CE6A;
+}
+.user-account .dropdown .dropdown-menu {
+    right: auto !important;
+}
+.theme-cyan .sidebar-nav .metismenu a:hover i, .theme-cyan .sidebar-nav .metismenu a:focus i {
+    background: #F4CE6A;
+    color: #391550;
+}
+
+.user-account .dropdown .dropdown-menu li.divider {
+    border-bottom: 1px solid #391550;
+}
