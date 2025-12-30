@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -100,11 +101,19 @@ class AuthController extends Controller
             $new_vendor_representative->save();
 
             //assign role to user
-            $new_user->assignRole('vendor_representative');
+            $vendor_representative_role = Role::where([
+                ['name','vendor_representative'],
+                ['guard_name', 'api']
+            ])->first();
+            $new_user->assignRole($vendor_representative_role);
         }
         elseif($request->account_type == "customer")
         {
-            $new_user->assignRole('customer');
+            $customer_role = Role::where([
+                ['name','customer'],
+                ['guard_name', 'api']
+            ])->first();
+            $new_user->assignRole($customer_role);
         }
         $new_user_otp = new User_OTP();
         $new_user_otp->user_id = $new_user->id;
@@ -196,7 +205,8 @@ class AuthController extends Controller
             $user_otp = $user->user_OTPs()->where([
                 ['otp',$request->otp],
                 ['type',"register"],
-                ['expired_at','>',now()]
+                ['expired_at','>',now()],
+                ['status','active']
             ])->latest()->first();
             if(!$user_otp)
             {
@@ -222,6 +232,45 @@ class AuthController extends Controller
             }
         }
 
+    }
+    /**
+     * @OA\Post(
+     *     path="http://127.0.0.1:8000/api/en/user/logout",
+     *     summary="Logout User",
+     *     description="Logout User From All Devices",
+     *     operationId="logout",
+     *     tags={"Authentication"},
+     *
+     *     security={{"sanctum": {}}},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logged out successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Logged out successfully")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized - invalid or missing token",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged out successfully'
+        ]);
     }
 
 }

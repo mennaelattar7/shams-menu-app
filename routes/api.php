@@ -10,10 +10,13 @@ use App\Models\SocialMediaIcon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+//Notes :
+//token : "7|dOp5sLtxdPkWUW117htvKKFf9u2O1Tx2goCfosmq5595c5b8",
+
 Route::group([
 	'prefix'=>'{locale}',
 	'where'=>['locale'=>'[a-zA-Z]{2}'],
-	'middleware' => ['setlocale'],
+	'middleware' => ['setlocale','api.key'],
 ],function(){
     Route::prefix('user')->name('user.')->group(function(){
         Route::prefix('meta')->name('meta.')->group(function(){
@@ -26,51 +29,25 @@ Route::group([
         Route::prefix('branches')->name('branch')->group(function(){
             Route::get('/{branch_id}',[VendorBranchController::class,'getBranchData'])->name('getBranchData');
         });
-        Route::prefix('auth')->name('auth')->group(function(){
-            Route::post('register',[AuthController::class,'register']);
-            Route::post('login',[AuthController::class,'login']);
-            Route::post('verify-otp-register', [AuthController::class, 'verifyOtpRegister']);
-            Route::post('resend-otp-register', [AuthController::class, 'resendOtpRegister']);
+        Route::prefix('auth')
+              ->name('api.auth.')
+              ->group(function(){
+                    //Register Routes
+                    Route::post('register',[AuthController::class,'register'])
+                         ->name('register'); //Done
+                    Route::post('verify-otp-register', [AuthController::class, 'verifyOtpRegister'])
+                         ->name('verifyOtpRegister'); //Done
+
+                    Route::post('login',[AuthController::class,'login'])
+                         ->name('login');
+
+                    Route::post('resend-otp-register', [AuthController::class, 'resendOtpRegister'])
+                         ->name('resendOtpRegister');
         });
 
-
-
-
-
-
-
-
-
-        // token -> 6|Ffjt4ZWv351t8Wf13auwnu5yjtNT4afSz9w7TMmT9decbf69
-/**
- * @OA\Get(
- *     path="/api/profile",
- *     operationId="getProfile",
- *     tags={"User"},
- *     summary="Get authenticated user profile",
- *     description="Returns the currently authenticated user using Sanctum token",
- *     security={{"sanctum":{}}},
- *
- *     @OA\Response(
- *         response=200,
- *         description="Successful response",
- *         @OA\JsonContent(
- *             type="object",
- *             @OA\Property(property="id", type="integer", example=1),
- *             @OA\Property(property="name", type="string", example="Menna"),
- *             @OA\Property(property="email", type="string", example="menna@test.com"),
- *             @OA\Property(property="created_at", type="string", example="2025-01-01 10:00:00")
- *         )
- *     ),
- *
- *     @OA\Response(
- *         response=401,
- *         description="Unauthenticated"
- *     )
- * )
- */
         Route::middleware('auth:sanctum')->group(function () {
-
+            Route::post('logout',[AuthController::class,'logout'])
+                ->name('logout');
             Route::get('profile', function (Request $request) {
                 return $request->user();
             });

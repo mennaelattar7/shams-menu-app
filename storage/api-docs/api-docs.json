@@ -222,6 +222,59 @@
                 }
             }
         },
+        "http://127.0.0.1:8000/api/en/user/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout User",
+                "description": "Logout User From All Devices",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Logged out successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - invalid or missing token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/{locale}/user/meta/langs": {
             "get": {
                 "tags": [
@@ -524,10 +577,103 @@
                     }
                 }
             }
+        },
+        "/api/{locale}/user/branches/{branch_id}": {
+            "get": {
+                "tags": [
+                    "Branch Data"
+                ],
+                "summary": "Get Main Data Of Branch",
+                "description": "Return 'Vendor Data' ,'Branch Data' ",
+                "operationId": "333d3ed46831486cc42b1c222e1b0af4",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "path",
+                        "description": "Language code",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "en"
+                        }
+                    },
+                    {
+                        "name": "branch_id",
+                        "in": "path",
+                        "description": "the id of branch",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Dokki branch"
+                                                    },
+                                                    "slug": {
+                                                        "type": "string",
+                                                        "example": "Dokki branch"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "success": true,
+                                    "data": {
+                                        "id": 1,
+                                        "name": "Dokki branch",
+                                        "slug": "Dokki branch",
+                                        "current_Status_opening_hours": "open",
+                                        "phone_number": "1233665566666",
+                                        "address": "نعلﻻلرتﻻتﻻ",
+                                        "google_place_link": "https://maps.app.goo.gl/KaS8Czd6Qmy8suus8",
+                                        "vendor_data": {
+                                            "id": 1,
+                                            "brand_name": "shams",
+                                            "logo": "image",
+                                            "banar": "image",
+                                            "slogan": "Dishes that please the palate"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "securitySchemes": {
+            "AppAPIKey": {
+                "type": "apiKey",
+                "name": "X-API-KEY",
+                "in": "header"
+            },
             "sanctum": {
                 "type": "http",
                 "bearerFormat": "JWT",
@@ -543,6 +689,10 @@
         {
             "name": "App Meta",
             "description": "App Meta"
+        },
+        {
+            "name": "Branch Data",
+            "description": "Branch Data"
         }
     ]
 }

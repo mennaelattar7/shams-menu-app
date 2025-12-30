@@ -10,7 +10,12 @@ class Vendor extends Model
     protected $casts = [
         'company_name' => 'array',
     ];
-
+    public function getBrandNameAttribute()
+    {
+        $locale =  app()->getLocale();
+        $array_values = json_decode($this->attributes['brand_name'],true);
+        return $array_values[$locale];
+    }
     public function getCompanyNameAttribute()
     {
         $locale =  app()->getLocale();

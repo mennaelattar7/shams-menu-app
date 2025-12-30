@@ -15,7 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
         'setlocale' => \App\Http\Middleware\custom_middleware\SetLocale::class,
         'dashboardCheckAuth' => \App\Http\Middleware\custom_middleware\Dashboard\CheckAuth::class,
+        // 👇 API KEY middleware
+        'api.key' => \App\Http\Middleware\custom_middleware\API\AppAPIKey::class,
         ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

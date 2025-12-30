@@ -15,6 +15,12 @@ use OpenApi\Annotations as OA;
  *     url="http://localhost",
  *     description="Local server"
  * )
+ * @OA\SecurityScheme(
+ *     securityScheme="AppAPIKey",
+ *     type="apiKey",
+ *     in="header",
+ *     name="X-API-KEY"
+ * )
  *
  *
  * @OA\SecurityScheme(
@@ -22,6 +28,12 @@ use OpenApi\Annotations as OA;
  *     type="http",
  *     scheme="bearer",
  *     bearerFormat="JWT"
+ * )
+ *
+ * @OA\SecurityRequirement(
+ *     security={
+ *         {"AppAPIKey": {}},
+ *     }
  * )
  */
 class OpenApi

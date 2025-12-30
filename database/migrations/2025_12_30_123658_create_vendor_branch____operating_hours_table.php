@@ -11,19 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vendor_branches', function (Blueprint $table) {
+        Schema::create('vendor_branch____operating_hours', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('created_by_id')->unsigned();
             $table->bigInteger('updated_by_id')->unsigned()->nullable();
             $table->bigInteger('deleted_by_id')->unsigned()->nullable();
-            $table->bigInteger('vendor_id')->unsigned();
+            $table->bigInteger('branch_id')->unsigned();
 
-            $table->json('name');
-            $table->string('slug');
-            $table->enum('current_Status_opening_hours',['open','close']);
-            $table->string('phone_number');
-            $table->string('address');
-            $table->string('google_place_link',500);
+            $table->tinyInteger('day_of_week');
+            $table->time('opening_time')->nullable();
+            $table->time('closing_time')->nullable();
+            $table->enum('is_open',['yes','no']);
 
             $table->timestamps();
             $table->softDeletes();
@@ -31,8 +29,7 @@ return new class extends Migration
             $table->foreign('created_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('updated_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('deleted_by_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
-
+            $table->foreign('branch_id')->references('id')->on('vendor___branches')->onDelete('cascade');
         });
     }
 
@@ -41,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vendor_branches');
+        Schema::dropIfExists('vendor_branch____operating_hours');
     }
 };

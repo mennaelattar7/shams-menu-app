@@ -23,6 +23,11 @@ class VendorBranche extends Model
         return $this->belongsTo(Vendor::class,'vendor_id','id');
     }
 
+    public function operating_hours()
+    {
+        return $this->hasMany(VendorBranch___OperatingHour::class,'branch_id','id');
+    }
+
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');
