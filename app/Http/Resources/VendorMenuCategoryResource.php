@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class VendorMenuCategoryResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id'=>$this->id,
+            
+            'parent_category' => optional($this->parent_category)->name,
+            'name' =>$this->name,
+            'image' => $this->image,
+            'sort' =>$this->sort,
+            'status' => $this->status,
+            'childreen' => $this->children_categories != null? VendorMenuCategoryResource::collection($this->children_categories):null
+        ];
+    }
+}

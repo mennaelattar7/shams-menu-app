@@ -17,42 +17,53 @@ class VendorBranchResource extends JsonResource
     {
         $currentDay = now()->dayOfWeekIso;
         $currentTime = now()->format('H:i:s');
-        $opening_hours = VendorBranch___OperatingHour::where('branch_id', $this->id)
-            ->where('day_of_week', $currentDay)
-            ->where('opening_time', '<=', $currentTime)
+        $operating_days = VendorBranch___OperatingHour::where([
+            ['branch_id',$this->id],
+            ['day_of_week',$currentDay]
+        ]
+        )->get();
+        if($operating_days->isNotEmpty())
+        {
+            $operating_hours = $operating_days->where('opening_time', '<=', $currentTime)
             ->where('closing_time', '>=', $currentTime)
             ->first();
-        $opening_time = $opening_hours->opening_time;
-        $closing_time = $opening_hours->closing_time;
-        if($opening_hours)
-        {
-            if($opening_hours->is_open == "yes")
+            $opening_time = $operating_hours ? $operating_hours->opening_time : $operating_days->first()->opening_time;
+            $closing_time = $operating_hours ? $operating_hours->closing_time :$operating_days->first()->closing_time;
+            if($operating_hours)
             {
-                $current_status_opening_hours = "open";
 
+                if($operating_hours->is_open == "yes")
+                {
+                    $current_status_operating_hours = "open";
+
+                }
+                else
+                {
+                    $current_status_operating_hours ="close";
+                }
             }
             else
             {
-                $current_status_opening_hours ="close";
+                $current_status_operating_hours ="close";
             }
         }
         else
         {
-            $current_status_opening_hours ="close";
+            $current_status_operating_hours = "This branch has no operating hours set for today.";
         }
+
         return [
             'id' =>$this->id,
             'name' =>$this->name,
             'slug' =>$this->slug,
-            'current_status_opening_hours' =>$current_status_opening_hours,
             'phone_number' => $this->phone_number,
             'address' =>$this->address,
             'google_place_link' =>$this->google_place_link,
             'opening_time' =>$opening_time,
             'closing_time'=>$closing_time,
+            'current_status_operating_hours' => $current_status_operating_hours,
+            'branch_socail_media' => $this->social_media ? SocialMediaResource::collection($this->social_media) : null,
             'vendor_data' => $this->vendor? new VendorResource($this->vendor) : null,
-            'current_status_opening_hours' => $current_status_opening_hours,
-
         ];
     }
 }

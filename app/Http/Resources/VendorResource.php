@@ -19,7 +19,8 @@ class VendorResource extends JsonResource
             'brand_name'=>$this->brand_name,
             'logo' =>$this->logo,
             'banar' =>$this->banar,
-            'slogan' =>$this->slogan
+            'slogan' =>$this->slogan,
+            'vendor_social_media' => $this->social_media? SocialMediaResource::collection( $this->social_media):null,
         ];
     }
 }

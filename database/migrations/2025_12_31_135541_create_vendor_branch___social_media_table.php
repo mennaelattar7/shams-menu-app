@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vendor_branch___operating_hours', function (Blueprint $table) {
+        Schema::create('vendor_branch___social_media', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('created_by_id')->unsigned();
             $table->bigInteger('updated_by_id')->unsigned()->nullable();
             $table->bigInteger('deleted_by_id')->unsigned()->nullable();
             $table->bigInteger('branch_id')->unsigned();
+            $table->bigInteger('social_media_id')->unsigned();
 
-            $table->tinyInteger('day_of_week');
-            $table->time('opening_time')->nullable();
-            $table->time('closing_time')->nullable();
-            $table->enum('is_open',['yes','no']);
+            $table->string('link');
 
             $table->timestamps();
             $table->softDeletes();
@@ -30,6 +28,7 @@ return new class extends Migration
             $table->foreign('updated_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('deleted_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('branch_id')->references('id')->on('vendor___branches')->onDelete('cascade');
+            $table->foreign('social_media_id')->references('id')->on('social_media_icons')->onDelete('cascade');
         });
     }
 
@@ -38,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vendor_branch___operating_hours');
+        Schema::dropIfExists('vendor_branch___social_media');
     }
 };

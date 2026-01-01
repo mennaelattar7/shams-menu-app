@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vendor_branch___operating_hours', function (Blueprint $table) {
+        Schema::create('vendor___menu_categories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('created_by_id')->unsigned();
             $table->bigInteger('updated_by_id')->unsigned()->nullable();
             $table->bigInteger('deleted_by_id')->unsigned()->nullable();
-            $table->bigInteger('branch_id')->unsigned();
+            $table->bigInteger('vendor_id')->unsigned();
+            $table->bigInteger('parent_category_id')->unsigned()->nullable();
 
-            $table->tinyInteger('day_of_week');
-            $table->time('opening_time')->nullable();
-            $table->time('closing_time')->nullable();
-            $table->enum('is_open',['yes','no']);
+            $table->json('name');
+            $table->string('image')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
 
             $table->timestamps();
             $table->softDeletes();
@@ -29,7 +29,8 @@ return new class extends Migration
             $table->foreign('created_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('updated_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('deleted_by_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('branch_id')->references('id')->on('vendor___branches')->onDelete('cascade');
+            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
+            $table->foreign('parent_category_id')->references('id')->on('vendor___menu_categories')->onDelete('cascade');
         });
     }
 
@@ -38,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vendor_branch___operating_hours');
+        Schema::dropIfExists('vendor___menu_categories');
     }
 };

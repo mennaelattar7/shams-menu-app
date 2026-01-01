@@ -4,34 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VendorBranche extends Model
+class Vendor__MenuCategory extends Model
 {
-    protected $table = "vendor___branches";
-
+    protected $table = "vendor___menu_categories";
     protected $casts = [
         'name' => 'array',
     ];
-
     public function getNameAttribute()
     {
         $locale =  app()->getLocale();
         $array_values = json_decode($this->attributes['name'],true);
         return $array_values[$locale];
     }
-    public function vendor()
+    public function children_categories()
     {
-        return $this->belongsTo(Vendor::class,'vendor_id','id');
+        return $this->hasMany(Vendor__MenuCategory::class,'parent_category_id','id')->orderBy('sort');
     }
-
-    public function operating_hours()
+    public function parent_category()
     {
-        return $this->hasMany(VendorBranch___OperatingHour::class,'branch_id','id');
+        return $this->belongsto(Vendor__MenuCategory::class,'parent_category_id','id');
     }
-    public function social_media()
-    {
-        return $this->belongsToMany(SocialMediaIcon::class,'vendor_branch___social_media','branch_id','social_media_id')->withPivot('link');
-    }
-
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');

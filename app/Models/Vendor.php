@@ -29,6 +29,14 @@ class Vendor extends Model
         return $array_values[$locale];
     }
 
+    public function social_media()
+    {
+        return $this->belongsToMany(SocialMediaIcon::class,'vendor___social_media','vendor_id','social_media_id')->withPivot('link');
+    }
+    public function menu_categories()
+    {
+        return $this->hasMany(Vendor__MenuCategory::class,'vendor_id','id');
+    }
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');

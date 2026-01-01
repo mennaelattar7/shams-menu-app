@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorBranch___OperatingHour extends Model
 {
-    protected $table = "vendor_branch____operating_hours";
+    protected $table = "vendor_branch___operating_hours";
 
     public function created_by()
     {
