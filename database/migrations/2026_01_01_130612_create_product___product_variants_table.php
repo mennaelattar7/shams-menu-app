@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('product___product_variants', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('created_by_id')->unsigned();
             $table->bigInteger('updated_by_id')->unsigned()->nullable();
             $table->bigInteger('deleted_by_id')->unsigned()->nullable();
-            $table->bigInteger('category_id')->unsigned();
-            $table->bigInteger('product_type_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned();
 
             $table->json('name');
-            $table->string('slug');
-            $table->json('description');
-            $table->string('image');
+            $table->decimal('price', 10, 2);
+            $table->integer('calories')->unsigned()->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
 
             $table->timestamps();
@@ -31,8 +29,7 @@ return new class extends Migration
             $table->foreign('created_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('updated_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('deleted_by_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('vendor___menu_categories')->onDelete('cascade');
-            $table->foreign('product_type_id')->references('id')->on('product___types')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
@@ -41,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('product___product_variants');
     }
 };

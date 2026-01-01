@@ -16,13 +16,15 @@ class VendorMenuCategoryResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            
             'parent_category' => optional($this->parent_category)->name,
             'name' =>$this->name,
             'image' => $this->image,
             'sort' =>$this->sort,
             'status' => $this->status,
-            'childreen' => $this->children_categories != null? VendorMenuCategoryResource::collection($this->children_categories):null
+            'childreen' => $this->when(
+                                        $request->routeIs('user.vendor.VendorMenuCategories'),
+                                        $this->children_categories != null? VendorMenuCategoryResource::collection($this->whenLoaded('children_categories')):null
+                                    )
         ];
     }
 }

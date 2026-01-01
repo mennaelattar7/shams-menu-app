@@ -8,6 +8,7 @@ use App\Http\Controllers\User\API\Meta\SocialMediaIconController;
 use App\Http\Controllers\User\API\Meta\VendorTypeController;
 use App\Http\Controllers\User\API\VendorBranchController;
 use App\Http\Controllers\User\API\VendorController;
+use App\Http\Controllers\User\API\VendorMenuCategoryController;
 use App\Models\Product__Type;
 use App\Models\SocialMediaIcon;
 use Illuminate\Http\Request;
@@ -23,19 +24,22 @@ Route::group([
 ],function(){
     Route::prefix('user')->name('user.')->group(function(){
         Route::prefix('meta')->name('meta.')->group(function(){
-            Route::get('langs',[LangController::class, 'index'])->name('lang.index');
-            Route::get('social-media-icons',[SocialMediaIconController::class, 'index'])->name('social_media_icon.index');
-            Route::get('vendor-types',[VendorTypeController::class, 'allItems'])->name('vendor_type.index');
-            Route::get('shams-features',[ShamsFeatureController::class, 'allItems'])->name('shams_feature.index');
-            Route::get('dial-code-countries',[VendorTypeController::class, 'allItems'])->name('country.getDialCodeCountries');
-            Route::get('product-types',[ProductTypeController::class, 'allItems'])->name('lang.index');
+            Route::get('langs',[LangController::class, 'index'])->name('lang.index.');
+            Route::get('social-media-icons',[SocialMediaIconController::class, 'index'])->name('social_media_icon.index.');
+            Route::get('vendor-types',[VendorTypeController::class, 'allItems'])->name('vendor_type.index.');
+            Route::get('shams-features',[ShamsFeatureController::class, 'allItems'])->name('shams_feature.index.');
+            Route::get('dial-code-countries',[VendorTypeController::class, 'allItems'])->name('country.getDialCodeCountries.');
+            Route::get('product-types',[ProductTypeController::class, 'allItems'])->name('product_type.index.');
         });
-        Route::prefix('branches')->name('branch')->group(function(){
-            Route::get('/{branch_id}',[VendorBranchController::class,'getBranchData'])->name('getBranchData');
+        Route::prefix('branches')->name('branch.')->group(function(){
+            Route::get('/{branch_id}',[VendorBranchController::class,'getBranchData'])->name('getBranchData.');
         });
-        Route::prefix('vendors')->name('vendor')->group(function(){
-            Route::get('/{slug}',[VendorController::class,'getVendorData'])->name('getVendorData');
-            Route::get('/{slug}/menu-categories',[VendorController::class,'getVendorMenuCategories'])->name('getVendorMenuCategories');
+        Route::prefix('vendors')->name('vendor.')->group(function(){
+            Route::get('/{slug}',[VendorController::class,'getVendorData'])->name('getVendorData.');
+            Route::get('/{slug}/menu-categories',[VendorController::class,'getVendorMenuCategories'])->name('VendorMenuCategories');
+        });
+        Route::prefix('categories')->name('category.')->group(function(){
+            Route::get('/{slug}/products',[VendorMenuCategoryController::class,'products'])->name('products');
         });
         Route::prefix('auth')
               ->name('api.auth.')

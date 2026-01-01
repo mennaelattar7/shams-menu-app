@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Product__ProductVariant extends Model
 {
-    protected $table = "products";
+    protected $table = "product___product_variants";
     protected $casts = [
         'name' => 'array',
     ];
@@ -16,25 +16,10 @@ class Product extends Model
         $array_values = json_decode($this->attributes['name'],true);
         return $array_values[$locale];
     }
-    public function getDescriptionAttribute()
+    public function product()
     {
-        $locale =  app()->getLocale();
-        $array_values = json_decode($this->attributes['description'],true);
-        return $array_values[$locale];
+        return $this->belongsTo(Product::class,'product_id','id');
     }
-    public function variants()
-    {
-        return $this->hasMany(Product__ProductVariant::class,'product_id','id');
-    }
-    public function category()
-    {
-        return $this->belongsTo(Vendor__MenuCategory::class,'category_id','id');
-    }
-    public function product_type()
-    {
-        return $this->belongsTo(Product__Type::class,'product_type_id','id');
-    }
-
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');
