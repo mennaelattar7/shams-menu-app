@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,7 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $active_offer = $this->offers->filter(fn($offer)=>$offer->is_active())->first();
         return [
             'id'=>$this->id,
             'category' => $this->category->name,
@@ -22,9 +24,8 @@ class ProductResource extends JsonResource
             'slug'=>$this->name,
             'description' =>$this->description,
             'image' =>$this->image,
-            'price' =>$this->variants->count() == 1? $this->variants->first()->price:null,
-            'calories' =>$this->variants->count() == 1? $this->variants->first()->calories:null,
             'status' =>$this->status,
+            'offer' => $active_offer ? new VendorBranch__OfferResource($active_offer) : null,
             'variants' => ProductVariantResource::collection($this->variants->where('status','active'))
         ];
     }

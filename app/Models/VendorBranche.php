@@ -25,7 +25,7 @@ class VendorBranche extends Model
 
     public function operating_hours()
     {
-        return $this->hasMany(VendorBranch___OperatingHour::class,'branch_id','id');
+        return $this->hasMany(VendorBranch__OperatingHour::class,'branch_id','id');
     }
     public function social_media()
     {

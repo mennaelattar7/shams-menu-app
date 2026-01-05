@@ -6,6 +6,7 @@ use App\Http\Controllers\User\API\Meta\ProductTypeController;
 use App\Http\Controllers\User\API\Meta\ShamsFeatureController;
 use App\Http\Controllers\User\API\Meta\SocialMediaIconController;
 use App\Http\Controllers\User\API\Meta\VendorTypeController;
+use App\Http\Controllers\User\API\ProductController;
 use App\Http\Controllers\User\API\VendorBranchController;
 use App\Http\Controllers\User\API\VendorController;
 use App\Http\Controllers\User\API\VendorMenuCategoryController;
@@ -40,6 +41,9 @@ Route::group([
         });
         Route::prefix('categories')->name('category.')->group(function(){
             Route::get('/{slug}/products',[VendorMenuCategoryController::class,'products'])->name('products');
+        });
+        Route::prefix('products')->name('product.')->group(function(){
+            Route::get('/{slug}',[ProductController::class,'product'])->name('products');
         });
         Route::prefix('auth')
               ->name('api.auth.')

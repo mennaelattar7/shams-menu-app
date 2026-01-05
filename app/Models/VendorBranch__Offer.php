@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class VendorBranch__Offer extends Model
 {
-    protected $table = "products";
+    protected $table = "vendor_branch___offers";
     protected $casts = [
         'name' => 'array',
+        'description'=>'array'
     ];
     public function getNameAttribute()
     {
@@ -22,23 +23,12 @@ class Product extends Model
         $array_values = json_decode($this->attributes['description'],true);
         return $array_values[$locale];
     }
-    public function offers()
+    public function is_active()
     {
-        return $this->belongsToMany(VendorBranch__Offer::class,'vendor_branch___offer_products','product_id','offer_id');
+        return $this->status == "active" &&
+               $this->start_date <= now() &&
+               $this->end_date > now();
     }
-    public function variants()
-    {
-        return $this->hasMany(Product__ProductVariant::class,'product_id','id');
-    }
-    public function category()
-    {
-        return $this->belongsTo(Vendor__MenuCategory::class,'category_id','id');
-    }
-    public function product_type()
-    {
-        return $this->belongsTo(Product__Type::class,'product_type_id','id');
-    }
-
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');

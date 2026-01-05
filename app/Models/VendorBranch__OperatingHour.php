@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VendorBranch___OperatingHour extends Model
+class VendorBranch__OperatingHour extends Model
 {
     protected $table = "vendor_branch___operating_hours";
 

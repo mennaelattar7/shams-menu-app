@@ -6,9 +6,9 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(
- *     title="Kazaa API",
+ *     title="Shams API",
  *     version="1.0.0",
- *     description="API documentation for Kazaa system"
+ *     description="API documentation for Shams system"
  * )
  *
  * @OA\Server(

@@ -14,10 +14,28 @@ class ProductVariantResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $active_offer = $this->product->offers->filter(fn($offer)=>$offer->is_active())->first();
+        if($active_offer)
+        {
+            if($active_offer->discount_type == "fixed")
+            {
+                $price_after_discount = $this->price - $active_offer->discount_value;
+            }
+            else
+            {
+                $price_after_discount = $this->price - ($this->price * ($active_offer->discount_value / 100));
+            }
+
+        }
+        else
+        {
+            $price_after_discount = null;
+        }
         return [
             'id'=>$this->id,
             'name' => $this->name,
             'price' =>$this->price,
+            'price_after_discount' =>$price_after_discount,
             'calories' =>$this->calories,
             'status'=>$this->status,
         ];

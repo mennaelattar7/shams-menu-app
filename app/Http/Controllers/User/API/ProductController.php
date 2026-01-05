@@ -4,19 +4,17 @@ namespace App\Http\Controllers\User\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\VendorMenuCategoryResource;
 use App\Models\Product;
-use App\Models\Vendor__MenuCategory;
 use Illuminate\Http\Request;
 
-class VendorMenuCategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/{locale}/user/categories/{slug}/products",
-     *     tags={"Menu-Categories"},
-     *     summary="Products In one Menu-Category",
-     *     description="Get All Products In one Menu-Category",
+     *     path="/api/{locale}/user/products/{slug}",
+     *     tags={"Products"},
+     *     summary="Single Product Data",
+     *     description="Single Product Data",
      *
      *     @OA\Parameter(
      *         name="locale",
@@ -29,8 +27,8 @@ class VendorMenuCategoryController extends Controller
      *         name="slug",
      *         in="path",
      *         required=true,
-     *         description="the slug of Menu-Category",
-     *         @OA\Schema(type="string", example="Cold-appetizers")
+     *         description="the slug of Product",
+     *         @OA\Schema(type="string", example="Nigresco-pasta1")
      *     ),
      *
      *     @OA\Response(
@@ -210,14 +208,13 @@ class VendorMenuCategoryController extends Controller
      *     ),
      * )
      */
-    public function products($locale,$slug)
+    public function product($locale,$slug)
     {
-        $menu_category = Vendor__MenuCategory::where('slug',$slug)->first();
-        $products = $menu_category->products->where('status','active');
+        $product= Product::where('slug',$slug)->first();
         return response()->json([
             'success' => true,
-            'message' => 'Products retrieved successfully',
-            'data' => ProductResource::collection($products)
+            'message' => 'Single Product retrieved successfully',
+            'data' => new ProductResource($product)
         ],200);
     }
 }

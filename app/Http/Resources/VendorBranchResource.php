@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\VendorBranch___OperatingHour;
+use App\Models\VendorBranch__OperatingHour;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +17,7 @@ class VendorBranchResource extends JsonResource
     {
         $currentDay = now()->dayOfWeekIso;
         $currentTime = now()->format('H:i:s');
-        $operating_days = VendorBranch___OperatingHour::where([
+        $operating_days = VendorBranch__OperatingHour::where([
             ['branch_id',$this->id],
             ['day_of_week',$currentDay]
         ]
