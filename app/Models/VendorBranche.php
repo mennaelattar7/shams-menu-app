@@ -3,14 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class VendorBranche extends Model
 {
+    use HasSlug;
     protected $table = "vendor___branches";
 
     protected $casts = [
         'name' => 'array',
     ];
+
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['name'])
+            ->saveSlugsTo('slug');
+    }
 
     public function getNameAttribute()
     {

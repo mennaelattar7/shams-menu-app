@@ -1,19 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\User\API\Auth;
+namespace App\Http\Controllers\User\API\Vendor\Authentication;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\API\Auth\RegisterRequest;
-use App\Http\Requests\User\API\Auth\VerifyingOTPRequest;
+use App\Http\Requests\User\API\Vendor\Auth\LoginRequest;
+use App\Http\Requests\User\API\Vendor\Auth\RegisterRequest;
+use App\Http\Requests\User\API\Vendor\Auth\VerifyingOTPRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\User_OTP;
+use App\Models\Vendor;
+use App\Models\Vendor_VendorType;
 use App\Models\VendorRepresentative;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -79,42 +82,41 @@ class AuthController extends Controller
      *     )
      * )
      */
-
     public function register(RegisterRequest $request)
     {
         $new_user = new User();
         $new_user->name = $request->name;
+        $new_user->email = $request->email;
         $new_user->country_dial_code_id = $request->country_dial_code_id;
         $new_user->phone_number = $request->phone_number;
-        $new_user->account_type = $request->account_type;
+        $new_user->account_type = "vendor_representative";
         $new_user->save();
-        if($request->account_type == "vendor_representative")
-        {
-            $new_user->email = $request->email;
-            $new_user->password = Hash::make($request->password);
-            $new_user->save();
-            //add in "vendor_representatives" table
-            $new_vendor_representative = new VendorRepresentative();
-            $new_vendor_representative->created_by_id = $new_user->id;
-            $new_vendor_representative->user_id = $new_user->id;
-            $new_vendor_representative->position = $request->position;
-            $new_vendor_representative->save();
+        //add in vendors
+        $new_vendor= new Vendor();
+        $new_vendor->created_by_id = $new_user->id;
+        $new_vendor->company_name = $request->company_name;
+        $new_vendor->save();
 
-            //assign role to user
-            $vendor_representative_role = Role::where([
-                ['name','vendor_representative'],
-                ['guard_name', 'api']
-            ])->first();
-            $new_user->assignRole($vendor_representative_role);
-        }
-        elseif($request->account_type == "customer")
-        {
-            $customer_role = Role::where([
-                ['name','customer'],
-                ['guard_name', 'api']
-            ])->first();
-            $new_user->assignRole($customer_role);
-        }
+        //add in vendor___vendor_types table
+        $new_vendor_vendor_type = new Vendor_VendorType();
+        $new_vendor_vendor_type->type_id = $request->vendor_type_id;
+        $new_vendor_vendor_type->vendor_id = $new_vendor->id;
+        $new_vendor_vendor_type->save();
+        //add in "vendor_representatives" table
+        $new_vendor_representative = new VendorRepresentative();
+        $new_vendor_representative->created_by_id = $new_user->id;
+        $new_vendor_representative->user_id = $new_user->id;
+        $new_vendor_representative->vendor_id = $new_vendor->id;
+        $new_vendor_representative->position = $request->position;
+        $new_vendor_representative->save();
+        //assign role to user
+        $vendor_representative_role = Role::where([
+            ['name','vendor_representative'],
+            ['guard_name', 'api']
+        ])->first();
+        $new_user->assignRole($vendor_representative_role);
+
+        //add in user__OTPs
         $new_user_otp = new User_OTP();
         $new_user_otp->user_id = $new_user->id;
         $new_user_otp->otp = rand(100000, 999999);
@@ -129,8 +131,6 @@ class AuthController extends Controller
             'message' => 'Registered successfully, OTP sent to mobile'
         ]);
     }
-
-
     /**
      * @OA\Post(
      *     path="/api/en/user/auth/verify-otp-register",
@@ -186,7 +186,6 @@ class AuthController extends Controller
      *     )
      * )
      */
-
     public function verifyOtpRegister(VerifyingOTPRequest $request)
     {
         $user = User::where([
@@ -233,36 +232,123 @@ class AuthController extends Controller
         }
 
     }
-    /**
-     * @OA\Post(
-     *     path="http://127.0.0.1:8000/api/en/user/logout",
-     *     summary="Logout User",
-     *     description="Logout User From All Devices",
-     *     operationId="logout",
-     *     tags={"Authentication"},
-     *
-     *     security={{"sanctum": {}}},
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Logged out successfully",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="message", type="string", example="Logged out successfully")
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized - invalid or missing token",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *         )
-     *     )
-     * )
-     */
+/**
+ * @OA\Post(
+ *     path="/api/{locale}/user/vendor/auth/login",
+ *     tags={"Vendor Endpoints"},
+ *     summary="---Login Endpoint---",
+ *     description="Login as vendor Representative",
+ *
+ *     @OA\Parameter(
+ *         name="locale",
+ *         in="path",
+ *         required=true,
+ *         description="Language code",
+ *         @OA\Schema(type="string", example="en")
+ *     ),
+ *
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="phone_number", type="string", example="0501234567"),
+ *             @OA\Property(property="password", type="string", example="123456")
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="Get vendor data successfully",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="string", example="success"),
+ *             @OA\Property(property="message", type="string", example="success Login"),
+ *             @OA\Property(property="token", type="string", example="38|hmKx2mys6d2wKJw75x4qR3AVvoIuF69RwHMhk8EF7ab40fbb"),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="object",
+ *                 @OA\Property(property="user_id", type="integer", example=1),
+ *                 @OA\Property(property="user_name", type="string", example="Menna"),
+ *                 @OA\Property(property="user_slug", type="string", example="menna"),
+ *                 @OA\Property(property="user_email", type="string", example="menna_vendor_rep@test.com"),
+ *                 @OA\Property(property="user_country_dial_code_id", type="integer", example="242"),
+ *                 @OA\Property(property="user_phone_number", type="string", example="0501234567"),
+ *                 @OA\Property(property="user_account_type", type="string", example="vendor_representative"),
+ *                 @OA\Property(
+ *                      property="vendor_representative",
+ *                      type="object",
+ *                      @OA\Property(property="vendor_rep_id", type="integer", example=1),
+ *                      @OA\Property(property="vendor_rep_position", type="string", example="manager"),
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Not Authenticated"
+ *     )
+ * )
+ */
+
+    public function login(LoginRequest $request)
+    {
+        //check password is null exist
+        $user = User::where([
+            ['phone_number',$request->phone_number],
+            ['account_type',"vendor_representative"]
+        ])->first();
+        if(!$user->password)
+        {
+            $user->password = Hash::make($request->password);
+            $user->save();
+        }
+        $credentials = [
+            'phone_number' => $request->phone_number,
+            'password' => $request->password
+        ];
+
+        if(Auth::attempt($credentials))
+        {
+            $user = Auth::user();
+            $token = $user->createToken('api-token')->plainTextToken;
+            return response()->json([
+                'success' => true,
+                'message' =>"success Login",
+                'token' => $token,
+                'data'=> new UserResource($user)
+            ], 200);
+        }
+        else
+        {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+    }
+/**
+ * @OA\Post(
+ *     path="api/{locale}/user/vendor/auth/logout",
+ *     tags={"Vendor Endpoints"},
+ *     summary="---Logout Endpoint---",
+ *     description="Logout vendor Representative",
+ *
+ *     @OA\Parameter(
+ *         name="locale",
+ *         in="path",
+ *         required=true,
+ *         description="Language code",
+ *         @OA\Schema(type="string", example="en")
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="Get vendor data successfully",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="string", example="true"),
+ *             @OA\Property(property="message", type="string", example="Logged out successfully"),
+ *         )
+ *     ),
+ * )
+ */
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
@@ -272,5 +358,4 @@ class AuthController extends Controller
             'message' => 'Logged out successfully'
         ]);
     }
-
 }

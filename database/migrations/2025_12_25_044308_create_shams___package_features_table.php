@@ -17,8 +17,8 @@ return new class extends Migration
             $table->bigInteger('feature_id')->unsigned();
 
             $table->timestamps();
-            
-            $table->foreign('package_id')->references('id')->on('shams___packages')->onDelete('cascade');
+
+            $table->foreign('package_id')->references('id')->on('shams___vendor_packages')->onDelete('cascade');
             $table->foreign('feature_id')->references('id')->on('shams___features')->onDelete('cascade');
         });
     }

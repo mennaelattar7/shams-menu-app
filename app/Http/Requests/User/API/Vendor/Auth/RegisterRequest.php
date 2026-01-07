@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\User\API\Auth;
+namespace App\Http\Requests\User\API\Vendor\Auth;
 
-use App\Models\Country;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Country;
 
 class RegisterRequest extends FormRequest
 {
@@ -22,7 +22,6 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-
         $rules= [
             'name' =>[
                 'required',
@@ -41,9 +40,12 @@ class RegisterRequest extends FormRequest
                 'required',
                 'unique:users,phone_number'
             ],
-            'password' =>[
+            'company_name' => [
                 'required',
-                'min:6'
+                'array'
+            ],
+            'vendor_type_id' =>[
+                'required'
             ]
         ];
         $country_dial_code_id = $this->input('country_dial_code_id');

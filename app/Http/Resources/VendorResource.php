@@ -16,11 +16,18 @@ class VendorResource extends JsonResource
     {
         return [
             'id' =>$this->id,
+            'company_name' =>$this->when($request->routeIs('user.api.vendor.vendor_data'),$this->company_name),
             'brand_name'=>$this->brand_name,
             'logo' =>$this->logo,
             'banar' =>$this->banar,
             'slogan' =>$this->slogan,
-            'vendor_social_media' => $this->social_media? SocialMediaResource::collection( $this->social_media):null,
+            'more_details' =>$this->more_details,
+            'branches' => $this->when(
+                                        $request->routeIs('user.api.vendor.auth.login'),
+                                        $this->branches ? VendorBranchResource::collection($this->branches) : null
+                                    ),
+
+
         ];
     }
 }

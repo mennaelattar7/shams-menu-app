@@ -237,7 +237,7 @@ class VendorBranchController extends Controller
     public function getBranchData($locale,$branch_id)
     {
         $branch = VendorBranche::find($branch_id);
-        if($branch->is_active)
+        if($branch->activation_status == "active")
         {
             return response()->json([
                 'success' => true,

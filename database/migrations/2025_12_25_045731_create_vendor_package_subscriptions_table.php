@@ -32,7 +32,7 @@ return new class extends Migration
             $table->foreign('updated_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('deleted_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
-            $table->foreign('package_id')->references('id')->on('shams___packages')->onDelete('cascade');
+            $table->foreign('package_id')->references('id')->on('shams___vendor_packages')->onDelete('cascade');
         });
     }
 

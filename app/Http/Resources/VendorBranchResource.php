@@ -22,6 +22,7 @@ class VendorBranchResource extends JsonResource
             ['day_of_week',$currentDay]
         ]
         )->get();
+
         if($operating_days->isNotEmpty())
         {
             $operating_hours = $operating_days->where('opening_time', '<=', $currentTime)
@@ -49,6 +50,8 @@ class VendorBranchResource extends JsonResource
         }
         else
         {
+            $opening_time = null;
+            $closing_time = null;
             $current_status_operating_hours = "This branch has no operating hours set for today.";
         }
 
@@ -63,7 +66,10 @@ class VendorBranchResource extends JsonResource
             'closing_time'=>$closing_time,
             'current_status_operating_hours' => $current_status_operating_hours,
             'branch_socail_media' => $this->social_media ? SocialMediaResource::collection($this->social_media) : null,
-            'vendor_data' => $this->vendor? new VendorResource($this->vendor) : null,
+            'vendor_data' =>$this->when(
+                                        !$request->routeIs('user.api.vendor.auth.login'),
+                                        $this->vendor? new VendorResource($this->vendor) : null
+                                    ),
         ];
     }
 }

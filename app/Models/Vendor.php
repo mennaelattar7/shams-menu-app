@@ -3,30 +3,52 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Vendor extends Model
 {
+    use HasSlug;
+
     protected $table = "vendors";
+    public $fillable =[
+        "company_name"
+    ];
     protected $casts = [
         'company_name' => 'array',
     ];
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['company_name'])
+            ->saveSlugsTo('slug');
+    }
     public function getBrandNameAttribute()
     {
         $locale =  app()->getLocale();
         $array_values = json_decode($this->attributes['brand_name'],true);
-        return $array_values[$locale];
+        if (!is_array($array_values)) {
+            return null; // أو '' لو تحبي سترينج فاضي بدل null
+        }
+        return $array_values[$locale] ?? null; // fallback لو اللغة مش موجودة
     }
     public function getCompanyNameAttribute()
     {
         $locale =  app()->getLocale();
         $array_values = json_decode($this->attributes['company_name'],true);
-        return $array_values[$locale];
+        if (!is_array($array_values)) {
+            return null; // أو '' لو تحبي سترينج فاضي بدل null
+        }
+        return $array_values[$locale] ?? null; // fallback لو اللغة مش موجودة
     }
     public function getSloganAttribute()
     {
         $locale =  app()->getLocale();
         $array_values = json_decode($this->attributes['slogan'],true);
-        return $array_values[$locale];
+        if (!is_array($array_values)) {
+            return null; // أو '' لو تحبي سترينج فاضي بدل null
+        }
+        return $array_values[$locale] ?? null; // fallback لو اللغة مش موجودة
     }
 
     public function social_media()
@@ -36,6 +58,10 @@ class Vendor extends Model
     public function menu_categories()
     {
         return $this->hasMany(Vendor__MenuCategory::class,'vendor_id','id');
+    }
+    public function branches()
+    {
+        return $this->hasMany(VendorBranche::class,'vendor_id','id');
     }
     public function created_by()
     {
