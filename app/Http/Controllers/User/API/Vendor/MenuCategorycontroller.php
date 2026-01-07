@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\API\Vendor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\MenuCategory\CreateRequest;
 use App\Models\Vendor__MenuCategory;
+use App\Models\VendorBranch__VendorMenuCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -39,6 +40,7 @@ class MenuCategorycontroller extends Controller
  *             @OA\Property(property="activation_status", type="string", example="active"),
  *             @OA\Property(property="sort", type="integer", example="1"),
  *             @OA\Property(property="image", type="string", example="image"),
+ *             @OA\Property(property="array_branches_ids", type="array", example="2,3,4"),
  *         )
  *     ),
  *
@@ -96,6 +98,28 @@ class MenuCategorycontroller extends Controller
             $new_vendor_menu_category->image = 'vendor/menu_category/images/' . $fileName;
         }
         $new_vendor_menu_category->save();
+        $branchesIds = explode(',', $request->array_branches_ids);
+        $branchesIds = array_map('intval', $branchesIds);
+
+        foreach($branchesIds as $one_branch)
+        {
+            $check_category_exist = VendorBranch__VendorMenuCategory::where([
+                ['branch_id',$one_branch],
+                ['vendor_menu_category_id',$new_vendor_menu_category]
+            ])->first();
+            if(!$check_category_exist)
+            {
+                //add vendor_branch___vendor_menu_categories
+                $new_branch_menu_category = new VendorBranch__VendorMenuCategory();
+                $new_branch_menu_category->created_by_id = $user->id;
+                $new_branch_menu_category->branch_id = $one_branch;
+                $new_branch_menu_category->vendor_menu_category_id = $new_vendor_menu_category->id;
+                $new_branch_menu_category->status = $request->activation_status;
+                $new_branch_menu_category->save();
+            }
+        }
+        //check if this category in branch
+
         if ($new_vendor_menu_category->save()) {
             return response()->json([
                 'success' => true,
