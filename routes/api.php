@@ -41,8 +41,6 @@ Route::group([
             Route::middleware('auth:sanctum')->group(function () {
                 Route::post('logout',[VendorAuthController::class,'logout'])->name('logout');
 
-                // Route::get('{slug}',[VendorVendorcontroller::class,'vendor_data'])->name('vendor_data');
-                //Home Routes
                 Route::prefix('home')->name('home')->group(function(){
 
                 });
@@ -52,7 +50,7 @@ Route::group([
                 });
                 Route::prefix('menu-categories')->name('menu_category')->group(function(){
                     Route::post('create',[MenuCategorycontroller::class,'create'])->name('create');
-                    
+
                 });
             });
         });
