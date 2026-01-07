@@ -40,7 +40,7 @@ class MenuCategorycontroller extends Controller
  *             @OA\Property(property="activation_status", type="string", example="active"),
  *             @OA\Property(property="sort", type="integer", example="1"),
  *             @OA\Property(property="image", type="string", example="image"),
- *             @OA\Property(property="array_branches_ids", type="array", example="2,3,4"),
+ *             @OA\Property(property="array_branches_ids", type="string", example="2,3,4"),
  *         )
  *     ),
  *
