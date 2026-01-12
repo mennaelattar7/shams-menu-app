@@ -37,6 +37,7 @@ Route::group([
                 Route::post('register',[VendorAuthController::class,'register'])->name('register');
                 Route::post('verify-otp-register',[VendorAuthController::class,'verifyOtpRegister'])->name('verify_otp_register');
                 Route::post('login',[VendorAuthController::class,'login'])->name('login');
+                Route::post('forget-password',[VendorAuthController::class,'forgetPassword']);
             });
             Route::middleware('auth:sanctum')->group(function () {
                 Route::post('logout',[VendorAuthController::class,'logout'])->name('logout');

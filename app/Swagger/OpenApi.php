@@ -12,8 +12,8 @@ use OpenApi\Annotations as OA;
  * )
  *
  * @OA\Server(
- *     url="http://localhost",
- *     description="Local server"
+ *     url="https://srv1219886.hstgr.cloud/",
+ *     description="Shams Server"
  * )
  * @OA\SecurityScheme(
  *     securityScheme="AppAPIKey",

@@ -19,14 +19,15 @@ class UserResource extends JsonResource
             'user_name' =>$this->name,
             'user_slug' =>$this->slug,
             'user_email' => $this->email,
-            'user_country_dial_code_id' =>$this->country_dial_code_id,
+            'user_country_dial_code' => $this->country->dial_code,
             'user_phone_number' =>$this->phone_number,
             'user_account_type' =>$this->account_type,
+            'roles' =>$this->getRoleNames(),
             'vendor_representative'=> $this->when(
                                                  $request->routeIs('user.api.vendor.auth.login'),
                                                  $this->vendor_representative ? new VendorRepresentativeResource($this->vendor_representative):null
                                                 ),
-            
+
         ];
     }
 }

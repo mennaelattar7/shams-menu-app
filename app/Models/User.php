@@ -65,6 +65,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(User_OTP::class,'user_id','id');
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class,'country_dial_code_id','id');
+    }
     public function vendor_representative()
     {
         return $this->hasOne(VendorRepresentative::class,'user_id','id');

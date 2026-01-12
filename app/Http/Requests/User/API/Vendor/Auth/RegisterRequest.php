@@ -4,6 +4,8 @@ namespace App\Http\Requests\User\API\Vendor\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Country;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RegisterRequest extends FormRequest
 {
@@ -48,19 +50,15 @@ class RegisterRequest extends FormRequest
                 'required'
             ]
         ];
-        $country_dial_code_id = $this->input('country_dial_code_id');
-        $country_code = Country::find($country_dial_code_id)->country_code;
-
-        // نعمل regex مختلف حسب الدولة
-        switch ($country_code) {
-            case 'EG': // مصر
-                $rules['phone_number'][] = 'regex:/^01[0125][0-9]{8}$/';
-                break;
-
-            case 'SA': // السعودية
-                $rules['phone_number'][] = 'regex:/^05[0-9]{8}$/';
-                break;
-        }
+        $rules['phone_number'][] = 'regex:/^05[0-9]{8}$/';
         return $rules;
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'errors' => $validator->errors()
+        ], 422));
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class VerifyingOTPRequest extends FormRequest
+class ForgetPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +24,13 @@ class VerifyingOTPRequest extends FormRequest
     public function rules(): array
     {
         $rules= [
-            'country_dial_code_id' =>[
+            'phone_number' =>[
                 'required',
-                'exists:countries,id'
+                'exists:users,phone_number'
             ],
-            'phone_number'=>[
-                'required',
-            ],
-            'otp' =>[
-                'required',
-                'digits:6'
-            ]
         ];
+
+        $rules['phone_number'][] = 'regex:/^05[0-9]{8}$/';
         return $rules;
     }
     protected function failedValidation(Validator $validator)
