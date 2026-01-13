@@ -33,6 +33,7 @@ class AuthController extends Controller
         $new_user->country_dial_code_id = $request->country_dial_code_id;
         $new_user->phone_number = $request->phone_number;
         $new_user->account_type = "vendor_representative";
+        $new_user->account_status = "inactive";
         $new_user->save();
         //add in vendors
         $new_vendor= new Vendor();
