@@ -23,10 +23,10 @@ class UserResource extends JsonResource
             'user_phone_number' =>$this->phone_number,
             'user_account_type' =>$this->account_type,
             'roles' =>$this->getRoleNames(),
-            'vendor_representative'=> $this->when(
-                                                 $request->routeIs('user.api.vendor.auth.login'),
-                                                 $this->vendor_representative ? new VendorRepresentativeResource($this->vendor_representative):null
-                                                ),
+            // 'vendor_representative'=> $this->when(
+            //                                      $request->routeIs('user.api.vendor.auth.login'),
+            //                                      $this->vendor_representative ? new VendorRepresentativeResource($this->vendor_representative):null
+            //                                     ),
 
         ];
     }

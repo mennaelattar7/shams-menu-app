@@ -24,18 +24,17 @@ class VerifyingOTPRequest extends FormRequest
     public function rules(): array
     {
         $rules= [
-            'country_dial_code_id' =>[
+            'phone_number' =>[
                 'required',
-                'exists:countries,id'
-            ],
-            'phone_number'=>[
-                'required',
+                'exists:users,phone_number'
             ],
             'otp' =>[
                 'required',
                 'digits:6'
             ]
         ];
+
+        $rules['phone_number'][] = 'regex:/^05[0-9]{8}$/';
         return $rules;
     }
     protected function failedValidation(Validator $validator)

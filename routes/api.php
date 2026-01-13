@@ -34,10 +34,17 @@ Route::group([
         Route::prefix('vendor')->name('vendor.')->group(function(){
             //Authentication Routes
             Route::prefix('auth')->name('auth.')->group(function(){
+                //register routes
                 Route::post('register',[VendorAuthController::class,'register'])->name('register');
                 Route::post('verify-otp-register',[VendorAuthController::class,'verifyOtpRegister'])->name('verify_otp_register');
+
+                //login routes
                 Route::post('login',[VendorAuthController::class,'login'])->name('login');
-                Route::post('forget-password',[VendorAuthController::class,'forgetPassword']);
+
+                //forget & reset password Routes
+                Route::post('forget-password',[VendorAuthController::class,'forgetPassword'])->name('forget_password');
+                Route::post('verify-otp-forget-password',[VendorAuthController::class,'verifyOtpForgetPassword'])->name('verify_otp_forget_password');
+                Route::post('reset-password',[VendorAuthController::class,'resetPassword'])->name('reset_password');
             });
             Route::middleware('auth:sanctum')->group(function () {
                 Route::post('logout',[VendorAuthController::class,'logout'])->name('logout');
