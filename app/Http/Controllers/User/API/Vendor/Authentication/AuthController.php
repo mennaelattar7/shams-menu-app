@@ -80,7 +80,6 @@ class AuthController extends Controller
     public function verifyOtpRegister(VerifyingOTPRequest $request)
     {
         $user = User::where([
-            ['country_dial_code_id',$request->country_dial_code_id],
             ['phone_number',$request->phone_number],
         ])->first();
         if(!$user)
