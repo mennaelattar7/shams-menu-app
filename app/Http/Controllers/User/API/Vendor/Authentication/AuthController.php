@@ -71,7 +71,8 @@ class AuthController extends Controller
         ////--------------------------
         return response()->json([
             'success' => true,
-            'message' => 'Registered successfully, OTP sent to mobile'
+            'message' => 'Registered successfully, OTP sent to mobile',
+            'otp' => $new_user_otp->otp
         ]);
     }
 
@@ -120,7 +121,6 @@ class AuthController extends Controller
         }
     }
 
-
     public function login(LoginRequest $request)
     {
         //check password is null exist
@@ -129,7 +129,8 @@ class AuthController extends Controller
             ['account_type',"vendor_representative"],
             ['account_status',"inactive"]
         ])->first();
-        if(!$user->password)
+
+        if($user && !$user->password)
         {
             $user->password = Hash::make($request->password);
             $user->save();
@@ -202,9 +203,7 @@ class AuthController extends Controller
             }
         }
     }
-    /**
 
-     */
     public function verifyOtpForgetPassword(VerifyingOTPRequest $request)
     {
         $user = User::where([
@@ -312,5 +311,4 @@ class AuthController extends Controller
             'message' => 'Logged out successfully'
         ]);
     }
-
 }
