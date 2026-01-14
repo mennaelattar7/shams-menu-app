@@ -44,9 +44,9 @@ class VendorBranchController extends Controller
     //  *                         "slug": "Dokki branch",
     //  *                         "phone_number": "1233665566666",
     //  *                         "address": "نعلﻻلرتﻻتﻻ",
-    //  *                         "google_place_link": "https://maps.app.goo.gl/KaS8Czd6Qmy8suus8",
-    //  *                         "opening_time": "09:00:00",
-    //  *                         "closing_time": "14:00:00",
+    //  *                         "google_map_link": "https://maps.app.goo.gl/KaS8Czd6Qmy8suus8",
+    //  *                         "start_time": "09:00:00",
+    //  *                         "end_time": "14:00:00",
     //  *                         "current_status_operating_hours": "close",
     //  *                         "branch_socail_media": {
     //  *                             {
@@ -107,16 +107,16 @@ class VendorBranchController extends Controller
     //  *                         example="jhjhvj"
     //  *                     ),
     //  *                     @OA\Property(
-    //  *                         property="google_place_link",
+    //  *                         property="google_map_link",
     //  *                         type="string",
     //  *                         example="https://maps.app.goo.gl/KaS8Czd6Qmy8suus8"),
     //  *                     @OA\Property(
-    //  *                         property="opening_time",
+    //  *                         property="start_time",
     //  *                         type="string",
     //  *                         example="09:00:00"
     //  *                     ),
     //  *                     @OA\Property(
-    //  *                         property="closing_time",
+    //  *                         property="end_time",
     //  *                         type="string",
     //  *                         example="09:00:00"
     //  *                     ),

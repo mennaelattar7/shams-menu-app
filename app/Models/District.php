@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class District extends Model
 {
-    protected $table = "cities";
+    protected $table = "districts";
     protected $casts = [
         'name' => 'array',
     ];
@@ -18,8 +18,8 @@ class City extends Model
         return $array_values[$locale];
     }
 
-    public function districts()
+    public function city()
     {
-        return $this->hasMany(District::class,'city_id','id');
+        return $this->belongsto(City::class,'city_id','id');
     }
 }

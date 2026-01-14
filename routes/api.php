@@ -3,6 +3,7 @@
 use App\Http\Controllers\User\API\Auth\AuthController ;
 use App\Http\Controllers\User\API\Meta\CityController;
 use App\Http\Controllers\User\API\Meta\CountryController;
+use App\Http\Controllers\User\API\Meta\DistrictController;
 use App\Http\Controllers\User\API\Meta\LangController;
 use App\Http\Controllers\User\API\Meta\ProductTypeController;
 use App\Http\Controllers\User\API\Meta\ShamsFeatureController;
@@ -11,11 +12,13 @@ use App\Http\Controllers\User\API\Meta\VendorTypeController;
 use App\Http\Controllers\User\API\ProductController;
 use App\Http\Controllers\User\API\Vendor\Authentication\AuthController as VendorAuthController;
 use App\Http\Controllers\User\API\Vendor\BranchController;
+use App\Http\Controllers\User\API\Vendor\LangController as VendorLangController;
 use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
 use App\Http\Controllers\User\API\Vendor\Vendorcontroller as VendorVendorcontroller;
 use App\Http\Controllers\User\API\VendorBranchController;
 use App\Http\Controllers\User\API\VendorController;
 use App\Http\Controllers\User\API\VendorMenuCategoryController;
+use App\Models\Lang;
 use App\Models\Product__Type;
 use App\Models\SocialMediaIcon;
 use Illuminate\Http\Request;
@@ -30,6 +33,19 @@ Route::group([
 	'middleware' => ['setlocale','api.key'],
 ],function(){
     Route::prefix('user')->name('user.api.')->group(function(){
+        Route::prefix('meta')->name('meta.')->group(function(){
+            Route::prefix('cities')->name('city')->group(function(){
+                Route::get('/',[CityController::class, 'index'])->name('index'); //Done Doc
+                Route::get('/filter-districts/{city_id}',[CityController::class, 'filterDistrict'])->name('index'); //Done Doc
+            });
+            Route::get('districts',[DistrictController::class, 'index'])->name('district.index'); // Done Doc
+            Route::get('langs',[LangController::class, 'index'])->name('lang.index.'); // Done Doc
+
+            Route::get('social-media-icons',[SocialMediaIconController::class, 'index'])->name('social_media_icon.index.');
+            Route::get('vendor-types',[VendorTypeController::class, 'allItems'])->name('vendor_type.index.');
+            Route::get('shams-features',[ShamsFeatureController::class, 'allItems'])->name('shams_feature.index.');
+            Route::get('product-types',[ProductTypeController::class, 'allItems'])->name('product_type.index.');
+        });
         //vendor Routes
         Route::prefix('vendor')->name('vendor.')->group(function(){
             //Authentication Routes
@@ -47,18 +63,26 @@ Route::group([
                 Route::post('reset-password',[VendorAuthController::class,'resetPassword'])->name('reset_password');
             });
             Route::middleware('auth:sanctum')->group(function () {
+                // token : 82|p5wV6kKVgE2KQFtuxXU7BZBjy7XMzFMlLEbcd4sed24bf75b
                 Route::post('logout',[VendorAuthController::class,'logout'])->name('logout');
-
                 Route::prefix('home')->name('home')->group(function(){
 
+                });
+                Route::prefix('langs')->name('lang')->group(function(){
+                    Route::get('/',[VendorLangController::class,'index'])->name('index'); //Done Doc
+                    Route::post('select-langs',[VendorLangController::class,'selectLangs'])->name('create'); //Done Doc
                 });
                 //branches Routes
                 Route::prefix('branches')->name('branch')->group(function(){
                     Route::post('create',[BranchController::class,'create'])->name('create');
                 });
+                //menu categories
                 Route::prefix('menu-categories')->name('menu_category')->group(function(){
                     Route::post('create',[MenuCategorycontroller::class,'create'])->name('create');
-
+                });
+                //branches Routes
+                Route::prefix('branches')->name('branch')->group(function(){
+                    Route::post('create',[BranchController::class,'create'])->name('create');
                 });
             });
         });
@@ -67,15 +91,7 @@ Route::group([
 
 
 
-        Route::prefix('meta')->name('meta.')->group(function(){
-            Route::get('cities',[CityController::class, 'index'])->name('city.index');
-            Route::get('langs',[LangController::class, 'index'])->name('lang.index.');
-            Route::get('social-media-icons',[SocialMediaIconController::class, 'index'])->name('social_media_icon.index.');
-            Route::get('vendor-types',[VendorTypeController::class, 'allItems'])->name('vendor_type.index.');
-            Route::get('shams-features',[ShamsFeatureController::class, 'allItems'])->name('shams_feature.index.');
-            Route::get('dial-code-countries',[VendorTypeController::class, 'allItems'])->name('country.getDialCodeCountries.');
-            Route::get('product-types',[ProductTypeController::class, 'allItems'])->name('product_type.index.');
-        });
+
         Route::prefix('branches')->name('branch.')->group(function(){
             Route::get('/{branch_id}',[VendorBranchController::class,'getBranchData'])->name('getBranchData.');
         });

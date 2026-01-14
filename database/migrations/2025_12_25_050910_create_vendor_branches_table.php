@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum('current_Status_opening_hours',['open','close']);
             $table->string('phone_number');
             $table->string('address');
-            $table->string('google_place_link',500);
+            $table->string('google_map_link',500);
 
             $table->timestamps();
             $table->softDeletes();

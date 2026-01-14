@@ -19,8 +19,8 @@ return new class extends Migration
             $table->bigInteger('branch_id')->unsigned();
 
             $table->tinyInteger('day_of_week');
-            $table->time('opening_time')->nullable();
-            $table->time('closing_time')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->enum('is_open',['yes','no']);
 
             $table->timestamps();

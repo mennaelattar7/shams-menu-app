@@ -18,8 +18,8 @@ return new class extends Migration
             $table->bigInteger('deleted_by_id')->unsigned()->nullable();
             $table->bigInteger('operating_hours_id')->unsigned();
 
-            $table->time('opening_time')->nullable();
-            $table->time('closing_time')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->enum('is_open',['yes','no']);
 
             $table->timestamps();

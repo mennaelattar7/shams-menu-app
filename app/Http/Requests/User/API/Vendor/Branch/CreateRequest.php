@@ -22,10 +22,11 @@ class CreateRequest extends FormRequest
                 'required',
                 'exists:cities,id'
             ],
-            'district_name'=>[
-                'required'
+            'district_id'=>[
+                'required',
+                'exists:districts,id'
             ],
-            'google_place_link' =>[
+            'google_map_link' =>[
                 'required'
             ],
             'phone_number' =>[
