@@ -18,6 +18,7 @@ class VendorMenuCategoryResource extends JsonResource
             'id'=>$this->id,
             'parent_category' => optional($this->parent_category)->name,
             'name' =>$this->name,
+            'slug' =>$this->slug,
             'image' => $this->image,
             'sort' =>$this->sort,
             'status' => $this->status,

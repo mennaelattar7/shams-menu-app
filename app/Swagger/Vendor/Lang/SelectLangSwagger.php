@@ -4,7 +4,7 @@ namespace App\Swagger\Vendor\Lang;
 /**
  * @OA\Post(
  *     path="/api/{locale}/user/vendor/langs/select-langs",
- *     tags={"Vendor Endpoints --- Lang"},
+ *     tags={"Vendor - Lang"},
  *     summary="---Select Vendor Langs Endpoint---",
  *     description="add or remove lang from vendor",
  *

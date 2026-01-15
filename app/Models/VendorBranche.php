@@ -33,6 +33,16 @@ class VendorBranche extends Model
         return $this->belongsTo(Vendor::class,'vendor_id','id');
     }
 
+    public function city()
+    {
+        return $this->belongsTo(City::class,'city_id','id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class,'district_id','id');
+    }
+
     public function operating_hours()
     {
         return $this->hasMany(VendorBranch__OperatingHour::class,'branch_id','id');

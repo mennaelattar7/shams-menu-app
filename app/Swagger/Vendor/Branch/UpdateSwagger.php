@@ -2,12 +2,12 @@
 
 namespace App\Swagger\Vendor\Branch;
 /**
- * @OA\Post(
- *     path="/api/{locale}/user/vendor/branches/create",
+ * @OA\Put(
+ *     path="/api/{locale}/user/vendor/branches/{slug}",
  *     tags={"Vendor - Branch"},
- *     operationId="Create Branch",
- *     summary="---Create Branch Endpoint---",
- *     description="Create New Branch",
+ *     operationId="Update Branch Data",
+ *     summary="---Update Branch Data---",
+ *     description="Update Branch Data",
  *
  *     @OA\Parameter(
  *         name="locale",
@@ -15,6 +15,13 @@ namespace App\Swagger\Vendor\Branch;
  *         required=true,
  *         description="Language code",
  *         @OA\Schema(type="string", example="en")
+ *     ),
+ *     @OA\Parameter(
+ *         name="slug",
+ *         in="path",
+ *         required=true,
+ *         description="the sluge of branch",
+ *         @OA\Schema(type="string", example="branch-slug")
  *     ),
  *     @OA\RequestBody(
  *         required=true,
@@ -56,11 +63,11 @@ namespace App\Swagger\Vendor\Branch;
  *
  *     @OA\Response(
  *         response=200,
- *         description="Add Branch data successfully",
+ *         description="Get vendor data successfully",
  *         @OA\JsonContent(
  *             type="object",
  *             @OA\Property(property="success", type="string", example="true"),
- *             @OA\Property(property="message", type="string", example="Branch added successfully"),
+ *             @OA\Property(property="message", type="string", example="Branch updated successfully"),
  *         )
  *     ),
  *     @OA\Response(
@@ -70,4 +77,4 @@ namespace App\Swagger\Vendor\Branch;
  * )
  */
 
-class CreateSwagger {}
+class UpdateSwagger {}

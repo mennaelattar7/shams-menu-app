@@ -8,6 +8,10 @@ class VendorBranch__OperatingHour extends Model
 {
     protected $table = "vendor_branch___operating_hours";
 
+    public function shifts()
+    {
+        return $this->hasMany(VendorBranch__OperatingHourShift::class,'operating_hours_id','id');
+    }
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');

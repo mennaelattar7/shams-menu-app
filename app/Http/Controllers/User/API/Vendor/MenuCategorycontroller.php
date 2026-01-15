@@ -4,14 +4,38 @@ namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\MenuCategory\CreateRequest;
+use App\Http\Resources\VendorMenuCategoryResource;
 use App\Models\Vendor__MenuCategory;
 use App\Models\VendorBranch__VendorMenuCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class MenuCategorycontroller extends Controller
+class MenuCategorycontroller extends BaseController
 {
+    public function index(Request $request)
+    {
+        if($request->per_page != null)
+        {
+            $all_menu_categories= $this->vendor->menu_categories()->paginate($request->per_page);
+            return VendorMenuCategoryResource::collection($all_menu_categories)
+            ->additional([
+                'success' => true,
+                'message' => 'Get Menu Categories Successfully'
+            ])
+            ->response()
+            ->setStatusCode(200);
+        }
+        else
+        {
+            $all_menu_categories = $this->vendor->menu_categories;
+            return response()->json([
+                'success' => true,
+                'message' => 'Get Menu CategorySuccefully',
+                'data' => VendorMenuCategoryResource::collection($all_menu_categories)
+            ], 200);
+        }
+    }
     public function create(CreateRequest $request)
     {
         $user = Auth::user();

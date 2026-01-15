@@ -4,7 +4,7 @@ namespace App\Swagger\Vendor\Lang;
 /**
  * @OA\get(
  *     path="/api/{locale}/user/vendor/langs",
- *     tags={"Vendor Endpoints --- Lang"},
+ *     tags={"Vendor - Lang"},
  *     summary="---Get  Vendor Langs Endpoint---",
  *     description="Get all Lang of vendor",
  *

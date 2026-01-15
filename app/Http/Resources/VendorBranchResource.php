@@ -32,7 +32,6 @@ class VendorBranchResource extends JsonResource
             $end_time = $operating_hours ? $operating_hours->end_time :$operating_days->first()->end_time;
             if($operating_hours)
             {
-
                 if($operating_hours->is_open == "yes")
                 {
                     $current_status_operating_hours = "open";
@@ -56,20 +55,66 @@ class VendorBranchResource extends JsonResource
         }
 
         return [
-            'id' =>$this->id,
-            'name' =>$this->name,
-            'slug' =>$this->slug,
-            'phone_number' => $this->phone_number,
-            'address' =>$this->address,
-            'google_map_link' =>$this->google_map_link,
-            'start_time' =>$start_time,
-            'end_time'=>$end_time,
-            'current_status_operating_hours' => $current_status_operating_hours,
-            'branch_socail_media' => $this->social_media ? SocialMediaResource::collection($this->social_media) : null,
-            'vendor_data' =>$this->when(
-                                        !$request->routeIs('user.api.vendor.auth.login'),
-                                        $this->vendor? new VendorResource($this->vendor) : null
-                                    ),
+            'id' => $this->id,
+
+            'name' =>$this->when($request->routeIs([
+                'user.api.vendor.branch.index',
+                'user.api.vendor.branch.single',
+            ]),$this->name) ,
+
+            'slug' =>$this->when($request->routeIs([
+                'user.api.vendor.branch.index',
+                'user.api.vendor.branch.single',
+            ]),$this->slug),
+
+            'city' =>$this->when($request->routeIs([
+                'user.api.vendor.branch.index',
+                'user.api.vendor.branch.single',
+            ]),new CityResource($this->city)),
+
+            'district' =>$this->when($request->routeIs([
+                'user.api.vendor.branch.index',
+                'user.api.vendor.branch.single',
+            ]),new DistrictResource($this->district)),
+
+            'activation_status' =>$this->when($request->routeIs([
+                'user.api.vendor.branch.index',
+                'user.api.vendor.branch.single',
+            ]),$this->activation_status),
+
+            'google_map_link' =>$this->when($request->routeIs([
+                'user.api.vendor.branch.single',
+            ]),$this->google_map_link),
+
+            'phone_number' =>$this->when($request->routeIs([
+                'user.api.vendor.branch.single',
+            ]),$this->phone_number),
+
+            'whatsapp_number' =>$this->when($request->routeIs([
+                'user.api.vendor.branch.single',
+            ]),$this->whatsapp_number),
+
+            'address' =>$this->when($request->routeIs([
+                'user.api.vendor.branch.single',
+            ]),$this->address),
+
+            'number_of_tables'=>$this->when($request->routeIs([
+                'user.api.vendor.branch.single',
+            ]),$this->number_of_tables),
+
+            'operating_hours' => $this->when($request->routeIs([
+                'user.api.vendor.branch.single',
+            ]),VendorBranch__OperatingHourResource::collection($this->operating_hours)),
+
+
+            // 'start_time' =>$start_time,
+            // 'end_time'=>$end_time,
+            // 'current_status_operating_hours' => $current_status_operating_hours,
+            // 'branch_socail_media' => $this->social_media ? SocialMediaResource::collection($this->social_media) : null,
+            // 'vendor_data' =>$this->when(
+            //                             !$request->routeIs('user.api.vendor.auth.login'),
+            //                             $this->vendor? new VendorResource($this->vendor) : null
+            //                         ),
         ];
     }
 }

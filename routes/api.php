@@ -73,16 +73,16 @@ Route::group([
                     Route::post('select-langs',[VendorLangController::class,'selectLangs'])->name('create'); //Done Doc
                 });
                 //branches Routes
-                Route::prefix('branches')->name('branch')->group(function(){
+                Route::prefix('branches')->name('branch.')->group(function(){
+                    Route::get('/',[BranchController::class,'index'])->name('index');
                     Route::post('create',[BranchController::class,'create'])->name('create');
+                    Route::get('{slug}',[BranchController::class,'single'])->name('single');
+                    Route::put('{slug}',[BranchController::class,'update'])->name('update');
                 });
                 //menu categories
-                Route::prefix('menu-categories')->name('menu_category')->group(function(){
+                Route::prefix('menu-categories')->name('menu_category.')->group(function(){
+                    Route::get('/',[MenuCategorycontroller::class,'index'])->name('index');
                     Route::post('create',[MenuCategorycontroller::class,'create'])->name('create');
-                });
-                //branches Routes
-                Route::prefix('branches')->name('branch')->group(function(){
-                    Route::post('create',[BranchController::class,'create'])->name('create');
                 });
             });
         });

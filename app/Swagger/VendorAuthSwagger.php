@@ -8,7 +8,7 @@ namespace App\Swagger;
      *     summary="---Register Endpoint---",
      *     description="Register vendor and send OTP",
      *     operationId="registerVendor",
-     *     tags={"Vendor Endpoints --- Auth"},
+     *     tags={"Vendor - Auth"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -39,7 +39,7 @@ namespace App\Swagger;
     *     summary="---Verifying OTP---",
     *     description="Register user using  phone number, country dial code and OTP to verify his account",
     *     operationId="verify-otp-register",
-    *     tags={"Vendor Endpoints --- Auth"},
+    *     tags={"Vendor - Auth"},
     *
     *     @OA\RequestBody(
     *         required=true,
@@ -91,7 +91,7 @@ namespace App\Swagger;
     * @OA\Post(
     *     path="/api/{locale}/user/vendor/auth/login",
     *     operationId="LoginVendor",
-    *     tags={"Vendor Endpoints --- Auth"},
+    *     tags={"Vendor - Auth"},
     *     summary="---Login Endpoint---",
     *     description="Login Vendor --- NOTE : (delete all old tokens)",
     *     @OA\Parameter(
@@ -147,7 +147,7 @@ namespace App\Swagger;
     * @OA\Post(
     *     path="/api/{locale}/user/vendor/auth/forget-password",
     *     operationId="ForgetPasswordVendor",
-    *     tags={"Vendor Endpoints --- Auth"},
+    *     tags={"Vendor - Auth"},
     *     summary="---Forget Password Endpoint---",
     *     description="Forget password",
     *     @OA\Parameter(
@@ -186,7 +186,7 @@ namespace App\Swagger;
     *     summary="---Verifying OTP In Forget Passwprd Endpoint---",
     *     description="Verifying OTP In Forget Passwprd Endpoint",
     *     operationId="verify-otp-forget-password",
-    *     tags={"Vendor Endpoints --- Auth"},
+    *     tags={"Vendor - Auth"},
     *     @OA\Parameter(
     *         name="locale",
     *         in="path",
@@ -231,7 +231,7 @@ namespace App\Swagger;
     *     summary="---Reset Passwprd Endpoint---",
     *     description="Reset Passwprd Endpoint Note: after reset login",
     *     operationId="reset-password",
-    *     tags={"Vendor Endpoints --- Auth"},
+    *     tags={"Vendor - Auth"},
     *     @OA\Parameter(
     *         name="locale",
     *         in="path",
@@ -289,7 +289,7 @@ namespace App\Swagger;
     *===========================================================================
     * @OA\Post(
     *     path="api/{locale}/user/vendor/auth/logout",
-    *     tags={"Vendor Endpoints --- Auth"},
+    *     tags={"Vendor - Auth"},
     *     summary="---Logout Endpoint---",
     *     description="Logout vendor Representative",
     *
