@@ -15,11 +15,11 @@ use App\Http\Controllers\User\API\Vendor\BranchController;
 use App\Http\Controllers\User\API\Vendor\LangController as VendorLangController;
 use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
 use App\Http\Controllers\User\API\Vendor\Vendorcontroller as VendorVendorcontroller;
-use App\Http\Controllers\User\API\VendorBranchController;
+
 use App\Http\Controllers\User\API\VendorController;
 use App\Http\Controllers\User\API\VendorMenuCategoryController;
 use App\Models\Lang;
-use App\Models\Product__Type;
+use App\Models\Shams__ProductType;
 use App\Models\SocialMediaIcon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,102 +33,52 @@ Route::group([
 	'middleware' => ['setlocale','api.key'],
 ],function(){
     Route::prefix('user')->name('user.api.')->group(function(){
-        Route::prefix('meta')->name('meta.')->group(function(){
-            Route::prefix('cities')->name('city')->group(function(){
-                Route::get('/',[CityController::class, 'index'])->name('index'); //Done Doc
-                Route::get('/filter-districts/{city_id}',[CityController::class, 'filterDistrict'])->name('index'); //Done Doc
-            });
-            Route::get('districts',[DistrictController::class, 'index'])->name('district.index'); // Done Doc
-            Route::get('langs',[LangController::class, 'index'])->name('lang.index.'); // Done Doc
+        require __DIR__.'/API/meta.php';
 
-            Route::get('social-media-icons',[SocialMediaIconController::class, 'index'])->name('social_media_icon.index.');
-            Route::get('vendor-types',[VendorTypeController::class, 'allItems'])->name('vendor_type.index.');
-            Route::get('shams-features',[ShamsFeatureController::class, 'allItems'])->name('shams_feature.index.');
-            Route::get('product-types',[ProductTypeController::class, 'allItems'])->name('product_type.index.');
-        });
         //vendor Routes
-        Route::prefix('vendor')->name('vendor.')->group(function(){
-            //Authentication Routes
-            Route::prefix('auth')->name('auth.')->group(function(){
-                //register routes
-                Route::post('register',[VendorAuthController::class,'register'])->name('register');
-                Route::post('verify-otp-register',[VendorAuthController::class,'verifyOtpRegister'])->name('verify_otp_register');
+        require __DIR__.'/API/vendor.php';
 
-                //login routes
-                Route::post('login',[VendorAuthController::class,'login'])->name('login');
-
-                //forget & reset password Routes
-                Route::post('forget-password',[VendorAuthController::class,'forgetPassword'])->name('forget_password');
-                Route::post('verify-otp-forget-password',[VendorAuthController::class,'verifyOtpForgetPassword'])->name('verify_otp_forget_password');
-                Route::post('reset-password',[VendorAuthController::class,'resetPassword'])->name('reset_password');
-            });
-            Route::middleware('auth:sanctum')->group(function () {
-                // token : 82|p5wV6kKVgE2KQFtuxXU7BZBjy7XMzFMlLEbcd4sed24bf75b
-                Route::post('logout',[VendorAuthController::class,'logout'])->name('logout');
-                Route::prefix('home')->name('home')->group(function(){
-
-                });
-                Route::prefix('langs')->name('lang')->group(function(){
-                    Route::get('/',[VendorLangController::class,'index'])->name('index'); //Done Doc
-                    Route::post('select-langs',[VendorLangController::class,'selectLangs'])->name('create'); //Done Doc
-                });
-                //branches Routes
-                Route::prefix('branches')->name('branch.')->group(function(){
-                    Route::get('/',[BranchController::class,'index'])->name('index');
-                    Route::post('create',[BranchController::class,'create'])->name('create');
-                    Route::get('{slug}',[BranchController::class,'single'])->name('single');
-                    Route::put('{slug}',[BranchController::class,'update'])->name('update');
-                });
-                //menu categories
-                Route::prefix('menu-categories')->name('menu_category.')->group(function(){
-                    Route::get('/',[MenuCategorycontroller::class,'index'])->name('index');
-                    Route::post('create',[MenuCategorycontroller::class,'create'])->name('create');
-                });
-            });
-        });
+        //customer
+        require __DIR__.'/API/customer.php';
 
 
+        // Route::prefix('branches')->name('branch.')->group(function(){
+        //     Route::get('/{branch_id}',[VendorBranchController::class,'getBranchData'])->name('getBranchData.');
+        // });
+        // Route::prefix('vendors')->name('vendor.')->group(function(){
+        //     Route::get('/{slug}',[VendorController::class,'getVendorData'])->name('getVendorData.');
+        //     Route::get('/{slug}/menu-categories',[VendorController::class,'getVendorMenuCategories'])->name('VendorMenuCategories');
+        //     Route::get('/{slug}/branches',[VendorController::class,'getVendorMenuCategories'])->name('VendorMenuCategories');
+        // });
+        // Route::prefix('categories')->name('category.')->group(function(){
+        //     Route::get('/{slug}/products',[VendorMenuCategoryController::class,'products'])->name('products');
+        // });
+        // Route::prefix('products')->name('product.')->group(function(){
+        //     Route::get('/{slug}',[ProductController::class,'product'])->name('products');
+        // });
+        // Route::prefix('auth')
+        //       ->name('api.auth.')
+        //       ->group(function(){
+        //             //Register Routes
+        //             Route::post('register',[AuthController::class,'register'])
+        //                  ->name('register'); //Done
+        //             Route::post('verify-otp-register', [AuthController::class, 'verifyOtpRegister'])
+        //                  ->name('verifyOtpRegister'); //Done
 
+        //             Route::post('login',[AuthController::class,'login'])
+        //                  ->name('login');
 
+        //             Route::post('resend-otp-register', [AuthController::class, 'resendOtpRegister'])
+        //                  ->name('resendOtpRegister');
+        // });
 
-
-        Route::prefix('branches')->name('branch.')->group(function(){
-            Route::get('/{branch_id}',[VendorBranchController::class,'getBranchData'])->name('getBranchData.');
-        });
-        Route::prefix('vendors')->name('vendor.')->group(function(){
-            Route::get('/{slug}',[VendorController::class,'getVendorData'])->name('getVendorData.');
-            Route::get('/{slug}/menu-categories',[VendorController::class,'getVendorMenuCategories'])->name('VendorMenuCategories');
-            Route::get('/{slug}/branches',[VendorController::class,'getVendorMenuCategories'])->name('VendorMenuCategories');
-        });
-        Route::prefix('categories')->name('category.')->group(function(){
-            Route::get('/{slug}/products',[VendorMenuCategoryController::class,'products'])->name('products');
-        });
-        Route::prefix('products')->name('product.')->group(function(){
-            Route::get('/{slug}',[ProductController::class,'product'])->name('products');
-        });
-        Route::prefix('auth')
-              ->name('api.auth.')
-              ->group(function(){
-                    //Register Routes
-                    Route::post('register',[AuthController::class,'register'])
-                         ->name('register'); //Done
-                    Route::post('verify-otp-register', [AuthController::class, 'verifyOtpRegister'])
-                         ->name('verifyOtpRegister'); //Done
-
-                    Route::post('login',[AuthController::class,'login'])
-                         ->name('login');
-
-                    Route::post('resend-otp-register', [AuthController::class, 'resendOtpRegister'])
-                         ->name('resendOtpRegister');
-        });
-
-        Route::middleware('auth:sanctum')->group(function () {
-            Route::post('logout',[AuthController::class,'logout'])
-                ->name('logout');
-            Route::get('profile', function (Request $request) {
-                return $request->user();
-            });
-        });
+        // Route::middleware('auth:sanctum')->group(function () {
+        //     Route::post('logout',[AuthController::class,'logout'])
+        //         ->name('logout');
+        //     Route::get('profile', function (Request $request) {
+        //         return $request->user();
+        //     });
+        // });
     });
 });
 

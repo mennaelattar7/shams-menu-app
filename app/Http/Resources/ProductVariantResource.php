@@ -36,7 +36,6 @@ class ProductVariantResource extends JsonResource
             'name' => $this->name,
             'price' =>$this->price,
             'price_after_discount' =>$price_after_discount,
-            'calories' =>$this->calories,
             'status'=>$this->status,
         ];
     }

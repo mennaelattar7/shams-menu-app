@@ -3,13 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Product extends Model
 {
+    use HasSlug;
     protected $table = "products";
     protected $casts = [
         'name' => 'array',
+        'description'=>'array'
     ];
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['company_name'])
+            ->saveSlugsTo('slug');
+    }
     public function getNameAttribute()
     {
         $locale =  app()->getLocale();
@@ -26,6 +36,19 @@ class Product extends Model
     {
         return $this->belongsToMany(VendorBranch__Offer::class,'vendor_branch___offer_products','product_id','offer_id');
     }
+    public function branches()
+    {
+        return $this->belongsToMany(VendorBranche::class,'product___product_branches','product_id','branch_id');
+    }
+    public function badges()
+    {
+        return $this->belongsToMany(Shams__ProductBadge::class,'product___product_badges','product_id','badge_id');
+    }
+    public function cooking_levels()
+    {
+        return $this->belongsToMany(Shams__ProductCookingLevel::class,'product___product_cooking_levels','product_id','cooking_level_id');
+    }
+
     public function variants()
     {
         return $this->hasMany(Product__ProductVariant::class,'product_id','id');
@@ -36,7 +59,7 @@ class Product extends Model
     }
     public function product_type()
     {
-        return $this->belongsTo(Product__Type::class,'product_type_id','id');
+        return $this->belongsTo(Shams__ProductType::class,'product_type_id','id');
     }
 
     public function created_by()

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class BaseController extends Controller
 {
+    protected $user;
     protected $vendor;
 
     public function __construct()
@@ -15,5 +16,7 @@ class BaseController extends Controller
         $this->vendor = Auth::user()
             ->vendor_representative
             ->vendor;
+        $this->user = Auth::user();
+
     }
 }

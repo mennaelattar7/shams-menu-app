@@ -63,7 +63,6 @@ class ProductController extends Controller
     //  *                                  "name": "Small",
     //  *                                  "price": "250.00",
     //  *                                  "price_after_discount" :"200",
-    //  *                                  "calories": 10,
     //  *                                  "status": "active"
     //  *                             }
     //  *                         },
@@ -108,11 +107,6 @@ class ProductController extends Controller
     //  *                     ),
     //  *                     @OA\Property(
     //  *                         property="price",
-    //  *                         type="integer",
-    //  *                         example="500"
-    //  *                     ),
-    //  *                     @OA\Property(
-    //  *                         property="calories",
     //  *                         type="integer",
     //  *                         example="500"
     //  *                     ),
@@ -190,11 +184,12 @@ class ProductController extends Controller
     //  *                                 type="integer",
     //  *                                 example="200.00"
     //  *                             ),
-    //  *                             @OA\Property(
-    //  *                                 property="calories",
-    //  *                                 type="integer",
-    //  *                                 example="10"
-    //  *                             ),
+    //  *                             @OA\
+
+
+
+
+    
     //  *                             @OA\Property(
     //  *                                 property="status",
     //  *                                 type="string",

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User\API\Meta;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductTypeResource;
-use App\Models\Product__Type;
+use App\Models\Shams__ProductType;
 use Illuminate\Http\Request;
 
 class ProductTypeController extends Controller
@@ -58,7 +58,7 @@ class ProductTypeController extends Controller
     //  */
     public function allItems()
     {
-        $all_types = Product__Type::all();
+        $all_types = Shams__ProductType::all();
         return response()->json([
             'success' => true,
             'data' => ProductTypeResource::collection($all_types),

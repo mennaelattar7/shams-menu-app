@@ -65,7 +65,6 @@ class VendorMenuCategoryController extends Controller
     //  *                                  "name": "Small",
     //  *                                  "price": "250.00",
     //  *                                  "price_after_discount" :"200",
-    //  *                                  "calories": 10,
     //  *                                  "status": "active"
     //  *                             }
     //  *                         },

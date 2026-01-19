@@ -3,19 +3,13 @@
 namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\API\Vendor\Branch\CreateRequest;
-use App\Http\Requests\User\API\Vendor\Branch\FilterRequest;
-use App\Http\Requests\User\API\Vendor\Branch\UpdateRequest;
-use App\Http\Resources\VendorBranchResource;
-use App\Models\VendorBranch__OperatingHour;
-use App\Models\VendorBranch__OperatingHourShift;
-use App\Models\VendorBranche;
+use App\Http\Requests\User\API\Vendor\Product\CreateRequest;
+use App\Models\Product;
+use App\Models\Product__ProductAllergen;
+use App\Models\Product__ProductVariant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-use function PHPUnit\Framework\isEmpty;
-
-class BranchController extends BaseController
+use Illuminate\Support\Str;
+class ProductController extends BaseController
 {
     public function index(Request $request)
     {
@@ -42,45 +36,59 @@ class BranchController extends BaseController
     }
     public function create(CreateRequest $request)
     {
-        $user = Auth::user();
-        //add in vendor___branches table
-        $new_vendor_branch = new VendorBranche();
-        $new_vendor_branch->created_by_id = $user->id;
-        $new_vendor_branch->vendor_id = $user->vendor_representative->vendor->id;
-        $new_vendor_branch->city_id = $request->city_id;
-        $new_vendor_branch->district_id = $request->district_id;
-        $new_vendor_branch->name = $request->name;
-        $new_vendor_branch->phone_number = $request->phone_number;
-        $new_vendor_branch->whatsapp_number = $request->whatsapp_number;
-        $new_vendor_branch->google_map_link = $request->google_map_link;
-        $new_vendor_branch->number_of_tables =$request->number_of_tables;
-        $new_vendor_branch->activation_status = $request->activation_status;
-        $new_vendor_branch->save();
-        $operating_hours = $request->operating_hours;
-        foreach($operating_hours as $one_day)
+        //add in product tabel
+        $new_product = new Product();
+        $new_product->created_by_id = $this->user->id;
+        $new_product->category_id = $request->category_id;
+        $new_product->product_type_id = $request->product_type_id;
+        $new_product->name = $request->name;
+        $new_product->description = $request->description;
+        if(request()->hasFile('image'))
         {
-            $new_branch_operation_houre = new VendorBranch__OperatingHour();
-            $new_branch_operation_houre->created_by_id = $user->id;
-            $new_branch_operation_houre->branch_id = $new_vendor_branch->id;
-            $new_branch_operation_houre->day_of_week = $one_day['day_of_week'];
-            $new_branch_operation_houre->save();
+            $file=$request->image;
+            $name = $file->getClientOriginalName();
+            $extension = pathinfo($name)['extension'];
+            $fileName = 'vendor_menu_category_' . Str::random(5) . '.' . $extension;
 
-            foreach($one_day['shifts'] as $one_shift)
-            {
-                $new_shift = new VendorBranch__OperatingHourShift();
-                $new_shift->created_by_id = $user->id;
-                $new_shift->operating_hours_id = $new_branch_operation_houre->id;
-                $new_shift->start_time = $one_shift['start_time'];
-                $new_shift->end_time = $one_shift['end_time'];
-                $new_shift->is_open = $one_shift['is_open'];
-                $new_shift->save();
-            }
+            $file->storeAs('vendor/menu_category/images',$fileName,'public');
+            $new_product->image = 'vendor/menu_category/images/' . $fileName;
+        }
+        $new_product->activation_status = $request->activation_status;
+        $new_product->calories = $request->calories;
+        $new_product->save();
+
+        //add in product___product_variants table
+        $new_variant = new Product__ProductVariant();
+        $new_variant->created_by_id = $this->user->id;
+        $new_variant->product_id = $new_product->id;
+        if($request->product_variant_name != null)
+        {
+            $new_variant->name = $request->product_variant_name;
+        }
+        $new_variant->price = $request->price;
+        $new_variant->activation_status =  "active";
+        $new_variant->save();
+
+        //add in product___product_branches table
+        $new_product->branches()->sync($request->branches_ids);
+        //add in product___product_badges table
+        $new_product->badges()->sync($request->badges_ids);
+        //add in product___product_badges table
+        $new_product->cooking_levels()->sync($request->cooking_level_ids);
+
+        //add in product___product_allergens table
+        foreach($request->allergens as $one_allergen)
+        {
+            $new_product_allergen = new Product__ProductAllergen();
+            $new_product_allergen->name = $one_allergen['name'];
+            $new_product_allergen->display_name = $one_allergen['display_name'];
+            $new_product_allergen->product_id = $new_product->id;
+            $new_product_allergen->save();
         }
         return response()->json([
             'success' => true,
-            'message' => 'Branch Add successfuly'
+            'message' => 'Product Add successfuly'
         ]);
-
     }
     public function single($loacle,$slug)
     {

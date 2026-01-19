@@ -60,11 +60,13 @@ class VendorBranchResource extends JsonResource
             'name' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
+                'user.api.vendor.branch.filter'
             ]),$this->name) ,
 
             'slug' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
+                'user.api.vendor.branch.filter'
             ]),$this->slug),
 
             'city' =>$this->when($request->routeIs([
@@ -80,6 +82,7 @@ class VendorBranchResource extends JsonResource
             'activation_status' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
+                'user.api.vendor.branch.filter'
             ]),$this->activation_status),
 
             'google_map_link' =>$this->when($request->routeIs([
