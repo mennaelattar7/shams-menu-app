@@ -14,12 +14,6 @@ class Product extends Model
         'name' => 'array',
         'description'=>'array'
     ];
-    public function getSlugOptions() : SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom(['company_name'])
-            ->saveSlugsTo('slug');
-    }
     public function getNameAttribute()
     {
         $locale =  app()->getLocale();
@@ -31,6 +25,12 @@ class Product extends Model
         $locale =  app()->getLocale();
         $array_values = json_decode($this->attributes['description'],true);
         return $array_values[$locale];
+    }
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['name'])
+            ->saveSlugsTo('slug');
     }
     public function offers()
     {
@@ -52,6 +52,11 @@ class Product extends Model
     public function variants()
     {
         return $this->hasMany(Product__ProductVariant::class,'product_id','id');
+    }
+
+    public function allergens()
+    {
+        return $this->hasMany(Product__ProductAllergen::class,'product_id','id');
     }
     public function category()
     {

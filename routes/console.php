@@ -10,3 +10,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 Schedule::command('otp:deactivate-expired-otps')
     ->everyMinute();
+Schedule::command('app:track-product-views')
+    ->everyMinute();

@@ -16,16 +16,24 @@ class VendorMenuCategoryResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'parent_category' => optional($this->parent_category)->name,
-            'name' =>$this->name,
-            'slug' =>$this->slug,
-            'image' => $this->image,
-            'sort' =>$this->sort,
-            'status' => $this->status,
-            'childreen' => $this->when(
-                                        $request->routeIs('user.vendor.VendorMenuCategories'),
-                                        $this->children_categories != null? VendorMenuCategoryResource::collection($this->whenLoaded('children_categories')):null
-                                    )
+            'parent_category' =>$this->when($request->routeIs([
+                'user.api.public.product.single',
+            ]),optional($this->parent_category)->name) ,
+            'name' =>$this->when($request->routeIs([
+                'user.api.public.product.single',
+            ]),$this->name)  ,
+            'slug' =>$this->when($request->routeIs([
+                'user.api.public.product.single',
+            ]),$this->slug) ,
+
+
+            // 'image' => $this->image,
+            // 'sort' =>$this->sort,
+            // 'status' => $this->status,
+            // 'childreen' => $this->when(
+            //                             $request->routeIs('user.vendor.VendorMenuCategories'),
+            //                             $this->children_categories != null? VendorMenuCategoryResource::collection($this->whenLoaded('children_categories')):null
+            //                         )
         ];
     }
 }
