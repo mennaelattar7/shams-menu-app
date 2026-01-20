@@ -5,6 +5,7 @@ namespace App\Http\Requests\User\API\Vendor\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 class CreateRequest extends FormRequest
 {
     public function authorize(): bool
@@ -14,9 +15,13 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         $rules =[
-            'name' =>[
+            'name.en' => [
                 'required',
-                'unique:products,name'
+                Rule::unique('products', 'name->en'),
+            ],
+            'name.ar' => [
+                'required',
+                Rule::unique('products', 'name->ar'),
             ],
             'description' =>[
                 'required',

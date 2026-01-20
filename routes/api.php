@@ -1,26 +1,9 @@
 <?php
 
 use App\Http\Controllers\User\API\Auth\AuthController ;
-use App\Http\Controllers\User\API\Meta\CityController;
-use App\Http\Controllers\User\API\Meta\CountryController;
-use App\Http\Controllers\User\API\Meta\DistrictController;
-use App\Http\Controllers\User\API\Meta\LangController;
-use App\Http\Controllers\User\API\Meta\ProductTypeController;
-use App\Http\Controllers\User\API\Meta\ShamsFeatureController;
-use App\Http\Controllers\User\API\Meta\SocialMediaIconController;
-use App\Http\Controllers\User\API\Meta\VendorTypeController;
 use App\Http\Controllers\User\API\ProductController;
-use App\Http\Controllers\User\API\Vendor\Authentication\AuthController as VendorAuthController;
-use App\Http\Controllers\User\API\Vendor\BranchController;
-use App\Http\Controllers\User\API\Vendor\LangController as VendorLangController;
-use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
-use App\Http\Controllers\User\API\Vendor\Vendorcontroller as VendorVendorcontroller;
-
 use App\Http\Controllers\User\API\VendorController;
 use App\Http\Controllers\User\API\VendorMenuCategoryController;
-use App\Models\Lang;
-use App\Models\Shams__ProductType;
-use App\Models\SocialMediaIcon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,7 +22,7 @@ Route::group([
         require __DIR__.'/API/vendor.php';
 
         //customer
-        require __DIR__.'/API/customer.php';
+        require __DIR__.'/API/public.php';
 
 
         // Route::prefix('branches')->name('branch.')->group(function(){
