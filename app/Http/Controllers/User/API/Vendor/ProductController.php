@@ -3,13 +3,44 @@
 namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Requests\User\API\Vendor\Product\CreateRequest;
-
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Product__ProductAllergen;
 use App\Models\Product__ProductVariant;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Str;
+
 class ProductController extends BaseController
 {
+    public function index(Request $request)
+    {
+        if($request->per_page != null)
+        {
+            $all_products= Product::whereHas('category',function($q){
+                $q->where('vendor_id',$this->vendor->id);
+            })->paginate($request->per_page);
+
+            return ProductResource::collection($all_products)
+            ->additional([
+                'success' => true,
+                'message' => 'Get Products Successfully'
+            ])
+            ->response()
+            ->setStatusCode(200);
+        }
+        else
+        {
+            $all_products = Product::whereHas('category',function($q){
+                $q->where('vendor_id',$this->vendor->id);
+            })->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Get Products Succefully',
+                'data' => ProductResource::collection($all_products)
+            ], 200);
+        }
+    }
     public function create(CreateRequest $request)
     {
         //add in product tabel

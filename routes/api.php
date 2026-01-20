@@ -36,9 +36,6 @@ Route::group([
         // Route::prefix('categories')->name('category.')->group(function(){
         //     Route::get('/{slug}/products',[VendorMenuCategoryController::class,'products'])->name('products');
         // });
-        // Route::prefix('products')->name('product.')->group(function(){
-        //     Route::get('/{slug}',[ProductController::class,'product'])->name('products');
-        // });
         // Route::prefix('auth')
         //       ->name('api.auth.')
         //       ->group(function(){

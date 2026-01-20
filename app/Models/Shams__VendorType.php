@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VendorType extends Model
+class Shams__VendorType extends Model
 {
-    protected $table = "vendor_types";
+    protected $table = "shams___vendor_types";
     protected $casts = [
         'name' => 'array',
     ];

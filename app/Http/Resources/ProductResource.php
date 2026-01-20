@@ -21,8 +21,12 @@ class ProductResource extends JsonResource
             'name' =>$this->name,
             'slug' =>$this->slug,
             'activation_status' =>$this->activation_status,
+            'availability_status' =>$this->availability_status,
+            'variants' => ProductVariantResource::collection($this->variants->where('activation_status','active')),
+
             'category' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
+                'user.api.vendor.product.index',
             ]),new VendorMenuCategoryResource($this->category)) ,
             'product_type' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
@@ -53,7 +57,7 @@ class ProductResource extends JsonResource
             // 'image' =>$this->image,
             // 'status' =>$this->status,
             // // 'offer' => $active_offer ? new VendorBranch__OfferResource($active_offer) : null,
-            // 'variants' => ProductVariantResource::collection($this->variants->where('status','active'))
+
         ];
     }
 }

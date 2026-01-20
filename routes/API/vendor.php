@@ -46,7 +46,8 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::post('create',[MenuCategorycontroller::class,'create'])->name('create');
         });
         //Product Routes
-        Route::prefix('products')->name('Product.')->group(function(){
+        Route::prefix('products')->name('product.')->group(function(){
+            Route::get('/',[ProductController::class,'index'])->name('index');
             Route::post('create',[ProductController::class,'create'])->name('create');
         });
     });

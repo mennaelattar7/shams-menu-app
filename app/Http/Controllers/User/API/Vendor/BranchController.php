@@ -9,6 +9,7 @@ use App\Http\Requests\User\API\Vendor\Branch\UpdateRequest;
 use App\Http\Resources\VendorBranchResource;
 use App\Models\VendorBranch__OperatingHour;
 use App\Models\VendorBranch__OperatingHourShift;
+use App\Models\VendorBranch__Table;
 use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,6 +57,8 @@ class BranchController extends BaseController
         $new_vendor_branch->number_of_tables =$request->number_of_tables;
         $new_vendor_branch->activation_status = $request->activation_status;
         $new_vendor_branch->save();
+
+        //add in vendor_branch___operating_hours table
         $operating_hours = $request->operating_hours;
         foreach($operating_hours as $one_day)
         {
@@ -64,7 +67,7 @@ class BranchController extends BaseController
             $new_branch_operation_houre->branch_id = $new_vendor_branch->id;
             $new_branch_operation_houre->day_of_week = $one_day['day_of_week'];
             $new_branch_operation_houre->save();
-
+            //add in vendor_branch___operating_hours table
             foreach($one_day['shifts'] as $one_shift)
             {
                 $new_shift = new VendorBranch__OperatingHourShift();
@@ -75,6 +78,16 @@ class BranchController extends BaseController
                 $new_shift->is_open = $one_shift['is_open'];
                 $new_shift->save();
             }
+        }
+
+        //add in vendor_branch___tables
+        for($i=1;$i<=$request->number_of_tables;$i++)
+        {
+            $new_branch_table = new VendorBranch__Table();
+            $new_branch_table->created_by_id = Auth::user()->id;
+            $new_branch_table->branch_id = $new_vendor_branch->id;
+            $new_branch_table->table_number = $i;
+            $new_branch_table->save();
         }
         return response()->json([
             'success' => true,

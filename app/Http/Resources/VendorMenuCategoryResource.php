@@ -18,12 +18,15 @@ class VendorMenuCategoryResource extends JsonResource
             'id'=>$this->id,
             'parent_category' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
+                'user.api.vendor.product.index',
             ]),optional($this->parent_category)->name) ,
             'name' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
+                'user.api.vendor.product.index',
             ]),$this->name)  ,
             'slug' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
+                'user.api.vendor.product.index',
             ]),$this->slug) ,
 
 

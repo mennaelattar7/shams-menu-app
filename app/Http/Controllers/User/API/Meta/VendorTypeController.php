@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User\API\Meta;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\VendorTypeResource;
-use App\Models\VendorType;
+use App\Models\Shams__VendorType;
 use Illuminate\Http\Request;
 
 class VendorTypeController extends Controller
@@ -60,7 +60,7 @@ class VendorTypeController extends Controller
 
     public function allItems($locale,Request $request)
     {
-        $all_vendor_types = VendorType::where('status','active')->get();
+        $all_vendor_types = Shams__VendorType::where('status','active')->get();
         return response()->json([
             'success' => true,
             'data' => VendorTypeResource::collection($all_vendor_types),

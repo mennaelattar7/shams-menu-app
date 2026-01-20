@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Shams__Package extends Model
+class Vendor__FeatureAction extends Model
 {
     //
 }
