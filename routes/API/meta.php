@@ -12,9 +12,9 @@ use App\Http\Controllers\User\API\Meta\VendorTypeController;
 use Illuminate\Support\Facades\Route;
 
     Route::prefix('meta')->name('meta.')->group(function(){
-        Route::prefix('cities')->name('city')->group(function(){
+        Route::prefix('cities')->name('city.')->group(function(){
             Route::get('/',[CityController::class, 'index'])->name('index'); //Done Doc
-            Route::get('/filter-districts/{city_id}',[CityController::class, 'filterDistrict'])->name('index'); //Done Doc
+            Route::get('/filter-districts/{city_id}',[CityController::class, 'filterDistrict'])->name('filter'); //Done Doc
         });
         Route::get('districts',[DistrictController::class, 'index'])->name('district.index'); // Done Doc
         Route::get('langs',[LangController::class, 'index'])->name('lang.index.'); // Done Doc
