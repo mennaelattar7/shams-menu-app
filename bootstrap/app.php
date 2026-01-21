@@ -17,6 +17,32 @@ return Application::configure(basePath: dirname(__DIR__))
         'dashboardCheckAuth' => \App\Http\Middleware\custom_middleware\Dashboard\CheckAuth::class,
         // 👇 API KEY middleware
         'api.key' => \App\Http\Middleware\custom_middleware\API\AppAPIKey::class,
+                //User Middleware
+        'dashboardUserArchived' => \App\Http\Middleware\custom_middleware\Dashboard\User\archived::class,
+        'dashboardUserCreate' => \App\Http\Middleware\custom_middleware\Dashboard\User\create::class,
+        'dashboardUserDelete' => \App\Http\Middleware\custom_middleware\Dashboard\User\delete::class,
+        'dashboardUserDeletePermanently' => \App\Http\Middleware\custom_middleware\Dashboard\User\deletePermanently::class,
+        'dashboardUserEdit' => \App\Http\Middleware\custom_middleware\Dashboard\User\edit::class,
+        'dashboardUserIndex' => \App\Http\Middleware\custom_middleware\Dashboard\User\index::class,
+        'dashboardUserRestore' => \App\Http\Middleware\custom_middleware\Dashboard\User\restore::class,
+        'dashboardUserShow' => \App\Http\Middleware\custom_middleware\Dashboard\User\show::class,
+
+        //Role Middleware
+        'dashboardRoleArchived' => \App\Http\Middleware\custom_middleware\Dashboard\Role\archived::class,
+        'dashboardRoleCreate' => \App\Http\Middleware\custom_middleware\Dashboard\Role\create::class,
+        'dashboardRoleDelete' => \App\Http\Middleware\custom_middleware\Dashboard\Role\delete::class,
+        'dashboardRoleDeletePermanently' => \App\Http\Middleware\custom_middleware\Dashboard\Role\deletePermanently::class,
+        'dashboardRoleEdit' => \App\Http\Middleware\custom_middleware\Dashboard\Role\edit::class,
+        'dashboardRoleIndex' => \App\Http\Middleware\custom_middleware\Dashboard\Role\index::class,
+        'dashboardRoleRestore' => \App\Http\Middleware\custom_middleware\Dashboard\Role\restore::class,
+        'dashboardRoleShow' => \App\Http\Middleware\custom_middleware\Dashboard\Role\show::class,
+
+        //Permission Middleware
+        'dashboardPermissionIndex' => \App\Http\Middleware\custom_middleware\Dashboard\Permission\index::class,
+        'dashboardPermissionCreate' => \App\Http\Middleware\custom_middleware\Dashboard\Permission\create::class,
+        'dashboardPermissionShow' => \App\Http\Middleware\custom_middleware\Dashboard\Permission\show::class,
+        'dashboardPermissionEdit' => \App\Http\Middleware\custom_middleware\Dashboard\Permission\edit::class,
+        'dashboardPermissionDelete' => \App\Http\Middleware\custom_middleware\Dashboard\Permission\delete::class,
         ]);
 
     })

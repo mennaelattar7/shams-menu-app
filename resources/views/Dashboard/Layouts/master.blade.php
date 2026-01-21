@@ -17,10 +17,26 @@
         <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/font-awesome/css/font-awesome.min.css')}}">
         <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/animate-css/vivify.min.css')}}">
         <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/c3/c3.min.css')}}"/>
+
+        <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/sweetalert/sweetalert.css')}}"/>
+
         <!-- MAIN CSS -->
         <link rel="stylesheet" href="{{ asset('shams/dashboard/assets/css/site.min.css')}}">
+        <style>
+            td.details-control {
+            background: url('../assets/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+            tr.shown td.details-control {
+                background: url('../assets/images/details_close.png') no-repeat center center;
+            }
+        </style>
         <!-- Shams Style -->
         <link rel="stylesheet" href="{{ asset('shams/dashboard/shams_assets/css/style.css')}}">
+
     </head>
     <body class="theme-cyan font-montserrat">
         <!-- Page Loader -->
@@ -30,17 +46,28 @@
         <!-- Overlay For Sidebars -->
         <div class="overlay"></div>
         <div id="wrapper">
-            @include('Dashboard.Layouts.navbar')
+            @include('Dashboard.Layouts.navigationbar')
             @include('Dashboard.Layouts.search')
             @include('Dashboard.Layouts.chat')
-            @include('Dashboard.Layouts.side_menu')
-            @yield('content')
+            @include('Dashboard.Layouts.sidemenu')
+            <div id="main-content">
+                @yield('content')
+            </div>
+
         </div>
         <!-- Javascript -->
         <script src="{{ asset('shams/dashboard/assets/bundles/libscripts.bundle.js')}}"></script>
         <script src="{{ asset('shams/dashboard/assets/bundles/vendorscripts.bundle.js')}}"></script>
+        <script src="{{ asset('shams/dashboard/assets/bundles/datatablescripts.bundle.js')}}"></script>
+        <script src="{{ asset('shams/dashboard/general_assets/assets/vendor/jquery-datatable/buttons/dataTables.buttons.min.js')}}"></script>
+        <script src="{{ asset('shams/dashboard/general_assets/assets/vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js')}}"></script>
+        <script src="{{ asset('shams/dashboard/general_assets/assets/vendor/jquery-datatable/buttons/buttons.colVis.min.js')}}"></script>
+        <script src="{{ asset('shams/dashboard/general_assets/assets/vendor/jquery-datatable/buttons/buttons.html5.min.js')}}"></script>
+        <script src="{{ asset('shams/dashboard/general_assets/assets/vendor/jquery-datatable/buttons/buttons.print.min.js')}}"></script>
+        <script src="{{ asset('shams/dashboard/general_assets/assets/vendor/sweetalert/sweetalert.min.js')}}"></script><!-- SweetAlert Plugin Js -->
         <script src="{{ asset('shams/dashboard/assets/bundles/c3.bundle.js')}}"></script>
         <script src="{{ asset('shams/dashboard/assets/bundles/mainscripts.bundle.js')}}"></script>
+        <script src="{{ asset('shams/dashboard/assets/js/pages/tables/jquery-datatable.js')}}"></script>
         <script src="{{ asset('shams/dashboard/assets/js/index.js')}}"></script>
     </body>
 </html>

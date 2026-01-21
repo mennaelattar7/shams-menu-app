@@ -1,0 +1,30 @@
+<?php
+
+return [
+    'Shams' => 'Shams',
+    'Login'=>'Login',
+    'Login_To_Your_Account' =>'Login To Your Account',
+    'Email' =>'Email',
+    'Password' =>'Password',
+    'Main_Dashboard' =>'Main Dashboard',
+    'Technical_Support' =>'Technical Support',
+    'Data_Entry' =>'Data Entry',
+    'Customer_Service' =>'Customer Service',
+    'Hi' =>'Hi',
+    'Sales' =>'Sales',
+    'Main' =>'Main',
+    'HR' =>'HR',
+    'Users_And_Permissions' =>'Users And Permissions',
+    'Users' =>'Users',
+    'Show' =>'Show',
+    'Create' =>'Create',
+    'Roles' =>'Roles',
+    'Permissions' =>'Permissions',
+    'All_Roles' =>'All Roles',
+    'Home' =>'Home',
+    'Name' =>'Name',
+    'Create_Role' =>'Create Role',
+    'Help' =>'Help',
+    'Search' =>'Search',
+    'Name' =>'Name'
+];

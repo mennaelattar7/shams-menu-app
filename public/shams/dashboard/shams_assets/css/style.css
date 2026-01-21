@@ -32,6 +32,11 @@
     background: #F4CE6A;
     border-radius: 6px;
 }
+.badge-info{
+    color: #F4CE6A;
+    border-color: #F4CE6A;
+}
+
 
 .sidebar-inner::-webkit-scrollbar-track {
     background: #1e1e1e;
