@@ -21,10 +21,14 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         Route::post('forget-password',[AuthController::class,'forgetPassword'])->name('forget_password');
         Route::post('verify-otp-forget-password',[AuthController::class,'verifyOtpForgetPassword'])->name('verify_otp_forget_password');
         Route::post('reset-password',[AuthController::class,'resetPassword'])->name('reset_password');
+        
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('logout',[AuthController::class,'logout'])->name('logout');
+        });
     });
     Route::middleware('auth:sanctum')->group(function () {
         // token : 82|p5wV6kKVgE2KQFtuxXU7BZBjy7XMzFMlLEbcd4sed24bf75b
-        Route::post('logout',[AuthController::class,'logout'])->name('logout');
+
         Route::prefix('home')->name('home')->group(function(){
 
         });
