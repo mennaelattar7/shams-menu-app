@@ -36,6 +36,7 @@ class ProductResource extends JsonResource
             ]),$this->description),
             'image' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
+                'user.api.vendor.home.most_viewed_product',
             ]),$this->image),
             'calories' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
@@ -46,6 +47,12 @@ class ProductResource extends JsonResource
             'badges' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
             ]),ProductBadgeResource::collection($this->badges)),
+
+            'views_count' =>$this->when($request->routeIs([
+                'user.api.vendor.home.most_viewed_product',
+            ]),$this->views->count()),
+
+
 
 
 

@@ -8,7 +8,7 @@
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{route('dashboard.role.index',['locale'=>app()->getLocale(),'context_url'=>$context_url])}}">
+                <a href="{{route('dashboard.role.index',['locale'=>app()->getLocale()])}}">
                     {{ trans('Dashboard.Roles')}}
                 </a>
             </li>

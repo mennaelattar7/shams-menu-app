@@ -1,9 +1,9 @@
 <div id="left-sidebar" class="sidebar">
     <div class="navbar-brand">
         <a href="index.html">
-            <img src="{{ asset('shams/dashboard/general_assets/assets/images/icon.svg')}}" alt="{{ trans('dashboard.Shams') }}" class="img-fluid logo">
+            <img src="{{ asset('shams/dashboard/general_assets/assets/images/icon.svg')}}" alt="{{ trans('Dashboard.Shams') }}" class="img-fluid logo">
             <span>
-                {{ trans('dashboard.Shams') }}
+                {{ trans('Dashboard.Shams') }}
             </span>
         </a>
         <button type="button" class="float-right btn-toggle-offcanvas btn btn-sm">
@@ -68,7 +68,7 @@
                                     Route::currentRouteName() == "dashboard.vendor.show" ||
                                     Route::currentRouteName() == "dashboard.vendor.edit"||
                                     Route::currentRouteName() == "dashboard.vendor.create")
-                                    style="color:#006AA5;text-decoration: underline;"
+                                    style="color:#F4CE6A;text-decoration: underline;"
                                 @endif
                             >
                             @if(Route::currentRouteName() == "dashboard.vendor.index" ||
@@ -175,7 +175,7 @@
                                     Route::currentRouteName() == "dashboard.user.show" ||
                                     Route::currentRouteName() == "dashboard.user.edit"||
                                     Route::currentRouteName() == "dashboard.user.create")
-                                    style="color:#006AA5;text-decoration: underline;"
+                                    style="color:#F4CE6A;text-decoration: underline;"
                                 @endif
                             >
                             @if(Route::currentRouteName() == "dashboard.user.index" ||

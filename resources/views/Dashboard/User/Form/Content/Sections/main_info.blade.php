@@ -1,4 +1,4 @@
-<div class="card-header" data-toggle="collapse" href="#main_info_section" aria-expanded="true" style="font-size: 20px;background-color: #006AA5;color: white;padding: 20px;padding: 20px !important;">
+<div class="card-header" data-toggle="collapse" href="#main_info_section" aria-expanded="true" style="font-size: 20px;background-color: #F4CE6A;color: black;padding: 20px;padding: 20px !important;">
     <a class="card-title">
         {{ trans('Dashboard.Main_Info')}}
     </a>

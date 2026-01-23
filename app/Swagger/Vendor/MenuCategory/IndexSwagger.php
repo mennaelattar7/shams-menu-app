@@ -23,6 +23,13 @@ namespace App\Swagger\Vendor\MenuCategory;
  *         description="Number of items per page for pagination",
  *         @OA\Schema(type="integer", example="3")
  *     ),
+ *     @OA\Parameter(
+ *         name="activation_status",
+ *         in="query",
+ *         required=false,
+ *         description="activation value (active||inactive)",
+ *         @OA\Schema(type="integer", example="3")
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Get All Menu Categories Successfully",

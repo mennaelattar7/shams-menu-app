@@ -69,5 +69,8 @@
         <script src="{{ asset('shams/dashboard/assets/bundles/mainscripts.bundle.js')}}"></script>
         <script src="{{ asset('shams/dashboard/assets/js/pages/tables/jquery-datatable.js')}}"></script>
         <script src="{{ asset('shams/dashboard/assets/js/index.js')}}"></script>
+        <script>
+            {{--  $.fn.dataTable.ext.errMode = 'none';  --}}
+        </script>
     </body>
 </html>

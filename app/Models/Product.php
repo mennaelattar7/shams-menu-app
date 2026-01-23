@@ -54,6 +54,11 @@ class Product extends Model
         return $this->hasMany(Product__ProductVariant::class,'product_id','id');
     }
 
+    public function views()
+    {
+        return $this->hasMany(Product__View::class,'product_id','id');
+    }
+
     public function allergens()
     {
         return $this->hasMany(Product__ProductAllergen::class,'product_id','id');

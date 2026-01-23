@@ -15,9 +15,26 @@ class MenuCategorycontroller extends BaseController
 {
     public function index(Request $request)
     {
+
+        $all_menu_categories= $this->vendor->menu_categories();
+
+        if($request->activation_status)
+        {
+            $all_menu_categories = $all_menu_categories->where('activation_status',$request->activation_status);
+        }
+        
         if($request->per_page != null)
         {
-            $all_menu_categories= $this->vendor->menu_categories()->paginate($request->per_page);
+            $all_menu_categories =$all_menu_categories->paginate($request->per_page);
+            if($all_menu_categories->isEmpty())
+            {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'No Menu Categories Found',
+                    'data' => []
+                ], 200);
+            }
+
             return VendorMenuCategoryResource::collection($all_menu_categories)
             ->additional([
                 'success' => true,
@@ -28,7 +45,15 @@ class MenuCategorycontroller extends BaseController
         }
         else
         {
-            $all_menu_categories = $this->vendor->menu_categories;
+            $all_menu_categories = $all_menu_categories->get();
+            if($all_menu_categories->isEmpty())
+            {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'No Menu Categories Found',
+                    'data' => []
+                ], 200);
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Get Menu CategorySuccefully',
@@ -40,8 +65,8 @@ class MenuCategorycontroller extends BaseController
     {
         $user = Auth::user();
         $new_vendor_menu_category = new Vendor__MenuCategory();
-        $new_vendor_menu_category->created_by_id = $user->id;
-        $new_vendor_menu_category->vendor_id = $user->vendor_representative->vendor->id;
+        $new_vendor_menu_category->created_by_id = $this->user->id;
+        $new_vendor_menu_category->vendor_id = $this->vendor->id;
         $new_vendor_menu_category->parent_category_id = $request->parent_category_id;
         $new_vendor_menu_category->name = $request->name;
         $new_vendor_menu_category->activation_status = $request->activation_status;
@@ -57,10 +82,8 @@ class MenuCategorycontroller extends BaseController
             $new_vendor_menu_category->image = 'vendor/menu_category/images/' . $fileName;
         }
         $new_vendor_menu_category->save();
-        $branchesIds = explode(',', $request->array_branches_ids);
-        $branchesIds = array_map('intval', $branchesIds);
 
-        foreach($branchesIds as $one_branch)
+        foreach($request->array_branches_ids as $one_branch)
         {
             $check_category_exist = VendorBranch__VendorMenuCategory::where([
                 ['branch_id',$one_branch],
@@ -70,7 +93,7 @@ class MenuCategorycontroller extends BaseController
             {
                 //add vendor_branch___vendor_menu_categories
                 $new_branch_menu_category = new VendorBranch__VendorMenuCategory();
-                $new_branch_menu_category->created_by_id = $user->id;
+                $new_branch_menu_category->created_by_id = $this->user->id;
                 $new_branch_menu_category->branch_id = $one_branch;
                 $new_branch_menu_category->vendor_menu_category_id = $new_vendor_menu_category->id;
                 $new_branch_menu_category->status = $request->activation_status;

@@ -17,7 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         'dashboardCheckAuth' => \App\Http\Middleware\custom_middleware\Dashboard\CheckAuth::class,
         // 👇 API KEY middleware
         'api.key' => \App\Http\Middleware\custom_middleware\API\AppAPIKey::class,
-                //User Middleware
+
+
+        //---------------------------Dashboard----------------------------------
+         //User Middleware
         'dashboardUserArchived' => \App\Http\Middleware\custom_middleware\Dashboard\User\archived::class,
         'dashboardUserCreate' => \App\Http\Middleware\custom_middleware\Dashboard\User\create::class,
         'dashboardUserDelete' => \App\Http\Middleware\custom_middleware\Dashboard\User\delete::class,

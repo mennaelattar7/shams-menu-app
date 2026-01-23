@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-        <title>{{ trans('dashboard.Shams') }} |  @yield('title') </title>
+        <title>{{ trans('Dashboard.Shams') }} |  @yield('title') </title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -24,7 +24,7 @@
         @include('Dashboard.Auth.Layouts.page_loader')
 
         @yield('content')
-        
+
         <script src="{{ asset('shams/dashboard/assets/bundles/libscripts.bundle.js')}}"></script>
         <script src="{{ asset('shams/dashboard/assets/bundles/vendorscripts.bundle.js')}}"></script>
         <script src="{{ asset('shams/dashboard/assets/bundles/mainscripts.bundle.js')}}"></script>

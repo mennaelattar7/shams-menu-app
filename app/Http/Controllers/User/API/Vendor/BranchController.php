@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\Branch\CreateRequest;
-use App\Http\Requests\User\API\Vendor\Branch\FilterRequest;
 use App\Http\Requests\User\API\Vendor\Branch\UpdateRequest;
 use App\Http\Resources\VendorBranchResource;
 use App\Models\VendorBranch__OperatingHour;
@@ -20,9 +19,30 @@ class BranchController extends BaseController
 {
     public function index(Request $request)
     {
+        $all_branches = $this->vendor->branches();
+        if($request->activation_status)
+        {
+            $all_branches = $all_branches->where('activation_status',$request->activation_status);
+        }
+        if($request->city_id)
+        {
+            $all_branches = $all_branches->where('city_id',$request->city_id);
+        }
+        if($request->district_id)
+        {
+            $all_branches = $all_branches->where('district_id',$request->district_id);
+        }
+        
+        if($request->branch_name)
+        {
+            $all_branches->where(function($q) use ($request){
+                $q->where('name->ar','LIKE','%'.$request->branch_name.'%')
+                ->orWhere('name->en','LIKE','%'.$request->branch_name.'%');
+            });
+        }
         if($request->per_page != null)
         {
-            $all_branches= $this->vendor->branches()->paginate($request->per_page);
+            $all_branches= $all_branches->paginate($request->per_page);
             return VendorBranchResource::collection($all_branches)
             ->additional([
                 'success' => true,
@@ -154,45 +174,5 @@ class BranchController extends BaseController
                 'message' => 'Branch updated successfully',
             ]);
         }
-    }
-
-    public function filter(FilterRequest $request)
-    {
-        $branchesQuery = $this->vendor->branches();
-        if($request->filled('city_id'))
-        {
-            $branchesQuery->where('city_id',$request->city_id);
-        }
-        if($request->filled('district_id'))
-        {
-            $branchesQuery->where('district_id',$request->district_id);
-        }
-        if($request->filled('activation_status'))
-        {
-            $branchesQuery->where('activation_status',$request->activation_status);
-        }
-        if($request->filled('name'))
-        {
-            $branchesQuery->where(function($q) use ($request){
-                $q->where('name->ar','LIKE','%'.$request->name.'%')
-                  ->orWhere('name->en','LIKE','%'.$request->name.'%');
-            });
-        }
-        $branches = $branchesQuery->get();
-        if($branches->isEmpty())
-        {
-            return response()->json([
-                'success' =>false,
-                'message' => 'There Is No Branches'
-            ],404);
-        }
-
-        return VendorBranchResource::collection($branches)
-        ->additional([
-            'success' =>true,
-            'message' => 'Get Branches Successfully'
-        ])
-        ->response()
-        ->setStatusCode(200);
     }
 }

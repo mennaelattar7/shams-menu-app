@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <th class="center-text" style="font-weight: 800">{{ trans('Dashboard.Name')}}</th>
-                    <th class="center-text" style="font-weight: 800">{{ trans('Dashboard.Type')}}</th>
+                    <th class="center-text" style="font-weight: 800">{{ trans('Dashboard.Guard_Name')}}</th>
                     <th class="center-text" style="font-weight: 800">{{ trans('Dashboard.Actions')}} </th>
                 </tr>
             </thead>
@@ -13,7 +13,7 @@
             <tfoot>
                 <tr>
                     <th class="center-text" style="font-weight: 800">{{ trans('Dashboard.Name')}}</th>
-                    <th class="center-text" style="font-weight: 800">{{ trans('Dashboard.Type')}}</th>
+                    <th class="center-text" style="font-weight: 800">{{ trans('Dashboard.Guard_Name')}}</th>
                     <th class="center-text" style="font-weight: 800">{{ trans('Dashboard.Actions')}} </th>
                 </tr>
             </tfoot>

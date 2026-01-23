@@ -106,7 +106,7 @@
                     "lengthMenu":[[5,10,25,50,100,200,300,320,340,360,380,400,450,500,1000,-1],[5,10,25,50,100,200,300,320,340,360,380,400,450,500,1000,"All"]],
                     columns: [
                         {data: 'name', name: 'name'},
-                        {data: 'type', name: 'type'},
+                        {data: 'guard_name', name: 'guard_name'},
                         {
                             data:'action',
                             name:'action',

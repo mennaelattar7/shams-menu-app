@@ -21,7 +21,8 @@ class CreateRequest extends FormRequest
             ],
             'name'=>[
                 'required',
-                'array'
+                'array',
+                'unique:vendor___menu_categories,name'
             ],
             'image' => [
                 'nullable',
@@ -35,6 +36,15 @@ class CreateRequest extends FormRequest
             'sort' =>[
                 'required',
                 'integer'
+            ],
+            'array_branches_ids' => [
+                'required',
+                'array',
+                'min:1'
+            ],
+            'array_branches_ids.*' => [
+                'integer',
+                'exists:vendor___branches,id'
             ]
         ];
         return $rules;

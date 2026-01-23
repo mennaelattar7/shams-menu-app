@@ -1,7 +1,7 @@
 @extends('Dashboard.Auth.Layouts.master')
 
 @section('title')
-    {{ trans('dashboard.Login') }}
+    {{ trans('Dashboard.Login') }}
 @endsection
 
 @section('meta_description_keywords_author')
@@ -16,7 +16,7 @@
             <div class="auth_brand">
                 <a class="navbar-brand" href="javascript:void(0);">
                     <img src="{{ asset('shams/dashboard/general_assets/assets/images/icon.svg')}}" width="30" height="30" class="mr-2 align-top d-inline-block" alt="">
-                    {{ trans('dashboard.Shams') }}
+                    {{ trans('Dashboard.Shams') }}
                 </a>
             </div>
             <div class="card">

@@ -23,6 +23,34 @@ namespace App\Swagger\Vendor\Branch;
  *         description="Number of items per page for pagination",
  *         @OA\Schema(type="integer", example="3")
  *     ),
+ *     @OA\Parameter(
+ *         name="activation_status",
+ *         in="query",
+ *         required=false,
+ *         description="activation status (active or inactive)",
+ *         @OA\Schema(type="string", example="active || inactive")
+ *     ),
+ *     @OA\Parameter(
+ *         name="city_id",
+ *         in="query",
+ *         required=false,
+ *         description="city_id (1)",
+ *         @OA\Schema(type="integr", example="1")
+ *     ),
+ *     @OA\Parameter(
+ *         name="district_id",
+ *         in="query",
+ *         required=false,
+ *         description="district_id",
+ *         @OA\Schema(type="integr", example="1")
+ *     ),
+ *     @OA\Parameter(
+ *         name="branch_name",
+ *         in="query",
+ *         required=false,
+ *         description="branch_name",
+ *         @OA\Schema(type="string", example="branch_1")
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Get All Branches Successfully",

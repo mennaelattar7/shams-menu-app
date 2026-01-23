@@ -30,10 +30,10 @@
                     </div>
                     <div class="body">
                         @if($role->exists)
-                            <form method="post" action="{{route('dashboard.role.update',['locale'=>app()->getLocale(),$role,'context_url'=>$context_url])}}" enctype="multipart/form-data">
+                            <form method="post" action="{{route('dashboard.role.update',['locale'=>app()->getLocale(),$role])}}" enctype="multipart/form-data">
                             @method('put')
                         @else
-                            <form method="post" action="{{route('dashboard.role.store',['locale'=>app()->getLocale(),'context_url'=>$context_url])}}" enctype="multipart/form-data">
+                            <form method="post" action="{{route('dashboard.role.store',['locale'=>app()->getLocale()])}}" enctype="multipart/form-data">
                         @endif
                         @csrf
                         <div id="accordion" class="accordion">
@@ -48,7 +48,7 @@
                             @else
                                 <input type="submit" name="Create" class="btn btn-outline-info" value="{{ trans('Dashboard.Create')}}" style="margin: 5px;width:20%">
                             @endif
-                            <a href="{{route('dashboard.role.index',['locale'=>app()->getLocale(),'context_url'=>$context_url])}}" class="btn btn-outline-info" style="margin: 5px;">
+                            <a href="{{route('dashboard.role.index',['locale'=>app()->getLocale()])}}" class="btn btn-outline-info" style="margin: 5px;">
                                 {{ trans('Dashboard.Cancel')}}
                             </a>
                         </div>
