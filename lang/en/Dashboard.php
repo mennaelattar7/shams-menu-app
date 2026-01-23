@@ -44,5 +44,6 @@ return [
     'Create' =>'Create',
     'Cancel' =>'Cancel',
     'Branches' =>'Branches',
-    'Menu_Categories' =>'Menu Categories'
+    'Menu_Categories' =>'Menu Categories',
+    'Vendor' =>'Vendor'
 ];

@@ -9,11 +9,13 @@ use App\Http\Controllers\User\API\Vendor\HomeController;
 use App\Http\Controllers\User\API\Vendor\LangController;
 use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
+use App\Http\Controllers\User\API\Vendor\VendorController;
 use App\Http\Middleware\custom_middleware\API\Branch\Create as BranchCreate;
 use App\Http\Middleware\custom_middleware\API\Branch\Index as BranchIndex;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategoryCreate;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
+use App\Http\Middleware\custom_middleware\API\Vendor\GetvendorData;
 
 Route::prefix('vendor')->name('vendor.')->group(function(){
     //Authentication Routes
@@ -74,5 +76,14 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::get('/',[ProductController::class,'index'])->name('index');
             Route::post('create',[ProductController::class,'create'])->name('create');
         });
+        //Settings Routes
+        Route::prefix('settings')->name('setting.')->group(function(){
+            Route::get('/vendor-data',[VendorController::class,'getVendorData'])
+                 ->name('vendor_data')
+                 ->middleware(GetvendorData::class);
+        });
+
+
+
     });
 });

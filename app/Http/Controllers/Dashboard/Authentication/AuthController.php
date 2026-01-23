@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Authentication;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dahboard\Auth\LoginRequest;
+use App\Http\Requests\Dashboard\Auth\LoginRequest;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller

@@ -16,18 +16,34 @@ class VendorResource extends JsonResource
     {
         return [
             'id' =>$this->id,
-            'company_name' =>$this->when($request->routeIs('user.api.vendor.vendor_data'),$this->company_name),
-            'brand_name'=>$this->brand_name,
-            'logo' =>$this->logo,
-            'banar' =>$this->banar,
-            'slogan' =>$this->slogan,
-            'more_details' =>$this->more_details,
-            'branches' => $this->when(
-                                        $request->routeIs('user.api.vendor.auth.login'),
-                                        $this->branches ? VendorBranchResource::collection($this->branches) : null
-                                    ),
 
+            'company_name' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data',
+            ]),$this->company_name),
 
+            'brand_name' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data',
+            ]),$this->brand_name),
+
+            'logo' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data',
+            ]),$this->logo),
+
+            'banar' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data',
+            ]),$this->banar),
+
+            'slogan' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data',
+            ]),$this->slogan),
+
+            'more_details' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data',
+            ]),$this->more_details),
+
+            'branches' =>$this->when($request->routeIs([
+                'user.api.vendor.auth.login',
+            ]),$this->branches ? VendorBranchResource::collection($this->branches) : null),
         ];
     }
 }
