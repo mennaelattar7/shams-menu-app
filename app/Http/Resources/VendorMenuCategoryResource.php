@@ -20,24 +20,28 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.index',
+                'user.api.public.branch.getMenuCategories',
             ]),optional($this->parent_category)->name) ,
 
             'name' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.index',
+                'user.api.public.branch.getMenuCategories',
             ]),$this->name),
 
             'slug' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.index',
+                'user.api.public.branch.getMenuCategories',
             ]),$this->slug) ,
 
             'image' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.index',
+                'user.api.public.branch.getMenuCategories',
             ]),$this->image) ,
 
             'activation_status' =>$this->when($request->routeIs([

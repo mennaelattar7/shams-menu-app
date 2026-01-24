@@ -18,31 +18,44 @@ class ProductResource extends JsonResource
         // $active_offer = $this->offers->filter(fn($offer)=>$offer->is_active())->first();
         return [
             'id'=>$this->id,
+
             'name' =>$this->name,
+
             'slug' =>$this->slug,
+
+
+
+            'description' =>$this->when($request->routeIs([
+                'user.api.public.product.single',
+                'user.api.public.menu_category.get_products',
+            ]),$this->description),
+
             'activation_status' =>$this->activation_status,
+
             'availability_status' =>$this->availability_status,
+
             'variants' => ProductVariantResource::collection($this->variants->where('activation_status','active')),
 
             'category' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
             ]),new VendorMenuCategoryResource($this->category)) ,
+
             'product_type' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
             ]),new ProductTypeResource($this->product_type)),
-            'description' =>$this->when($request->routeIs([
-                'user.api.public.product.single',
-            ]),$this->description),
+
             'image' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
-                'user.api.vendor.home.most_viewed_product',
+                'user.api.public.menu_category.get_products',
             ]),$this->image),
             'calories' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
+                'user.api.public.menu_category.get_products',
             ]),$this->calories),
             'allergens' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
+                'user.api.public.menu_category.get_products',
             ]),ProductAllergenResource::collection($this->allergens)),
             'badges' =>$this->when($request->routeIs([
                 'user.api.public.product.single',

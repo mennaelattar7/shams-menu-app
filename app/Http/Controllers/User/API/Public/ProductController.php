@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\API\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\Vendor__MenuCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
@@ -61,6 +62,38 @@ class ProductController extends Controller
                 'data' => new ProductResource($product)
             ],200);
 
+        }
+    }
+
+    public function getProducts($locale,$category_slug)
+    {
+        //get category
+        $menu_category = Vendor__MenuCategory::where('slug',$category_slug)->first();
+        if($menu_category)
+        {
+            $products = $menu_category->products->where('activation_status','active')->where('availability_status','available');
+            if($products->isNotEmpty())
+            {
+                return response()->json([
+                    'success' =>true,
+                    'message' =>'get Active and Avilabilty products of branch Succesfully',
+                    'data' =>  ProductResource::collection($products)
+                ],200);
+            }
+            else
+            {
+                return response()->json([
+                    'success' =>true,
+                    'message' =>'There are no Product for this category',
+                ],200);
+            }
+        }
+        else
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'Product not found or inactive',
+            ],404);
         }
     }
 }
