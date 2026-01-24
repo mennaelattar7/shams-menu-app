@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorData;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\User\API\Vendor\Authentication\AuthController ;
@@ -16,6 +17,7 @@ use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategor
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
 use App\Http\Middleware\custom_middleware\API\Vendor\GetvendorData;
+use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorSocialMedia;
 
 Route::prefix('vendor')->name('vendor.')->group(function(){
     //Authentication Routes
@@ -78,9 +80,19 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){
-            Route::get('/vendor-data',[VendorController::class,'getVendorData'])
-                 ->name('vendor_data')
-                 ->middleware(GetvendorData::class);
+            Route::prefix('vendor-data')->name('vendor_data.')->group(function(){
+                Route::get('/',[VendorController::class,'getVendorData'])
+                    ->name('get')
+                    ->middleware(GetvendorData::class);
+
+                Route::post('/update',[VendorController::class,'Update'])
+                    ->name('update')
+                    ->middleware(UpdatevendorData::class);
+
+                Route::post('/update-social-media',[VendorController::class,'updateSocialMedia'])
+                    ->name('social_media')
+                    ->middleware(UpdatevendorSocialMedia::class);
+            });
         });
 
 

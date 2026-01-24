@@ -13,16 +13,20 @@ return new class extends Migration
     {
         Schema::create('shams___currencies', function (Blueprint $table) {
             $table->id();
-// id
-// name
-// code
-// symbol
-// exchange_rate
-// is_default
-// status
-// created_at
-// updated_at
+            $table->bigInteger('created_by_id')->unsigned();
+            $table->bigInteger('updated_by_id')->unsigned()->nullable();
+            $table->bigInteger('deleted_by_id')->unsigned()->nullable();
+
+            $table->json('name');
+            $table->string('code');
+            $table->string('symbol');
+            $table->enum('activation_status', ['active', 'inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('created_by_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('updated_by_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('deleted_by_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

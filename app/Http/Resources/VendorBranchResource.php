@@ -49,8 +49,8 @@ class VendorBranchResource extends JsonResource
         }
         else
         {
-            $start_time = null;
-            $end_time = null;
+            $start_time = 'This branch has no Start Time To Day.';
+            $end_time = 'This branch has no End Time To Day.';
             $current_status_operating_hours = "This branch has no operating hours set for today.";
         }
 
@@ -60,41 +60,49 @@ class VendorBranchResource extends JsonResource
             'name' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
-                'user.api.vendor.branch.filter'
+                'user.api.vendor.branch.filter',
+                'user.api.public.branch.get_branch_data'
             ]),$this->name) ,
 
             'slug' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
-                'user.api.vendor.branch.filter'
+                'user.api.vendor.branch.filter',
+                'user.api.public.branch.get_branch_data'
             ]),$this->slug),
 
             'city' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
+                'user.api.public.branch.get_branch_data'
             ]),new CityResource($this->city)),
 
             'district' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
+                'user.api.public.branch.get_branch_data',
             ]),new DistrictResource($this->district)),
 
             'activation_status' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
-                'user.api.vendor.branch.filter'
+                'user.api.vendor.branch.filter',
+                'user.api.public.branch.get_branch_data'
             ]),$this->activation_status),
 
             'google_map_link' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.single',
+                'user.api.public.branch.get_branch_data',
             ]),$this->google_map_link),
 
             'phone_number' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.single',
+                'user.api.public.branch.get_branch_data',
             ]),$this->phone_number),
 
             'whatsapp_number' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.single',
+                'user.api.public.branch.get_branch_data',
             ]),$this->whatsapp_number),
 
             'address' =>$this->when($request->routeIs([
@@ -109,10 +117,20 @@ class VendorBranchResource extends JsonResource
                 'user.api.vendor.branch.single',
             ]),VendorBranch__OperatingHourResource::collection($this->operating_hours)),
 
+            'start_time' =>$this->when($request->routeIs([
+                'user.api.public.branch.get_branch_data',
+            ]), $start_time),
 
-            // 'start_time' =>$start_time,
-            // 'end_time'=>$end_time,
-            // 'current_status_operating_hours' => $current_status_operating_hours,
+            'end_time' =>$this->when($request->routeIs([
+                'user.api.public.branch.get_branch_data',
+            ]), $end_time),
+
+            'current_status_operating_hours' =>$this->when($request->routeIs([
+                'user.api.public.branch.get_branch_data',
+            ]), $current_status_operating_hours),
+
+            
+
             // 'branch_socail_media' => $this->social_media ? SocialMediaResource::collection($this->social_media) : null,
             // 'vendor_data' =>$this->when(
             //                             !$request->routeIs('user.api.vendor.auth.login'),

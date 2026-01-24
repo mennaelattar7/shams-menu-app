@@ -55,10 +55,10 @@ class ProductController extends BaseController
             $file=$request->image;
             $name = $file->getClientOriginalName();
             $extension = pathinfo($name)['extension'];
-            $fileName = 'vendor_menu_category_' . Str::random(5) . '.' . $extension;
+            $fileName = 'Product_' . Str::random(5) . '.' . $extension;
 
-            $file->storeAs('vendor/menu_category/images',$fileName,'public');
-            $new_product->image = 'vendor/menu_category/images/' . $fileName;
+            $file->storeAs('Vendor/Product/Images',$fileName,'public');
+            $new_product->image = 'Vendor/Product/Images/' . $fileName;
         }
         $new_product->activation_status = $request->activation_status;
         $new_product->calories = $request->calories;

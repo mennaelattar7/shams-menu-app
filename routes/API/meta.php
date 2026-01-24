@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\User\API\Meta\CityController;
+use App\Http\Controllers\User\API\Meta\CurrencyController;
 use App\Http\Controllers\User\API\Meta\DistrictController;
 use App\Http\Controllers\User\API\Meta\LangController;
 use App\Http\Controllers\User\API\Meta\ProductBadgeController as Meta_ProductBadgeController;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
         });
         Route::get('districts',[DistrictController::class, 'index'])->name('district.index'); // Done Doc
         Route::get('langs',[LangController::class, 'index'])->name('lang.index.'); // Done Doc
+        Route::get('currencies',[CurrencyController::class, 'index'])->name('currency.index.');
 
         Route::get('social-media-icons',[SocialMediaIconController::class, 'index'])->name('social_media_icon.index.');
         Route::get('vendor-types',[VendorTypeController::class, 'allItems'])->name('vendor_type.index.');

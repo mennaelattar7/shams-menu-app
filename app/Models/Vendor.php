@@ -53,7 +53,7 @@ class Vendor extends Model
 
     public function social_media()
     {
-        return $this->belongsToMany(SocialMediaIcon::class,'vendor___social_media','vendor_id','social_media_id')->withPivot('link');
+        return $this->belongsToMany(SocialMediaIcon::class,'vendor___social_media','vendor_id','social_media_id')->withPivot('created_by_id','link');
     }
     public function menu_categories()
     {
@@ -66,6 +66,11 @@ class Vendor extends Model
     public function langs()
     {
         return $this->belongsToMany(Lang::class,'vendor___langs','vendor_id','lang_id');
+    }
+
+    public function currencies()
+    {
+        return $this->belongsToMany(Shams__Currency::class,'vendor___currencies','vendor_id','currency_id');
     }
     public function created_by()
     {
