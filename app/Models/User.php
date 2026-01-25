@@ -70,6 +70,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Country::class,'country_dial_code_id','id');
     }
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class,'user_id','id');
+    }
     public function vendor_representative()
     {
         return $this->hasOne(VendorRepresentative::class,'user_id','id');

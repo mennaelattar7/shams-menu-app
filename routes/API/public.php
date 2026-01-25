@@ -17,18 +17,6 @@ Route::prefix('public')->name('public.')->group(function(){
         Route::post('login',[AuthController::class,'login'])->name('login');
         Route::post('verify-otp',[AuthController::class,'verifyOtpLogin'])->name('verify_otp_login');
 
-        // //register routes
-        // Route::post('register',[AuthController::class,'register'])->name('register');
-        // Route::post('verify-otp-register',[AuthController::class,'verifyOtpRegister'])->name('verify_otp_register');
-
-        // //login routes
-        // Route::post('login',[AuthController::class,'login'])->name('login');
-
-        // //forget & reset password Routes
-        // Route::post('forget-password',[AuthController::class,'forgetPassword'])->name('forget_password');
-        // Route::post('verify-otp-forget-password',[AuthController::class,'verifyOtpForgetPassword'])->name('verify_otp_forget_password');
-        // Route::post('reset-password',[AuthController::class,'resetPassword'])->name('reset_password');
-
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('logout',[AuthController::class,'logout'])->name('logout');
         });
@@ -51,7 +39,7 @@ Route::prefix('public')->name('public.')->group(function(){
     });
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('customers')->name('customer.')->group(function(){
-            Route::post('/{branch_slug}/add-to-favourite',[CustomerFavouriteController::class,'addToFavourite'])->name('add_to_favourite');
+            Route::post('/{branch_slug}/{product_slug}/add-to-favourite',[CustomerFavouriteController::class,'addToFavourite'])->name('add_to_favourite');
         });
     });
 });

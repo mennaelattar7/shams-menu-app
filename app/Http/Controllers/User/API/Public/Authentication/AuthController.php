@@ -153,18 +153,23 @@ class AuthController extends Controller
                 $new_status_history->status = $user->account_status;
                 $new_status_history->save();
 
-                //add in customers
-                $new_customer= new Customer();
-                $new_customer->user_id = $user->id;
-                $new_customer->save();
-                //assign role to user
-                $customer_role = Role::where([
-                    ['name','customer'],
-                    ['guard_name', 'api']
-                ])->first();
-                $user->assignRole($customer_role);
+                //check user is customer
+                $check_user = Customer::where('user_id',$user->id)->first();
+                if(!$check_user)
+                {
+                    //add in customers
+                    $new_customer= new Customer();
+                    $new_customer->user_id = $user->id;
+                    $new_customer->save();
+                    //assign role to user
+                    $customer_role = Role::where([
+                        ['name','customer'],
+                        ['guard_name', 'api']
+                    ])->first();
+                    $user->assignRole($customer_role);
+                }
 
-                $user->save();
+
                 $user_otp->otp = null;
                 $user_otp->status = "inactive";
                 $user_otp->save();
