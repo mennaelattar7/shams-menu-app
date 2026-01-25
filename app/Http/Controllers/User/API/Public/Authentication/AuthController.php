@@ -5,13 +5,13 @@ namespace App\Http\Controllers\User\API\Public\Authentication;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Public\Auth\ForgetPasswordRequest;
 use App\Http\Requests\User\API\Public\Auth\LoginRequest;
-use App\Http\Requests\User\API\Public\Auth\RegisterRequest;
 use App\Http\Requests\User\API\Public\Auth\ResetPasswordRequest;
-use App\Http\Requests\User\API\Public\Auth\VerifyingOTPRequest;
+use App\Http\Requests\User\API\Public\Auth\VerifyingLoginOTPRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Customer;
 use App\Models\PasswordResetToken;
 use App\Models\User;
+use App\Models\User__AccountStatusHistory;
 use App\Models\User_OTP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -23,47 +23,99 @@ use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request)
+    public function login(LoginRequest $request)
     {
-        $new_user = new User();
-        $new_user->name = $request->name;
-        $new_user->country_dial_code_id = $request->country_dial_code_id;
-        $new_user->phone_number = $request->phone_number;
-        $new_user->account_type = "customer";
-        $new_user->account_status = "active";
-        $new_user->save();
-        //add in customers
-        $new_customer= new Customer();
-        $new_customer->user_id = $new_user->id;
-        $new_customer->save();
-        //assign role to user
-        $customer_role = Role::where([
-            ['name','customer'],
-            ['guard_name', 'api']
+        //check user is exist
+        $user = User::where([
+            ['phone_number',$request->phone_number],
+            ['account_type',"customer"]
         ])->first();
-        $new_user->assignRole($customer_role);
 
-        //add in user__OTPs
-        $new_user_otp = new User_OTP();
-        $new_user_otp->user_id = $new_user->id;
-        $new_user_otp->otp = rand(100000, 999999);
-        $new_user_otp->type = "register";
-        $new_user_otp->expired_at = Carbon::now()->addMinutes(20);
-        $new_user_otp->save();
-        ////---------------------------
-        ///Send OTP To mail
-        ////--------------------------
-        return response()->json([
-            'success' => true,
-            'message' => 'Registered successfully, OTP sent to mobile',
-            'otp' => $new_user_otp->otp
-        ]);
+
+        if($user)
+        {
+            //check activation account
+            if($user->activation_status == "active")
+            {
+                if($user->account_status == "approved")
+                {
+                    //add in user__OTPs
+                    $user_otp = new User_OTP();
+                    $user_otp->user_id = $user->id;
+                    $user_otp->otp = rand(100000, 999999);
+                    $user_otp->type = "customer_login";
+                    $user_otp->expired_at = Carbon::now()->addMinutes(20);
+                    $user_otp->save();
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'this user already exist and we will send OTP',
+                        'otp' => $user_otp->otp,
+                        'activation_status' => $user->activation_status,
+                        'account_status' => $user->account_status
+                    ]);
+                }
+                else
+                {
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'this user already exist but there is problem in his account',
+                        'activation_status' => $user->activation_status,
+                        'account_status' => $user->account_status
+                    ]);
+                }
+            }
+            elseif($user->activation_status == "inactive")
+            {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'this user already exist but not send OTP Yet',
+                    'activation_status' => $user->activation_status,
+                    'account_status' => $user->account_status
+                ]);
+            }
+        }
+        else
+        {
+            //create new user
+            $new_user = new User();
+            $new_user->name = $request->name;
+            $new_user->country_dial_code_id = $request->country_dial_code_id;
+            $new_user->phone_number = $request->phone_number;
+            $new_user->account_type = "customer";
+            $new_user->activation_status = "inactive";
+            $new_user->account_status= "not_approved";
+            $new_user->save();
+
+            //add in user___account_status_histories table
+            $new_status_history = new User__AccountStatusHistory();
+            $new_status_history->created_by_id = $new_user->id;
+            $new_status_history->user_id = $new_user->id;
+            $new_status_history->status = $new_user->account_status;
+            $new_status_history->save();
+
+            //add in user__OTPs
+            $new_user_otp = new User_OTP();
+            $new_user_otp->user_id = $new_user->id;
+            $new_user_otp->otp = rand(100000, 999999);
+            $new_user_otp->type = "customer_register";
+            $new_user_otp->expired_at = Carbon::now()->addMinutes(20);
+            $new_user_otp->save();
+            ////---------------------------
+            ///Send OTP To mail
+            ////--------------------------
+            return response()->json([
+                'success' => true,
+                'message' => 'register customer successfully, OTP sent to mobile',
+                'otp' => $new_user_otp->otp
+            ]);
+        }
     }
 
-    public function verifyOtpRegister(VerifyingOTPRequest $request)
+    public function verifyOtpLogin(VerifyingLoginOTPRequest $request)
     {
         $user = User::where([
             ['phone_number',$request->phone_number],
+            ['account_type' ,'customer']
         ])->first();
         if(!$user)
         {
@@ -76,10 +128,12 @@ class AuthController extends Controller
         {
             $user_otp = $user->user_OTPs()->where([
                 ['otp',$request->otp],
-                ['type',"register"],
                 ['expired_at','>',now()],
                 ['status','active']
-            ])->latest()->first();
+            ])
+            ->where('type',"customer_login")
+            ->orWhere('type',"customer_register")
+            ->latest()->first();
             if(!$user_otp)
             {
                 return response()->json([
@@ -90,6 +144,28 @@ class AuthController extends Controller
             else
             {
                 $user->verified_at = now();
+                $user->activation_status = "active";
+                $user->account_status = "approved";
+                $user->save();
+
+                //add in user___account_status_histories table
+                $new_status_history = new User__AccountStatusHistory();
+                $new_status_history->created_by_id = $user->id;
+                $new_status_history->user_id = $user->id;
+                $new_status_history->status = $user->account_status;
+                $new_status_history->save();
+
+                //add in customers
+                $new_customer= new Customer();
+                $new_customer->user_id = $user->id;
+                $new_customer->save();
+                //assign role to user
+                $customer_role = Role::where([
+                    ['name','customer'],
+                    ['guard_name', 'api']
+                ])->first();
+                $user->assignRole($customer_role);
+
                 $user->save();
                 $user_otp->otp = null;
                 $user_otp->status = "inactive";
@@ -101,43 +177,6 @@ class AuthController extends Controller
                     'data'=> new UserResource($user)
                 ], 200);
             }
-        }
-    }
-
-    public function login(LoginRequest $request)
-    {
-        //check password is null exist
-        $user = User::where([
-            ['phone_number',$request->phone_number],
-            ['account_type',"vendor_representative"],
-            ['account_status',"inactive"]
-        ])->first();
-
-        if($user && !$user->password)
-        {
-            $user->password = Hash::make($request->password);
-            $user->save();
-        }
-        $credentials = [
-            'phone_number' => $request->phone_number,
-            'password' => $request->password
-        ];
-
-        if(Auth::attempt($credentials))
-        {
-            $user = Auth::user();
-            $user->tokens()->delete();
-            $token = $user->createToken('api-token')->plainTextToken;
-            return response()->json([
-                'success' => true,
-                'message' =>"success Login",
-                'token' => $token,
-                'data'=> new UserResource($user)
-            ], 200);
-        }
-        else
-        {
-            return response()->json(['message' => 'Invalid credentials'], 401);
         }
     }
 

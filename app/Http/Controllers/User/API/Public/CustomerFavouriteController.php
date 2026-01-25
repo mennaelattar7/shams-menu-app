@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class CustomerFavouriteController extends Controller
 {
-    //
+    public function addToFavourite($locale,$branch_slug)
+    {
+        dd($branch_slug);
+    }
 }

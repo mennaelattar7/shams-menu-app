@@ -3,11 +3,10 @@
 namespace App\Http\Requests\User\API\Public\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Country;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterRequest extends FormRequest
+class VerifyingLoginOTPRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,17 +24,17 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         $rules= [
-            'name' =>[
-                'required',
-                'string',
-                'max:255'
-            ],
             'phone_number' =>[
                 'required',
-                'unique:users,phone_number'
+                'exists:users,phone_number'
             ],
+            'otp' =>[
+                'required',
+                'digits:6'
+            ]
         ];
-        $rules['phone_number'][] = 'regex:/^05[0-9]{8}$/';
+
+        // $rules['phone_number'][] = 'regex:/^05[0-9]{8}$/';
         return $rules;
     }
     protected function failedValidation(Validator $validator)

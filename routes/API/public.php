@@ -13,17 +13,21 @@ Route::prefix('public')->name('public.')->group(function(){
 //customer Token 89|MdUUO2UBIoqYBl0gmUsYxQ3zGMndrHm5C1b4AxaN655afc86
     //Authentication Routes
     Route::prefix('auth')->name('auth.')->group(function(){
-        //register routes
-        Route::post('register',[AuthController::class,'register'])->name('register');
-        Route::post('verify-otp-register',[AuthController::class,'verifyOtpRegister'])->name('verify_otp_register');
-
         //login routes
         Route::post('login',[AuthController::class,'login'])->name('login');
+        Route::post('verify-otp-login',[AuthController::class,'verifyOtpLogin'])->name('verify_otp_login');
 
-        //forget & reset password Routes
-        Route::post('forget-password',[AuthController::class,'forgetPassword'])->name('forget_password');
-        Route::post('verify-otp-forget-password',[AuthController::class,'verifyOtpForgetPassword'])->name('verify_otp_forget_password');
-        Route::post('reset-password',[AuthController::class,'resetPassword'])->name('reset_password');
+        // //register routes
+        // Route::post('register',[AuthController::class,'register'])->name('register');
+        // Route::post('verify-otp-register',[AuthController::class,'verifyOtpRegister'])->name('verify_otp_register');
+
+        // //login routes
+        // Route::post('login',[AuthController::class,'login'])->name('login');
+
+        // //forget & reset password Routes
+        // Route::post('forget-password',[AuthController::class,'forgetPassword'])->name('forget_password');
+        // Route::post('verify-otp-forget-password',[AuthController::class,'verifyOtpForgetPassword'])->name('verify_otp_forget_password');
+        // Route::post('reset-password',[AuthController::class,'resetPassword'])->name('reset_password');
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('logout',[AuthController::class,'logout'])->name('logout');

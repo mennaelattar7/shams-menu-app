@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\User\API\Vendor\Auth;
+namespace App\Http\Requests\User\API\Public\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Country;
@@ -25,15 +25,12 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         $rules= [
+            'name' => [
+                'required'
+            ],
             'phone_number' =>[
                 'required',
-                'exists:users,phone_number'
             ],
-            'password'=>[
-                'required',
-                'min:6',
-                'max:20'
-            ]
         ];
 
         $rules['phone_number'][] = 'regex:/^05[0-9]{8}$/';
