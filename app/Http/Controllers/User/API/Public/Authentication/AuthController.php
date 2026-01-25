@@ -30,8 +30,6 @@ class AuthController extends Controller
             ['phone_number',$request->phone_number],
             ['account_type',"customer"]
         ])->first();
-
-
         if($user)
         {
             //check activation account

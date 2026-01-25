@@ -35,6 +35,7 @@ class AuthController extends Controller
         $new_user->account_type = "vendor_representative";
         $new_user->account_status = "inactive";
         $new_user->save();
+
         //add in vendors
         $new_vendor= new Vendor();
         $new_vendor->created_by_id = $new_user->id;
@@ -46,6 +47,7 @@ class AuthController extends Controller
         $new_vendor_vendor_type->type_id = $request->vendor_type_id;
         $new_vendor_vendor_type->vendor_id = $new_vendor->id;
         $new_vendor_vendor_type->save();
+
         //add in "vendor_representatives" table
         $new_vendor_representative = new VendorRepresentative();
         $new_vendor_representative->created_by_id = $new_user->id;
@@ -53,6 +55,7 @@ class AuthController extends Controller
         $new_vendor_representative->vendor_id = $new_vendor->id;
         $new_vendor_representative->position = $request->position;
         $new_vendor_representative->save();
+
         //assign role to user
         $vendor_representative_role = Role::where([
             ['name','vendor_representative'],

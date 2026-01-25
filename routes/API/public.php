@@ -15,7 +15,7 @@ Route::prefix('public')->name('public.')->group(function(){
     Route::prefix('auth')->name('auth.')->group(function(){
         //login routes
         Route::post('login',[AuthController::class,'login'])->name('login');
-        Route::post('verify-otp-login',[AuthController::class,'verifyOtpLogin'])->name('verify_otp_login');
+        Route::post('verify-otp',[AuthController::class,'verifyOtpLogin'])->name('verify_otp_login');
 
         // //register routes
         // Route::post('register',[AuthController::class,'register'])->name('register');
