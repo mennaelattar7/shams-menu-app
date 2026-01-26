@@ -5,7 +5,9 @@ use App\Http\Controllers\User\API\Public\BranchController;
 use App\Http\Controllers\User\API\Public\CustomerFavouriteController;
 use App\Http\Controllers\User\API\Public\MenuCategoryController;
 use App\Http\Controllers\User\API\Public\ProductController;
+use App\Http\Controllers\User\API\Public\TableRequestController;
 use App\Http\Controllers\User\API\Public\VendorController;
+use App\Http\Middleware\custom_middleware\API\OptionalSanctumAuth;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('public')->name('public.')->group(function(){
@@ -27,6 +29,7 @@ Route::prefix('public')->name('public.')->group(function(){
         Route::get('/{branch_slug}',[BranchController::class,'getBranchData'])->name('get_branch_data');
         Route::get('/{branch_slug}/vendor-data',[VendorController::class,'getVendorData'])->name('get_vendor_data');
         Route::get('/{branch_slug}/menu-categories',[MenuCategoryController::class,'getMenuCategories'])->name('getMenuCategories');
+        Route::get('/{branch_slug}/tables',[BranchController::class,'getBranchTables'])->name('get_branch_table');
     });
 
     //get categories data
@@ -37,9 +40,17 @@ Route::prefix('public')->name('public.')->group(function(){
     Route::prefix('products')->name('product.')->group(function(){
         Route::get('/{branch_slug}',[ProductController::class,'single'])->name('single');
     });
+
+    //Route in Auth and No Auth
+    Route::middleware(OptionalSanctumAuth::class)->group(function () {
+        Route::prefix('table-requests')->name('table_request.')->group(function(){
+            Route::post('/send-request',[TableRequestController::class,'sendRequest'])->name('send_request');
+        });
+    });
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('customers')->name('customer.')->group(function(){
-            Route::post('/{branch_slug}/{product_slug}/add-to-favourite',[CustomerFavouriteController::class,'addToFavourite'])->name('add_to_favourite');
+            Route::post('/{branch_slug}/add-to-favourite',[CustomerFavouriteController::class,'addToFavourite'])->name('add_to_favourite');
         });
     });
 });

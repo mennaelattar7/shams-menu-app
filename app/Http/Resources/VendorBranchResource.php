@@ -61,14 +61,16 @@ class VendorBranchResource extends JsonResource
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
                 'user.api.vendor.branch.filter',
-                'user.api.public.branch.get_branch_data'
+                'user.api.public.branch.get_branch_data',
+                'user.api.public.branch.get_branch_table'
             ]),$this->name) ,
 
             'slug' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
                 'user.api.vendor.branch.filter',
-                'user.api.public.branch.get_branch_data'
+                'user.api.public.branch.get_branch_data',
+                'user.api.public.branch.get_branch_table'
             ]),$this->slug),
 
             'city' =>$this->when($request->routeIs([
@@ -87,7 +89,8 @@ class VendorBranchResource extends JsonResource
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.single',
                 'user.api.vendor.branch.filter',
-                'user.api.public.branch.get_branch_data'
+                'user.api.public.branch.get_branch_data',
+                'user.api.public.branch.get_branch_table'
             ]),$this->activation_status),
 
             'google_map_link' =>$this->when($request->routeIs([
@@ -129,7 +132,7 @@ class VendorBranchResource extends JsonResource
                 'user.api.public.branch.get_branch_data',
             ]), $current_status_operating_hours),
 
-            
+
 
             // 'branch_socail_media' => $this->social_media ? SocialMediaResource::collection($this->social_media) : null,
             // 'vendor_data' =>$this->when(

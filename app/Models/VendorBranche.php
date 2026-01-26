@@ -47,6 +47,11 @@ class VendorBranche extends Model
     {
         return $this->hasMany(VendorBranch__OperatingHour::class,'branch_id','id');
     }
+
+    public function tables()
+    {
+        return $this->hasMany(VendorBranch__Table::class,'branch_id','id');
+    }
     public function social_media()
     {
         return $this->belongsToMany(SocialMediaIcon::class,'vendor_branch___social_media','branch_id','social_media_id')->withPivot('link');
