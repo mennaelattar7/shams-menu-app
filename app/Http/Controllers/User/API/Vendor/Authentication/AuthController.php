@@ -11,6 +11,7 @@ use App\Http\Requests\User\API\Vendor\Auth\VerifyingOTPRequest;
 use App\Http\Resources\UserResource;
 use App\Models\PasswordResetToken;
 use App\Models\User;
+use App\Models\User__AccountStatusHistory;
 use App\Models\User_OTP;
 use App\Models\Vendor;
 use App\Models\Vendor_VendorType;
@@ -33,8 +34,15 @@ class AuthController extends Controller
         $new_user->country_dial_code_id = $request->country_dial_code_id;
         $new_user->phone_number = $request->phone_number;
         $new_user->account_type = "vendor_representative";
-        $new_user->account_status = "inactive";
+        $new_user->activation_status = "inactive";
+        $new_user->account_status = "pending_review";
         $new_user->save();
+
+        $new_user_account_history = new User__AccountStatusHistory();
+        $new_user_account_history->created_by_id = $new_user->id;
+        $new_user_account_history->user_id= $new_user->id;
+        $new_user_account_history->account_status = $new_user->account_status;
+        $new_user_account_history->save();
 
         //add in vendors
         $new_vendor= new Vendor();
@@ -110,6 +118,7 @@ class AuthController extends Controller
             else
             {
                 $user->verified_at = now();
+                $user->activation_status = "active";
                 $user->save();
                 $user_otp->otp = null;
                 $user_otp->status = "inactive";
@@ -130,7 +139,7 @@ class AuthController extends Controller
         $user = User::where([
             ['phone_number',$request->phone_number],
             ['account_type',"vendor_representative"],
-            ['account_status',"inactive"]
+            ['activation_status',"inactive"]
         ])->first();
 
         if($user && !$user->password)
@@ -174,7 +183,7 @@ class AuthController extends Controller
         }
         else
         {
-            if($user->account_status == "active")
+            if($user->activation_status == "active")
             {
                 //add in user__OTPs
                 $new_user_otp = new User_OTP();
@@ -199,7 +208,8 @@ class AuthController extends Controller
                 return response()->json([
                     'success' => true,
                     'data' => [
-                        'account_status' => $user->account_status,
+                        'activation_status' => $user->activation_status,
+                        'account_status ' => $user->account_status,
                     ],
                     'message' => 'this account is'.$user->account_status,
                 ], 200);

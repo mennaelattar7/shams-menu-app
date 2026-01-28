@@ -15,6 +15,7 @@
         <!-- VENDOR CSS -->
         <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/font-awesome/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/animate-css/vivify.min.css')}}">
         <link rel="stylesheet" href="{{ asset('shams/dashboard/general_assets/assets/vendor/c3/c3.min.css')}}"/>
 
@@ -36,19 +37,103 @@
         </style>
         <!-- Shams Style -->
         <link rel="stylesheet" href="{{ asset('shams/dashboard/shams_assets/css/style.css')}}">
+        <style>
+            .light_version .fancy-checkbox input[type="checkbox"]+span:before {
+                border-color: #17A2B8;
+            }
+            .search_block
+            {
+                padding: 30px 20px;
+                border: 1px solid #282B2F;
+                background-color: #282B2F;
+                border-radius: 10px;
+                margin-top: 20px;
+            }
+            .search_block .form_label
+            {
+            text-align:center
+            }
+            #search_btn
+            {
+                width:100%
+            }
+            .create-button
+            {
+                font-weight: 900;
+            }
+            .table-responsive table tbody tr td
+            {
+                text-align: center
+            }
+            .table-responsive table thead tr th
+            {
+                text-align: center
+            }
+
+            .table-responsive table tfoot tr th
+            {
+                text-align: center
+            }
+            .table-responsive table thead tr , .table-responsive table tfoot tr
+            {
+                    background-color: #6f5000;
+                    color: white;
+            }
+            .btn-primary:not(:disabled):not(.disabled):active
+            {
+                color: black
+            }
+            .btn-primary 
+            {
+                color: black
+            }
+            .btn-outline-info:hover
+            {
+                color: black
+            }
+            .btn-outline-info 
+            {
+                font-weight: 900
+            }
+            .table-badges
+            {
+                padding: 10px;
+                font-weight: 700;
+            }
+            /* activation */
+            .activation-status-active {
+                background-color: #146C43;
+            }
+
+            .activation-status-inactive {
+                background-color: #495057;
+            }
+            .btn-info {
+                background-color: #117a8b;
+                border-color:#117a8b
+            }
+        </style>
 
     </head>
     <body class="theme-cyan font-montserrat">
         <!-- Page Loader -->
-        @include('Dashboard.Layouts.page_loader')
+        {{--  @include('Dashboard.Layouts.page_loader')  --}}
         <!-- Theme Setting -->
         @include('Dashboard.Layouts.theme_setting')
         <!-- Overlay For Sidebars -->
         <div class="overlay"></div>
         <div id="wrapper">
+{{--  <?php
+$user = Auth::user();
+dd([
+    'roles' => $user->getRoleNames(),
+    'permissions' => $user->getAllPermissions()->pluck('name')
+]);
+?>  --}}
             @include('Dashboard.Layouts.navigationbar')
             @include('Dashboard.Layouts.search')
             @include('Dashboard.Layouts.chat')
+
             @include('Dashboard.Layouts.sidemenu')
             <div id="main-content">
                 @yield('content')

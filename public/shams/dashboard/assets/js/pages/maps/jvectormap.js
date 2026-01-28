@@ -129,7 +129,7 @@ $(function () {
         backgroundColor : 'transparent',
         regionStyle : {
             initial : {
-                fill : '#17C2D7'
+                fill : '#F4CE6A'
             }
         }
     });

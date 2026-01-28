@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Swagger\Vendor\Vendor;
+
 /**
- * @OA\post(
+ * @OA\Post(
  *     path="/api/{locale}/user/vendor/settings/vendor-data/update-social-media",
  *     tags={"Vendor - Settings"},
- *     operationId="update-social-media vendor ",
- *     summary="---update-social-media vendor ---",
- *     description="update-social-media vendor ",
+ *     operationId="updateSocialMediaVendor",
+ *     summary="Update vendor social media links",
+ *     description="Update social media links of the authenticated vendor",
  *
  *     @OA\Parameter(
  *         name="locale",
@@ -16,38 +17,39 @@ namespace App\Swagger\Vendor\Vendor;
  *         description="Language code",
  *         @OA\Schema(type="string", example="en")
  *     ),
+ *
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"social_media"},
- *             @OA\Property(
- *                 property="social_media",
- *                 type="array",
- *                 @OA\Items(
- *                     type="object",
- *                     required={"social_media_icon_id","link"},
- *                     @OA\Property(
- *                         property="social_media_icon_id",
- *                         type="integer",
- *                         example=1
- *                     ),
- *                     @OA\Property(
- *                         property="link",
- *                         type="string",
- *                         format="url",
- *                         example="https://www.facebook.com/vendor"
- *                     )
- *                 )
+ *             type="object",
+ *             description="Keys are social media names and values are their links",
+ *             @OA\AdditionalProperties(
+ *                 type="string",
+ *                 format="url",
+ *                 example="https://www.facebook.com/vendor"
  *             )
  *         )
  *     ),
  *
  *     @OA\Response(
  *         response=200,
- *         description="Social media saved successfully"
+ *         description="Social media of vendor updated successfully",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Social Media Of Vendor Updated Successfully")
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized. Token is missing or invalid.",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Unauthorized. Token is missing or invalid.")
+ *         )
  *     )
  * )
  */
-
-
 class UpdateVendorSocialMediaSwagger {}

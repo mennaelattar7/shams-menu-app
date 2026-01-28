@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Contracts\View\Factory as ViewFactory;
@@ -33,7 +34,9 @@ class AppServiceProvider extends ServiceProvider
             $count_users = User::count();
             $count_roles = Role::count();
             $count_permissions = Permission::count();
-            $view->with('count_users',$count_users)
+            $count_vendors = Vendor::count();
+            $view->with('count_vendors',$count_vendors)
+                 ->with('count_users',$count_users)
                  ->with('count_roles' ,$count_roles)
                  ->with('count_permissions',$count_permissions);
         });

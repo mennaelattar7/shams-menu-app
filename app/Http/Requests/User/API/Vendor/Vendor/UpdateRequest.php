@@ -28,13 +28,9 @@ class UpdateRequest extends FormRequest
         //get vandor
         $vendor = Auth::user()->vendor_representative->vendor;
         return [
-            'company_name.en' => [
+            'company_name' => [
                 'required',
-                Rule::unique('vendors', 'company_name->en')->ignore($vendor->id),
-            ],
-            'company_name.ar' => [
-                'required',
-                Rule::unique('vendors', 'company_name->ar')->ignore($vendor->id),
+                Rule::unique('vendors', 'company_name')->ignore($vendor->id),
             ],
             'brand_name.en'=>[
                 'required',
@@ -51,12 +47,7 @@ class UpdateRequest extends FormRequest
                 'required'
             ],
             'slogan.en' => [
-                'required',
-                Rule::unique('vendors', 'slogan->en')->ignore($vendor->id),
-            ],
-            'slogan.ar' => [
-                'required',
-                Rule::unique('vendors', 'slogan->ar')->ignore($vendor->id),
+                Rule::unique('vendors', 'slogan')->ignore($vendor->id),
             ],
             'currency_ids' =>[
                 'required',

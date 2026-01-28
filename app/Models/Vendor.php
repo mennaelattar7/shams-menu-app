@@ -12,10 +12,10 @@ class Vendor extends Model
 
     protected $table = "vendors";
     public $fillable =[
-        "company_name"
+        "brand_name"
     ];
     protected $casts = [
-        'company_name' => 'array',
+        'brand_name' => 'array',
     ];
     public function getSlugOptions() : SlugOptions
     {
@@ -27,15 +27,6 @@ class Vendor extends Model
     {
         $locale =  app()->getLocale();
         $array_values = json_decode($this->attributes['brand_name'],true);
-        if (!is_array($array_values)) {
-            return null; // أو '' لو تحبي سترينج فاضي بدل null
-        }
-        return $array_values[$locale] ?? null; // fallback لو اللغة مش موجودة
-    }
-    public function getCompanyNameAttribute()
-    {
-        $locale =  app()->getLocale();
-        $array_values = json_decode($this->attributes['company_name'],true);
         if (!is_array($array_values)) {
             return null; // أو '' لو تحبي سترينج فاضي بدل null
         }

@@ -41,7 +41,6 @@ class RegisterRequest extends FormRequest
             ],
             'company_name' => [
                 'required',
-                'array'
             ],
             'vendor_type_id' =>[
                 'required'

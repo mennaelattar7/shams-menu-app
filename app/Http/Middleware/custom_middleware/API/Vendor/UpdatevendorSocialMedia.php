@@ -13,7 +13,7 @@ class UpdatevendorSocialMedia
     {
         if(Auth::guard('api')->check())
         {
-           if(Auth::guard('api')->user()->can('8_edit_vendor_social_media','api'))
+           if(Auth::guard('api')->user()->can('4_edit_vendor_social_media','api'))
            {
                 return $next($request);
            }

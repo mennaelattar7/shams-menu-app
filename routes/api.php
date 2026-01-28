@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 //Notes :
 //token : "7|dOp5sLtxdPkWUW117htvKKFf9u2O1Tx2goCfosmq5595c5b8",
 
+//tohandel exception of token not exist
+Route::get('/login', function () {})->name('login');
+
 Route::group([
 	'prefix'=>'{locale}',
 	'where'=>['locale'=>'[a-zA-Z]{2}'],

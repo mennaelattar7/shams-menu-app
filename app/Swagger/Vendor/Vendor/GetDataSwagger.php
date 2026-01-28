@@ -32,7 +32,7 @@ namespace App\Swagger\Vendor\Vendor;
  *                 @OA\Property(property="logo", type="string", example="com1"),
  *                 @OA\Property(property="banar", type="string", example="com1"),
  *                 @OA\Property(property="slogan", type="string", example="com1"),
- *                 @OA\Property(property="more_details", type="string", example="com1"),
+ *                 @OA\Property(property="message_notes", type="string", example="com1"),
  *             )
  *         )
  *     ),

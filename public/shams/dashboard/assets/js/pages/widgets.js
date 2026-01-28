@@ -7,7 +7,7 @@ $(function() {
         height: '60px',
         barSpacing: 3,
         barWidth: 2,
-        barColor: '#17a2b8',        
+        barColor: '#F4CE6A',        
     });
     $('.chart_3').sparkline('html', {
         type: 'bar',

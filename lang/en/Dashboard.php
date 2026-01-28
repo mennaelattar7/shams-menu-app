@@ -45,5 +45,17 @@ return [
     'Cancel' =>'Cancel',
     'Branches' =>'Branches',
     'Menu_Categories' =>'Menu Categories',
-    'Vendor' =>'Vendor'
+    'Vendor' =>'Vendor',
+    'Vendors' =>'Vendors',
+    'All_Vendors' =>'All Vendors',
+    'Archived_Vendors' =>'Archived Vendors',
+    'Created_By' =>'Created By',
+    'Logo' =>'Logo',
+    'Company_Name' =>'Company Name',
+    'Brand_Name' =>'Brand Name',
+    'Status' =>'Status',
+    'Activation_Status' =>'Activation Status',
+    'Rating' =>'Rating',
+    'Actions' =>'Actions',
+    'Create_Vendor' =>'Create Vendor'
 ];

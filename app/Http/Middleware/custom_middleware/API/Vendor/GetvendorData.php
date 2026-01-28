@@ -13,7 +13,7 @@ class GetvendorData
     {
         if(Auth::guard('api')->check())
         {
-           if(Auth::guard('api')->user()->can('8_data_vendor','api'))
+           if(Auth::guard('api')->user()->can('4_data_vendor','api'))
            {
                 return $next($request);
            }

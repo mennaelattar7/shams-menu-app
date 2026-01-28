@@ -9,6 +9,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('Dashboard.Main_Dashboard.Home.index');
+        return view('Dashboard.Home.index');
     }
 }

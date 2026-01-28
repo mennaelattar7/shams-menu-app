@@ -30,7 +30,7 @@ $(function() {
             ca: '#005cbf',
             tx: '#005cbf',
             wy: '#005cbf',
-            ny: '#007bff'
+            ny: '#F4CE6A'
         },        
     });
 

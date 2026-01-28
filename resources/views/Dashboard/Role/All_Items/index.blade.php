@@ -5,32 +5,6 @@
 @endsection
 
 @section('content')
-<style>
-    .light_version .fancy-checkbox input[type="checkbox"]+span:before {
-        border-color: #17A2B8;
-    }
-    .search_block
-    {
-        padding: 30px 20px;
-        border: 1px solid #282B2F;
-        background-color: #282B2F;
-        border-radius: 10px;
-        margin-top: 20px;
-    }
-    .search_block .form_label
-    {
-    text-align:center
-    }
-    #search_btn
-    {
-        width:100%
-    }
-    .create-button
-    {
-        font-weight: 900;
-    }
-
-</style>
     <div class="container-fluid">
         <div class="block-header">
             <div class="clearfix row">

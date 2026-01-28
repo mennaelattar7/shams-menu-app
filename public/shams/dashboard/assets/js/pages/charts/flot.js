@@ -1214,7 +1214,7 @@ $(function () {
     $.plot('#multiple_axis_chart', [{
         data: oilprices,
         label: 'Oil price ($)',
-        color: '#17C2D7'
+        color: '#F4CE6A'
     },
     {
         data: exchangerates,

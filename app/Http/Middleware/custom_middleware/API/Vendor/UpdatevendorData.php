@@ -13,7 +13,7 @@ class UpdatevendorData
     {
         if(Auth::guard('api')->check())
         {
-           if(Auth::guard('api')->user()->can('8_edit_vendor','api'))
+           if(Auth::guard('api')->user()->can('4_edit_vendor','api'))
            {
                 return $next($request);
            }

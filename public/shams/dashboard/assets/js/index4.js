@@ -6,7 +6,7 @@ $(function() {
         height: '55px',
         barSpacing: 3,
         barWidth: 2,
-        barColor: '#17C2D7',        
+        barColor: '#F4CE6A',        
     });
 
     $('.knob').knob({
@@ -34,7 +34,7 @@ $(function() {
             type: 'donut', // default type of chart
             colors: {
                 'data1': '#9367B4',
-                'data2': '#17C2D7',
+                'data2': '#F4CE6A',
             },
             names: {
                 // name of each serie
@@ -68,7 +68,7 @@ $(function() {
             ],
             colors: {
                 'data1': '#9367B4',
-                'data2': '#17C2D7',
+                'data2': '#F4CE6A',
             },
             names: {
                 // name of each serie
@@ -110,7 +110,7 @@ $(function() {
                 [ 'data1', 'data2', 'data3']
             ],
             colors: {
-                'data1': '#17C2D7',
+                'data1': '#F4CE6A',
                 'data2': '#9367B4',
                 'data2': '#9367B4',
             },
@@ -246,7 +246,7 @@ $(function() {
             }
         },{
             data: flotSampleData2,
-            color: '#17C2D7',
+            color: '#F4CE6A',
             lines: {
             fillColor: { colors: [{ opacity: 0 }, { opacity: 0.2 }]}
             }

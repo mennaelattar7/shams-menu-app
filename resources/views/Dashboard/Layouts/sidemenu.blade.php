@@ -35,90 +35,58 @@
                     </ul>
                 </div>
             </div>
+
             <nav id="left-sidebar-nav" class="sidebar-nav">
+
                 <ul id="main-menu" class="metismenu">
                     <li class="header">Main</li>
                     <li class="active open">
                         <a href="#myPage">
-                            <i class="icon-home"></i>
+                            <i class="fa-solid fa-house"></i>
                             <span>Home</span>
                         </a>
                     </li>
-                    <!--vendors-->
+                    <!--Vendors-->
                     @if(Auth::user()->canAny([
                                                 '4_create_vendor',
                                                 '4_delete_vendor',
                                                 '4_edit_vendor',
                                                 '4_all_vendor',
-                                                '4_archived_vendor',
                                                 '4_single_vendor',
                                                 '4_restore_vendor',
-                                                '4_delete_permanently_vendor'
                                             ]))
                         <li
                         @if(Route::currentRouteName() == "dashboard.vendor.index" ||
+                            Route::currentRouteName() == "dashboard.vendor.create" ||
                             Route::currentRouteName() == "dashboard.vendor.show" ||
-                            Route::currentRouteName() == "dashboard.vendor.edit"||
-                            Route::currentRouteName() == "dashboard.vendor.create")
+                            Route::currentRouteName() == "dashboard.vendor.edit")
                             class="active open"
                         @endif
                         >
-                            <a href="#vendor" class="has-arrow"
-                                @if(Route::currentRouteName() == "dashboard.vendor.index" ||
-                                    Route::currentRouteName() == "dashboard.vendor.show" ||
-                                    Route::currentRouteName() == "dashboard.vendor.edit"||
-                                    Route::currentRouteName() == "dashboard.vendor.create")
-                                    style="color:#F4CE6A;text-decoration: underline;"
-                                @endif
-                            >
-                            @if(Route::currentRouteName() == "dashboard.vendor.index" ||
-                                Route::currentRouteName() == "dashboard.vendor.show" ||
-                                Route::currentRouteName() == "dashboard.vendor.edit"||
-                                Route::currentRouteName() == "dashboard.vendor.create")
-                                <i class="fa-solid fa-check"></i>
-                            @else
-                                <i class="fa-solid fa-close"></i>
-                            @endif
-                                <span class="badge badge-info">{{$count_vendors}}</span>
-                                <span class="font_size_14">{{ trans('Dashboard.vendors')}}</span>
+                            <a href="#Users" class="has-arrow">
+                                <i class="fa-solid fa-store"></i>
+                                <span class="font_size_14">{{ trans('Dashboard.Vendors')}}</span>
+                                <span class="badge badge-info">{{ $count_vendors }}</span>
                             </a>
                             <ul>
-                                @if(Auth::user()->can([
-                                    '4_all_vendor',
-                                ]))
-                                    <li
-                                        @if(Route::currentRouteName() == "dashboard.vendor.index")
-                                            class="active open"
-                                        @endif
-                                    >
-                                        <a href="{{route('dashboard.vendor.index',['locale'=>app()->getLocale(),'context_url'=>$context_url])}}"
-                                            @if(Route::currentRouteName() == "dashboard.vendor.index")
-                                                style="background-color: #e4f3f5;"
-                                            @endif
-                                            >
-                                            {{ trans('Dashboard.Show')}}
-                                        </a>
-                                    </li>
-                                @endif
-                                @if($context_url == "hr-dashboard")
-                                    @if(Auth::user()->can([
-                                        '4_create_vendor'
-                                    ]))
-                                        <li
-                                            @if(Route::currentRouteName() == "dashboard.vendor.create")
-                                                class="active open"
-                                            @endif
-                                        >
-                                            <a href="{{route('dashboard.vendor.create',['locale'=>app()->getLocale(),'context_url'=>$context_url])}}"
-                                                @if(Route::currentRouteName() == "dashboard.vendor.create")
-                                                    style="background-color: #e4f3f5;"
-                                                @endif
-                                            >
-                                                {{ trans('Dashboard.Create')}}
-                                            </a>
-                                        </li>
+                                <li
+                                    @if(Route::currentRouteName() == "dashboard.vendor.index")
+                                        class="active open"
                                     @endif
-                                @endif
+                                >
+                                    <a href="{{route('dashboard.vendor.index',['locale'=>app()->getLocale()])}}">
+                                        {{ trans('Dashboard.Show')}}
+                                    </a>
+                                </li>
+                                <li
+                                    @if(Route::currentRouteName() == "dashboard.vendor.create")
+                                        class="active open"
+                                    @endif
+                                >
+                                    <a href="{{route('dashboard.vendor.create',['locale'=>app()->getLocale()])}}">
+                                        {{ trans('Dashboard.Create')}}
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     @endif
@@ -151,7 +119,7 @@
                             {{ trans('Dashboard.Users_And_Permissions')}}
                         </li>
                     @endif
-
+                    <!--Users-->
                     @if(Auth::user()->canAny([
                                                 '1_create_user',
                                                 '1_delete_user',
@@ -184,7 +152,7 @@
                                 Route::currentRouteName() == "dashboard.user.create")
                                 <i class="icon-check"></i>
                             @else
-                                <i class="icon-users"></i>
+                                <i class="fa-solid fa-user"></i>
                             @endif
                                 <span class="font_size_14" >{{ trans('Dashboard.Users')}}</span>
                                 <span class="badge badge-info" style="color: #F4CE6A">{{$count_users}}</span>
@@ -246,7 +214,7 @@
                         @endif
                         >
                             <a href="#Users" class="has-arrow">
-                                <i class="icon-briefcase"></i>
+                                <i class="fa-solid fa-user-shield"></i>
                                 <span class="font_size_14">{{ trans('Dashboard.Roles')}}</span>
                                 <span class="badge badge-info">{{ $count_roles }}</span>
                             </a>
@@ -291,7 +259,7 @@
                         @endif
                         >
                             <a href="#Users" class="has-arrow">
-                                <i class="icon-lock"></i>
+                                <i class="fa-solid fa-key"></i>
                                 <span class="font_size_14">{{ trans('Dashboard.Permissions')}}</span>
                                 <span class="badge badge-info">{{ $count_permissions }}</span>
                             </a>

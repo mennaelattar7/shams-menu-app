@@ -2,6 +2,7 @@
 
 
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorData;
+use App\Http\Middleware\custom_middleware\API\Vendor\UpdateVendorRatings;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\User\API\Vendor\Authentication\AuthController ;
@@ -23,11 +24,11 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
     //Authentication Routes
     Route::prefix('auth')->name('auth.')->group(function(){
         //register routes
-        Route::post('register',[AuthController::class,'register'])->name('register');
-        Route::post('verify-otp-register',[AuthController::class,'verifyOtpRegister'])->name('verify_otp_register');
+        Route::post('register',[AuthController::class,'register'])->name('register'); //Done
+        Route::post('verify-otp-register',[AuthController::class,'verifyOtpRegister'])->name('verify_otp_register'); //Done
 
         //login routes
-        Route::post('login',[AuthController::class,'login'])->name('login');
+        Route::post('login',[AuthController::class,'login'])->name('login'); //Done
 
         //forget & reset password Routes
         Route::post('forget-password',[AuthController::class,'forgetPassword'])->name('forget_password');
@@ -39,12 +40,14 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
     });
     Route::middleware('auth:sanctum')->group(function () {
-        // token : 87|3ox1wItqdyLVOmtHmMPcLXaW3yEqbIFS95XbrjQv8a545142
+        // token : 102|iguWY9qWV9grcYKN4r3B1v5hJChbWnB3EmnNE8Ie007850a9
+
+
 
         Route::prefix('home')->name('home.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
                  ->name('most_viewed_product')
-                 ->middleware(MostViewed::class); ///final Done
+                 ->middleware(MostViewed::class);
         });
         Route::prefix('langs')->name('lang')->group(function(){
             Route::get('/',[LangController::class,'index'])->name('index');
@@ -80,6 +83,8 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){
+            Route::get('/my-roles-permissions',[VendorController::class,'getRolesPremissions'])->name('get_roles_premissions');
+
             Route::prefix('vendor-data')->name('vendor_data.')->group(function(){
                 Route::get('/',[VendorController::class,'getVendorData'])
                     ->name('get')
@@ -92,6 +97,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::post('/update-social-media',[VendorController::class,'updateSocialMedia'])
                     ->name('social_media')
                     ->middleware(UpdatevendorSocialMedia::class);
+
+                Route::post('/update-ratings',[VendorController::class,'updateRatings'])
+                    ->name('update_rating')
+                    ->middleware(UpdateVendorRatings::class);
             });
         });
 

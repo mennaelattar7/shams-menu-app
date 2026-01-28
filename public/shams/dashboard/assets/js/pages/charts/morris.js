@@ -152,7 +152,7 @@ function MorrisArea() {
             oneplus: 26
         }
         ],
-        lineColors: ['#9367B4', '#17C2D7', '#f66d9b'],
+        lineColors: ['#9367B4', '#F4CE6A', '#f66d9b'],
         xkey: 'period',
         ykeys: ['iphoneX', 'Nokia6', 'oneplus'],
         labels: ['iphoneX', 'Nokia6', 'oneplus'],
@@ -242,7 +242,7 @@ function MorrisDonutChart() {
             }],
 
         resize: true,
-        colors: ['#5CB65F', '#17C2D7', '#9367B4', '#f66d9b'],
+        colors: ['#5CB65F', '#F4CE6A', '#9367B4', '#f66d9b'],
         backgroundColor: '#24272b',
     });
 }

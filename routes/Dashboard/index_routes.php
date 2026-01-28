@@ -1,6 +1,17 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\HomeController;
+use App\Http\Middleware\custom_middleware\Dashboard\Vendor\archived as archivedVendor;
+use App\Http\Middleware\custom_middleware\Dashboard\Vendor\create as createVendor;
+use App\Http\Middleware\custom_middleware\Dashboard\Vendor\delete as deleteVendor;
+use App\Http\Middleware\custom_middleware\Dashboard\Vendor\deletePermanently as deletePermanentlyVendor;
+use App\Http\Middleware\custom_middleware\Dashboard\Vendor\edit as editVendor;
+use App\Http\Middleware\custom_middleware\Dashboard\Vendor\index as indexVendor;
+
+use App\Http\Middleware\custom_middleware\Dashboard\Vendor\restore as restoreVendor;
+use App\Http\Middleware\custom_middleware\Dashboard\Vendor\show as showVendor;
+
+
 
 Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::group(['namespace' => 'App\Http\Controllers\Dashboard'], function () {
@@ -55,52 +66,52 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
                 Route::get('/', array(
                     'as' => 'index',
                     'uses' => 'VendorController@index'
-                ))->middleware('dashboardVendorIndex');
+                ))->middleware(indexVendor::class);
 
                 Route::get('/archived', array(
                     'as' => 'archived',
                     'uses' => 'VendorController@archived'
-                ))->middleware('dashboardVendorArchived');
+                ))->middleware(archivedVendor::class);
 
                 Route::get('/create', array(
                     'as' => 'create',
                     'uses' => 'VendorController@create'
-                ))->middleware('dashboardVendorCreate');
+                ))->middleware(createVendor::class);
 
                 Route::post('/store', array(
                             'as' => 'store',
                             'uses' => 'VendorController@store'
-                ))->middleware('dashboardVendorCreate');
+                ))->middleware(createVendor::class);
 
                 Route::get('/show/{vendor}', array(
                             'as' => 'show',
                             'uses' => 'VendorController@show'
-                ))->middleware('dashboardVendorShow');
+                ))->middleware(showVendor::class);
 
                 Route::get('/edit/{vendor}', array(
                             'as' => 'edit',
                             'uses' => 'VendorController@edit'
-                ))->middleware('dashboardVendorEdit');
+                ))->middleware(editVendor::class);
 
                 Route::put('/edit/{vendor}', array(
                             'as' => 'update',
                             'uses' => 'VendorController@update'
-                ))->middleware('dashboardVendorEdit');
+                ))->middleware(editVendor::class);
 
                 Route::get('/delete/{vendor}', array(
                     'as' => 'delete',
                     'uses' => 'VendorController@destroy'
-                ))->middleware('dashboardVendorDelete');
+                ))->middleware(deleteVendor::class);
 
                 Route::get('/restore/{vendor}', array(
                     'as' => 'restore',
                     'uses' => 'VendorController@restore'
-                ))->middleware('dashboardVendorRestore');
+                ))->middleware(restoreVendor::class);
 
                 Route::get('/delete-permanently/{vendor}', array(
                     'as' => 'delete_permanently',
                     'uses' => 'VendorController@destroyPermanently'
-                ))->middleware('dashboardVendorDeletePermanently');
+                ))->middleware(deletePermanentlyVendor::class);
             });
             //------------------------Start users Routes----------------------
             Route::prefix('users')->name('user.')->group(function () {

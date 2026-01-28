@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\API\Vendor\Vendor\UpdateRatingsRequest;
 use App\Http\Requests\User\API\Vendor\Vendor\UpdateRequest;
-use App\Http\Requests\User\API\Vendor\Vendor\UpdateSocialMediaRequest;
 use App\Http\Resources\VendorResource;
+use App\Models\SocialMediaIcon;
 use App\Models\Vendor__Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,22 +57,52 @@ class VendorController extends BaseController
         ],200);
     }
 
-    public function updateSocialMedia(UpdateSocialMediaRequest $request)
+    public function updateSocialMedia(Request $request)
     {
         $vendor = $this->vendor;
-        $data = [];
-
-        foreach ($request->social_media as $one_social_media) {
-            $data[$one_social_media['social_media_icon_id']] = [
-                'link' => $one_social_media['link'],
-                'created_by_id' => Auth::user()->id,
-            ];
+        $data=[];
+        foreach($request->all() as $key => $one_item)
+        {
+            $socal_media_icon = SocialMediaIcon::where('name',$key)->first();
+            if($socal_media_icon)
+            {
+                $socal_media_link = $one_item;
+                $data[$socal_media_icon->id] = [
+                    'link' => $socal_media_link,
+                    'created_by_id' => Auth::user()->id
+                ];
+            }
         }
         $vendor->social_media()->sync($data);
         return response()->json([
             'status' =>true,
             'message' =>"Social Media Of Vendor Updated Successfully",
         ],200);
+    }
 
+    public function updateRatings(UpdateRatingsRequest $request)
+    {
+        $vendor = $this->vendor;
+        $vendor->rating = $request->rating;
+        $vendor->ratings_count = $request->ratings_count;
+        $vendor->message_notes = $request->message_notes;
+        $vendor->save();
+        return response()->json([
+            'status' =>true,
+            'message' =>"Ratings filed Of Vendor Updated Successfully",
+        ],200);
+    }
+
+    public function getRolesPremissions()
+    {
+        return response()->json([
+            'success' => true,
+            'message' =>'Get Roles And permissions successfully',
+            'data' =>[
+                'representative_vendor_name' => Auth::user()->name,
+                'roles' =>Auth::user()->getRoleNames(),
+                'permissions' => Auth::user()->getAllPermissions()->pluck('display_name')
+            ]
+        ],200);
     }
 }

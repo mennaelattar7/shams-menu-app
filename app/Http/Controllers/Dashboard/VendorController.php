@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 class VendorController extends Controller
 {
-    public function index(Request $request,$locale,$context_url)
+    public function index(Request $request,$locale)
     {
         if ($request->ajax()) {
-            $vendors = Vendor::with('created_by','parent')
+            $vendors = Vendor::with('created_by')
                                ->select(
                                     'id',
                                     'created_by_id',
@@ -27,6 +27,8 @@ class VendorController extends Controller
                                     'brand_name',
                                     'logo',
                                     'status',
+                                    'activation_status',
+                                    'rating',
                                     'created_at'
                                 );
             if ($request->search_btn_value == 'pressed') {
@@ -37,13 +39,12 @@ class VendorController extends Controller
             }
 
             return Datatables::of($vendors)
-                    ->addColumn('created_by', function (Vendor $vendor) use ($context_url){
+                    ->addColumn('created_by', function (Vendor $vendor) {
                         if($vendor->created_by != null)
                         {
                             $array_data = [
-                                            'name' => $vendor->created_by->first_name . ' ' .$vendor->created_by->last_name,
-                                            'position' => $vendor->created_by->employee->position->name,
-                                            'url'=>route('dashboard.main_dashboard.employee.show', ['locale' => app()->getLocale(),'employee'=>$vendor->created_by->employee,'context_url'=>$context_url]),
+                                            'name' => $vendor->created_by->name ,
+                                            'url'=>'',
                                             'created_at' => $vendor->created_at->translatedFormat('d F Y h:i:s A')
                                           ];
                             return $array_data ;
@@ -53,23 +54,25 @@ class VendorController extends Controller
                             return null;
                         }
                     })
-                    ->addColumn('name', function (Vendor $vendor) {
-                        return $vendor->name ;
+                    ->addColumn('logo', function (Vendor $vendor) {
+                        return $vendor->logo ;
                     })
-                    ->addColumn('parent', function (Vendor $vendor) use ($context_url) {
-                        if($vendor->parent != null)
-                        {
-                            $array_data = [
-                                            'name' => $vendor->parent->name,
-                                            'url'=>route('dashboard.main_dashboard.vendor.show', ['locale' => app()->getLocale(),'vendor'=>$vendor->parent,'context_url'=>$context_url]),
-                                          ];
-                            return $array_data ;
-                        }
-                        else
-                        {
-                            return null;
-                        }
+                    ->addColumn('company_name', function (Vendor $vendor) {
+                        return $vendor->company_name ;
                     })
+                    ->addColumn('brand_name', function (Vendor $vendor) {
+                        return $vendor->brand_name ;
+                    })
+                    ->addColumn('status', function (Vendor $vendor) {
+                        return $vendor->status ;
+                    })
+                    ->addColumn('activation_status', function (Vendor $vendor) {
+                        return $vendor->activation_status ;
+                    })
+                    ->addColumn('rating', function (Vendor $vendor) {
+                        return $vendor->rating ;
+                    })
+
                     ->addColumn('action', function (Vendor $vendor) {
                         return $vendor->id ;
                     })
@@ -77,7 +80,7 @@ class VendorController extends Controller
                     ->make(true);
         }
 
-        return view('Dashboard.Main_Dashboard.Vendor.All_Items.index');
+        return view('Dashboard.Vendor.All_Items.index');
     }
     public function archived(Request $request)
     {
@@ -142,25 +145,25 @@ class VendorController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-        return view('Dashboard.Main_Dashboard.Vendor.All_Items.index');
+        return view('Dashboard.Vendor.All_Items.index');
     }
-    public function create($locale,$context_url,Request $request)
+    public function create($locale,Request $request)
     {
         $locale = app()->getLocale();
-        return $this->edit($locale,$context_url, new Vendor(),$request);
+        return $this->edit($locale, new Vendor(),$request);
     }
-    public function store($locale,$context_url,VendorRequest $request)
+    public function store($locale,VendorRequest $request)
     {
         $locale = app()->getLocale();
         $new_vendor = new Vendor();
         $new_vendor->setAttribute('created_by_id', Auth::user()->id);
-        return $this->update($locale,$context_url,$request, $new_vendor);
+        return $this->update($locale,$request, $new_vendor);
     }
-    public function show($locale,$context_url,Vendor $vendor,Request $request)
+    public function show($locale,Vendor $vendor,Request $request)
     {
-        return view('Dashboard.Main_Dashboard.Vendor.Single_Item.index',compact('vendor'));
+        return view('Dashboard.Vendor.Single_Item.index',compact('vendor'));
     }
-    public function edit($locale ,$context_url,Vendor $vendor,Request $request)
+    public function edit($locale ,Vendor $vendor,Request $request)
     {
         $all_vendors = Vendor::all();
         $strategic_goals = $vendor->strategic_goals;
@@ -173,11 +176,11 @@ class VendorController extends Controller
             'chart_type' => 'pie',
         ];
         $chart1 = new LaravelChart($chart_options);
-        return view('Dashboard.Main_Dashboard.Vendor.Form.index', compact('vendor','all_vendors','strategic_goals','chart1'));
+        return view('Dashboard.Vendor.Form.index', compact('vendor','all_vendors','strategic_goals','chart1'));
     }
-    public function update($locale,$context_url, VendorRequest $request, Vendor $vendor)
+    public function update($locale,VendorRequest $request, Vendor $vendor)
     {
-        if (Route::currentRouteName() == 'dashboard.main_dashboard.vendor.update') {
+        if (Route::currentRouteName() == 'dashboard.vendor.update') {
             $vendor->setAttribute('updated_by_id', Auth::user()->id);
             $request->insert_update($request,$vendor);
         }
@@ -193,17 +196,17 @@ class VendorController extends Controller
             $success_msg_status = trans('Dashboard.Has_Been_Updated_By');
         }
 
-        return Redirect::route('dashboard.main_dashboard.vendor.edit', ['locale' => app()->getLocale(),'vendor'=>$vendor,'context_url'=>$context_url])
+        return Redirect::route('dashboard.vendor.edit', ['locale' => app()->getLocale(),'vendor'=>$vendor])
               ->with('success_msg', trans('Dashboard.Vendor').' '.$success_msg_status.' '.Auth::user()->first_name.' '.Auth::user()->last_name);
     }
-    public function destroy($locale,$context_url,$vendor)
+    public function destroy($locale,$vendor)
     {
         if ($vendor = Vendor::findOrFail($vendor)) {
             $vendor->deleted_by_id = Auth::user()->id;
             $vendor->save();
             $vendor->delete();
 
-            return Redirect::route('dashboard.main_dashboard.vendor.index', ['locale' => app()->getLocale(),'context_url'=>$context_url]);
+            return Redirect::route('dashboard.vendor.index', ['locale' => app()->getLocale()]);
         }
 
         return redirect::route('dashboard.error_pages.not_found', ['locale' => app()->getLocale()]);
@@ -214,7 +217,7 @@ class VendorController extends Controller
             $vendor->deleted_by_id = null;
             $vendor->save();
             $vendor->restore();
-            return Redirect::route('dashboard.main_dashboard.vendor.index', ['locale' => app()->getLocale()]);
+            return Redirect::route('dashboard.vendor.index', ['locale' => app()->getLocale()]);
         }
         return redirect::route('dashboard.error_pages.not_found', ['locale' => app()->getLocale()]);
     }
@@ -222,7 +225,7 @@ class VendorController extends Controller
     {
         if ($vendor = Vendor::withTrashed()->findOrFail($vendor)) {
             $vendor->forceDelete();
-            return Redirect::route('dashboard.main_dashboard.vendor.index', ['locale' => app()->getLocale()]);
+            return Redirect::route('dashboard.vendor.index', ['locale' => app()->getLocale()]);
         }
 
         return redirect::route('dashboard.error_pages.not_found', ['locale' => app()->getLocale()]);
