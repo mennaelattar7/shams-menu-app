@@ -139,7 +139,7 @@ class AuthController extends Controller
         $user = User::where([
             ['phone_number',$request->phone_number],
             ['account_type',"vendor_representative"],
-            ['activation_status',"inactive"]
+            ['activation_status',"active"]
         ])->first();
 
         if($user && !$user->password)
