@@ -59,7 +59,7 @@ class VendorBranchResource extends JsonResource
 
             'name' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
                 'user.api.vendor.branch.filter',
                 'user.api.public.branch.get_branch_data',
                 'user.api.public.branch.get_branch_table'
@@ -67,7 +67,7 @@ class VendorBranchResource extends JsonResource
 
             'slug' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
                 'user.api.vendor.branch.filter',
                 'user.api.public.branch.get_branch_data',
                 'user.api.public.branch.get_branch_table'
@@ -75,49 +75,49 @@ class VendorBranchResource extends JsonResource
 
             'city' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
                 'user.api.public.branch.get_branch_data'
             ]),new CityResource($this->city)),
 
             'district' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
                 'user.api.public.branch.get_branch_data',
             ]),new DistrictResource($this->district)),
 
             'activation_status' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
                 'user.api.vendor.branch.filter',
                 'user.api.public.branch.get_branch_data',
                 'user.api.public.branch.get_branch_table'
             ]),$this->activation_status),
 
             'google_map_link' =>$this->when($request->routeIs([
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
                 'user.api.public.branch.get_branch_data',
             ]),$this->google_map_link),
 
             'phone_number' =>$this->when($request->routeIs([
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
                 'user.api.public.branch.get_branch_data',
             ]),$this->phone_number),
 
             'whatsapp_number' =>$this->when($request->routeIs([
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
                 'user.api.public.branch.get_branch_data',
             ]),$this->whatsapp_number),
 
             'address' =>$this->when($request->routeIs([
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
             ]),$this->address),
 
             'number_of_tables'=>$this->when($request->routeIs([
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
             ]),$this->number_of_tables),
 
             'operating_hours' => $this->when($request->routeIs([
-                'user.api.vendor.branch.single',
+                'user.api.vendor.branch.branch_data',
             ]),VendorBranch__OperatingHourResource::collection($this->operating_hours)),
 
             'start_time' =>$this->when($request->routeIs([

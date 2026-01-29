@@ -13,9 +13,13 @@ use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
 use App\Http\Controllers\User\API\Vendor\VendorController;
 use App\Http\Middleware\custom_middleware\API\Branch\Create as BranchCreate;
+use App\Http\Middleware\custom_middleware\API\Branch\Edit as BranchEdit;
+use App\Http\Middleware\custom_middleware\API\Branch\Single as BranchSingle;
 use App\Http\Middleware\custom_middleware\API\Branch\Index as BranchIndex;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategoryCreate;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
+use App\Http\Middleware\custom_middleware\API\Branch\GetBranchFeatures as BranchGetBranchFeatures;
+use App\Http\Middleware\custom_middleware\API\VendorBranch__Feature\Edit as VendorBranch__FeatureEdit;
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
 use App\Http\Middleware\custom_middleware\API\Vendor\GetvendorData;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorSocialMedia;
@@ -55,7 +59,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
         //branches Routes
         Route::prefix('branches')->name('branch.')->group(function(){
-            Route::get('/{activation_status?}{city_id?}/{district_id?}/{branch_name?}',[BranchController::class,'index'])
+            Route::get('/all/{activation_status?}/{city_id?}/{district_id?}/{branch_name?}',[BranchController::class,'index'])
                  ->name('index')
                  ->middleware(BranchIndex::class); ///Final Done
 
@@ -63,8 +67,21 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                   ->name('create')
                   ->middleware(BranchCreate::class); ///Final Done
 
-            Route::get('{slug}',[BranchController::class,'single'])->name('single');
-            Route::put('{slug}',[BranchController::class,'update'])->name('update');
+            Route::prefix('/{branch_slug}')->group(function(){
+                Route::get('/branch-data',[BranchController::class,'getBranchData'])
+                        ->name('branch_data')
+                        ->middleware(BranchSingle::class); // Final Done
+
+                Route::put('/update-branch-data',[BranchController::class,'updateBranchData'])
+                      ->name('update_branch_data')
+                      ->middleware(BranchEdit::class); // Final Done
+
+                Route::get('/features',[BranchController::class,'getBranchFeatures'])
+                        ->name('get_branch_features')
+                        ->middleware(BranchGetBranchFeatures::class);
+            });
+
+
         });
         //menu categories
         Route::prefix('menu-categories')->name('menu_category.')->group(function(){
@@ -101,6 +118,12 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::post('/update-ratings',[VendorController::class,'updateRatings'])
                     ->name('update_rating')
                     ->middleware(UpdateVendorRatings::class);
+
+
+
+                Route::post('/update-branch-feature-activation',[VendorController::class,'updateBranchFeatureActivation'])
+                    ->name('update_branch_feature_activation')
+                    ->middleware(VendorBranch__FeatureEdit::class);
             });
         });
 

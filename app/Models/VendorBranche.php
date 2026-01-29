@@ -57,6 +57,11 @@ class VendorBranche extends Model
         return $this->belongsToMany(SocialMediaIcon::class,'vendor_branch___social_media','branch_id','social_media_id')->withPivot('link');
     }
 
+    public function features()
+    {
+        return $this->belongsToMany(Shams__VendorFeature::class,'vendor_branch___features','branch_id','feature_id');
+    }
+
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');

@@ -58,6 +58,10 @@ class Vendor extends Model
     {
         return $this->belongsToMany(Lang::class,'vendor___langs','vendor_id','lang_id');
     }
+    public function package_subscriptions()
+    {
+        return $this->belongsToMany(Shams__VendorPackage::class,'vendor___package_subscriptions','vendor_id','package_id');
+    }
 
     public function currencies()
     {

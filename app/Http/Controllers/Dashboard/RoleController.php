@@ -79,10 +79,13 @@ class RoleController extends Controller
     }
     public function edit($locale, Role $role,Request $request)
     {
+        $vendors_permissions =Permission::where('name', 'like','4_'.'%vendor%')->get();
         $products_permissions =  Permission::where('name', 'like','5_'.'%product%')->get();
         $branchs_permissions =  Permission::where('name', 'like','6_'.'%branch%')->get();
         $vendor___menu_category_permissions =Permission::where('name', 'like','7_'.'%vendor___menu_category%')->get();
-        $vendors_permissions =Permission::where('name', 'like','4_'.'%vendor%')->get();
+        $vendor_branch___feature_permissions = Permission::where('name', 'like','8_'.'%vendor_branch___feature%')->get();
+        
+        
 
         $permission_permissions =  Permission::where('name', 'like','3_'.'%permission%')->get();
         $role_permissions =  Permission::where('name', 'like','2_'.'%role%')->get();
@@ -93,6 +96,7 @@ class RoleController extends Controller
             'branchs_permissions',
             'vendor___menu_category_permissions',
             'vendors_permissions',
+            'vendor_branch___feature_permissions',
 
             'permission_permissions',
             'role_permissions',

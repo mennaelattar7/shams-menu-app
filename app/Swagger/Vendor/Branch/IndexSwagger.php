@@ -3,7 +3,7 @@
 namespace App\Swagger\Vendor\Branch;
 /**
  * @OA\Get(
- *     path="/api/{locale}/user/vendor/branches",
+ *     path="/api/{locale}/user/vendor/branches/all/",
  *     tags={"Vendor - Branch"},
  *     operationId="All Branchs",
  *     summary="---Get All Branchs Endpoint---",

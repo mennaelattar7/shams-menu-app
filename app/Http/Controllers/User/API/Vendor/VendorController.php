@@ -93,6 +93,11 @@ class VendorController extends BaseController
         ],200);
     }
 
+    public function updateBranchFeatureActivation()
+    {
+        
+    }
+
     public function getRolesPremissions()
     {
         return response()->json([

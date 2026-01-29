@@ -57,5 +57,6 @@ return [
     'Activation_Status' =>'Activation Status',
     'Rating' =>'Rating',
     'Actions' =>'Actions',
-    'Create_Vendor' =>'Create Vendor'
+    'Create_Vendor' =>'Create Vendor',
+    'Vendor_Branch_Features' =>'Vendor Branch Features'
 ];

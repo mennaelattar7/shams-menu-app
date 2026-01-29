@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vendor_branch___table_request__status_histories', function (Blueprint $table) {
+        Schema::create('vendor_branch___feature__status_histories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('created_by_id')->unsigned();
-            $table->bigInteger('table_request_id')->unsigned();
+            $table->bigInteger('branch_feature_id')->unsigned();
 
-            $table->string('status');
+            $table->string('activation_status');
             $table->text('reason')->nullable();
             $table->timestamps();
 
             $table->foreign('created_by_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('table_request_id','fktablerequest')->references('id')->on('vendor_branch___table_requests')->onDelete('cascade');
+            $table->foreign('branch_feature_id','fktablerequaaest')->references('id')->on('vendor_branch___features')->onDelete('cascade');
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vendor_branch___table_request__status_histories');
+        Schema::dropIfExists('vendor_branch___feature__status_histories');
     }
 };

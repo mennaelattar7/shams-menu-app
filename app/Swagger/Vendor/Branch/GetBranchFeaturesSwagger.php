@@ -3,11 +3,11 @@
 namespace App\Swagger\Vendor\Branch;
 /**
  * @OA\Get(
- *     path="/api/{locale}/user/vendor/branches/{branch_slug}/branch-data",
+ *     path="/api/{locale}/user/vendor/branches/{branch_slug}/features",
  *     tags={"Vendor - Branch"},
- *     operationId="Single Branch Data",
- *     summary="---Get Single Branch Data Endpoint---",
- *     description="Get Single Branch Data Endpoint",
+ *     operationId="Branch Features",
+ *     summary="---Get Branch Features Endpoint---",
+ *     description="Get Branch Features Endpoint",
  *
  *     @OA\Parameter(
  *         name="locale",
@@ -25,29 +25,19 @@ namespace App\Swagger\Vendor\Branch;
  *     ),
  *     @OA\Response(
  *         response=200,
- *         description="Get Branche Data Successfully",
+ *         description="Get Branch Features Successfully",
  *         @OA\JsonContent(
  *             type="object",
  *             @OA\Property(property="status", type="string", example="success"),
- *             @OA\Property(property="message", type="string", example="Get Branches Succefully"),
+ *             @OA\Property(property="message", type="string", example="Get Branch Features Successfuly"),
  *             @OA\Property(
  *                 property="data",
  *                 type="object",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name", type="string", example="branch1"),
  *                 @OA\Property(property="slug", type="string", example="branch1"),
- *                 @OA\Property(
- *                     property="city",
- *                     type="object",
- *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="name", type="string", example="test"),
- *                 ),
- *                 @OA\Property(
- *                     property="district",
- *                     type="object",
- *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="name", type="string", example="test"),
- *                 ),
+ *                 @OA\Property(property="code", type="string", example="branch1"),
+ *                 @OA\Property(property="description", type="string", example="branch1"),
  *                 @OA\Property(property="activation_status", type="string", example="active|inactive")
  *             )
  *         )
@@ -60,4 +50,4 @@ namespace App\Swagger\Vendor\Branch;
  * )
  */
 
-class SingleSwagger {}
+class GetBranchFeaturesSwagger {}

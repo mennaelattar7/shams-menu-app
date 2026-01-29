@@ -3,7 +3,7 @@
 namespace App\Swagger\Vendor\Branch;
 /**
  * @OA\Put(
- *     path="/api/{locale}/user/vendor/branches/{slug}",
+ *     path="/api/{locale}/user/vendor/branches/{branch_slug}/branch-data",
  *     tags={"Vendor - Branch"},
  *     operationId="Update Branch Data",
  *     summary="---Update Branch Data---",
@@ -17,7 +17,7 @@ namespace App\Swagger\Vendor\Branch;
  *         @OA\Schema(type="string", example="en")
  *     ),
  *     @OA\Parameter(
- *         name="slug",
+ *         name="branch_slug",
  *         in="path",
  *         required=true,
  *         description="the sluge of branch",
