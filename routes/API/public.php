@@ -50,7 +50,11 @@ Route::prefix('public')->name('public.')->group(function(){
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('customers')->name('customer.')->group(function(){
-            Route::post('/{branch_slug}/add-to-favourite',[CustomerFavouriteController::class,'addToFavourite'])->name('add_to_favourite');
+            Route::post('/{branch_slug}/add-to-favourite',[CustomerFavouriteController::class,'addToFavourite'])
+                 ->name('add_to_favourite');
+
+            Route::get('/{branch_slug}/get-favourite-products',[CustomerFavouriteController::class,'getFavouriteProducts'])
+                 ->name('get_favourite_products');
         });
     });
 });

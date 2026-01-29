@@ -81,14 +81,14 @@ class AuthController extends Controller
             $new_user->phone_number = $request->phone_number;
             $new_user->account_type = "customer";
             $new_user->activation_status = "inactive";
-            $new_user->account_status= "not_approved";
+            $new_user->account_status= "approved";
             $new_user->save();
 
             //add in user___account_status_histories table
             $new_status_history = new User__AccountStatusHistory();
             $new_status_history->created_by_id = $new_user->id;
             $new_status_history->user_id = $new_user->id;
-            $new_status_history->status = $new_user->account_status;
+            $new_status_history->account_status = $new_user->account_status;
             $new_status_history->save();
 
             //add in user__OTPs
@@ -150,7 +150,7 @@ class AuthController extends Controller
                 $new_status_history = new User__AccountStatusHistory();
                 $new_status_history->created_by_id = $user->id;
                 $new_status_history->user_id = $user->id;
-                $new_status_history->status = $user->account_status;
+                $new_status_history->account_status = $user->account_status;
                 $new_status_history->save();
 
                 //check user is customer
