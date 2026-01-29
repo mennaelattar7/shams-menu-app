@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\User__AccountStatusHistory;
 use App\Models\User_OTP;
 use App\Models\Vendor;
+use App\Models\Vendor__PackegeSubscription;
 use App\Models\Vendor_VendorType;
 use App\Models\VendorRepresentative;
 use Illuminate\Http\Request;
@@ -63,6 +64,19 @@ class AuthController extends Controller
         $new_vendor_representative->vendor_id = $new_vendor->id;
         $new_vendor_representative->position = $request->position;
         $new_vendor_representative->save();
+
+        //add in vendor___package_subscriptions table
+        $new_vendor_package_subscription = new Vendor__PackegeSubscription();
+        $new_vendor_package_subscription->created_by_id = $new_user->id;
+        $new_vendor_package_subscription->vendor_id = $new_vendor->id;
+        $new_vendor_package_subscription->package_id = 1;
+        $new_vendor_package_subscription->start_at = now();
+        $new_vendor_package_subscription->end_at = now()->addYear();
+        $new_vendor_package_subscription->end_trial_at = now()->addDays(30);
+        $new_vendor_package_subscription->status = 'active';
+        $new_vendor_package_subscription->price_at_purchase = 0;
+        $new_vendor_package_subscription->paid_amount = 0;
+        $new_vendor_package_subscription->save();
 
         //assign role to user
         $vendor_representative_role = Role::where([
