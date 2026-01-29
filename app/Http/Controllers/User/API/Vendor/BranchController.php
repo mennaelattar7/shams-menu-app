@@ -7,6 +7,7 @@ use App\Http\Requests\User\API\Vendor\Branch\CreateRequest;
 use App\Http\Requests\User\API\Vendor\Branch\UpdateRequest;
 use App\Http\Resources\Shams__VendorFeatureResource;
 use App\Http\Resources\VendorBranchResource;
+use App\Http\Resources\VendorMenuCategoryResource;
 use App\Models\VendorBranch__Feature;
 use App\Models\VendorBranch__Feature_StatusHistory;
 use App\Models\VendorBranch__OperatingHour;
@@ -239,5 +240,54 @@ class BranchController extends BaseController
             'success' => true,
             'message' => 'Change Activation StatusSuccefully',
         ], 200);
+    }
+
+    public function getCategories($locale,$branch_slug,$category_type=null)
+    {
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if($branch == null)
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'This Branch Not exist',
+            ], 404);
+        }
+        if($category_type != null)
+        {
+            if($category_type == "main")
+            {
+                $categories = $branch->categories()->where([
+                    ['vendor___menu_categories.activation_status' ,'active'],
+                    ['parent_category_id','=',null]
+                ])->get();
+            }
+            elseif($category_type = "sub")
+            {
+                $categories = $branch->categories()->where([
+                    ['vendor___menu_categories.activation_status' ,'active'],
+                    ['parent_category_id','!=',null]
+                ])->get();
+            }
+        }
+        else
+        {
+            $categories = $branch->categories;
+        }
+        if($categories->isNotEmpty())
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'Get All ' . $category_type.' Categories Successfully',
+                'categories' =>VendorMenuCategoryResource::collection($categories)
+            ],200);
+        }
+        else
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'There Are No '.$category_type.' Categories in This Banch',
+            ],404);
+        }
+
     }
 }

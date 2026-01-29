@@ -56,6 +56,10 @@ class VendorBranche extends Model
     {
         return $this->belongsToMany(SocialMediaIcon::class,'vendor_branch___social_media','branch_id','social_media_id')->withPivot('link');
     }
+    public function categories()
+    {
+        return $this->belongsToMany(Vendor__MenuCategory::class,'vendor_branch___vendor_menu_categories','branch_id','vendor_menu_category_id')->withPivot('activation_status');
+    }
 
     public function features()
     {

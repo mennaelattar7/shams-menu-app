@@ -2,7 +2,7 @@
 
 namespace App\Swagger\Vendor\Branch;
 /**
- * @OA\Put(
+ * @OA\Post(
  *     path="/api/{locale}/user/vendor/branches/{branch_slug}/toggle-activation",
  *     tags={"Vendor - Branch"},
  *     operationId="Change Toggle Branch Activation",
@@ -47,4 +47,4 @@ namespace App\Swagger\Vendor\Branch;
  * )
  */
 
-class toggleActivationSwagger {}
+class ToggleActivationSwagger {}

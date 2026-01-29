@@ -19,6 +19,7 @@ use App\Http\Middleware\custom_middleware\API\Branch\Index as BranchIndex;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategoryCreate;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\Branch\GetBranchFeatures as BranchGetBranchFeatures;
+use App\Http\Middleware\custom_middleware\API\Branch\GetCategories as BranchGetCategories;
 use App\Http\Middleware\custom_middleware\API\Branch\ToggleActivation as BranchToggleActivation;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Feature\Edit as VendorBranch__FeatureEdit;
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
@@ -72,6 +73,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::get('/branch-data',[BranchController::class,'getBranchData'])
                         ->name('branch_data')
                         ->middleware(BranchSingle::class); // Final Done
+
                 Route::post('/toggle-activation',[BranchController::class,'toggleActivationBranch'])
                         ->name('toggle_activation')
                         ->middleware(BranchToggleActivation::class);
@@ -83,9 +85,12 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::get('/features',[BranchController::class,'getBranchFeatures'])
                         ->name('get_branch_features')
                         ->middleware(BranchGetBranchFeatures::class);
+
+                Route::get('/categories/{category_type?}',[BranchController::class,'getCategories'])
+                      ->name('categories')
+                      ->middleware(BranchGetCategories::class);
+
             });
-
-
         });
         //menu categories
         Route::prefix('menu-categories')->name('menu_category.')->group(function(){
@@ -96,6 +101,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::post('create',[MenuCategorycontroller::class,'create'])
                  ->name('create')
                  ->middleware(MenuCategoryCreate::class); //Final Done
+
+            Route::get('/{main_category_slug}/sub-categories',[MenuCategorycontroller::class,'getSubCategories'])
+                ->name('get_sub_categories')
+                ->middleware(MenuCategoryIndex::class);
         });
         //Product Routes
         Route::prefix('products')->name('product.')->group(function(){

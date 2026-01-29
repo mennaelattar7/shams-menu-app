@@ -19,6 +19,7 @@ class VendorMenuCategoryResource extends JsonResource
             'parent_category' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
+                'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.index',
                 'user.api.public.branch.getMenuCategories',
             ]),optional($this->parent_category)->name) ,
@@ -26,6 +27,7 @@ class VendorMenuCategoryResource extends JsonResource
             'name' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
+                'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.index',
                 'user.api.public.branch.getMenuCategories',
             ]),$this->name),
@@ -33,6 +35,7 @@ class VendorMenuCategoryResource extends JsonResource
             'slug' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
+                'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.index',
                 'user.api.public.branch.getMenuCategories',
             ]),$this->slug) ,
@@ -40,13 +43,15 @@ class VendorMenuCategoryResource extends JsonResource
             'image' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
+                'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.index',
                 'user.api.public.branch.getMenuCategories',
-            ]),$this->image) ,
+            ]),$this->image != null? 'http://127.0.0.1:8000/storage/'.$this->image : null) ,
 
             'activation_status' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
+                'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.index',
             ]),$this->activation_status) ,
 
