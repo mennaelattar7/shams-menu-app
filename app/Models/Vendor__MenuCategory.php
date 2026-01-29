@@ -25,7 +25,7 @@ class Vendor__MenuCategory extends Model
         $array_values = json_decode($this->attributes['name'],true);
         return $array_values[$locale];
     }
-    public function children_categories()
+    public function sub_categories()
     {
         return $this->hasMany(Vendor__MenuCategory::class,'parent_category_id','id')->orderBy('sort');
     }

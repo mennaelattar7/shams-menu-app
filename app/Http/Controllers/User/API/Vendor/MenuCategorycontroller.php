@@ -22,7 +22,7 @@ class MenuCategorycontroller extends BaseController
         {
             $all_menu_categories = $all_menu_categories->where('activation_status',$request->activation_status);
         }
-        
+
         if($request->per_page != null)
         {
             $all_menu_categories =$all_menu_categories->paginate($request->per_page);
@@ -113,5 +113,37 @@ class MenuCategorycontroller extends BaseController
             'success' => false,
             'message' => 'Something went wrong'
         ], 500);
+    }
+
+    public function getSubCategories($locale,$main_category_slug)
+    {
+        $main_category = Vendor__MenuCategory::where('slug',$main_category_slug)->first();
+        if($main_category == null)
+        {
+            return response()->json([
+                'success' =>false,
+                'message' =>'This Main Category Not Found'
+            ],404);
+        }
+        else
+        {
+            $sub_categories = $main_category->sub_categories;
+            if($sub_categories->isEmpty())
+            {
+                return response()->json([
+                    'success' =>false,
+                    'message' =>'ther are no sub categories in this main category'
+                ],404);
+            }
+            else
+            {
+                return response()->json([
+                    'success' =>true,
+                    'message' =>'Get Sub Categories Successfully',
+                    'Sub_Categories' => VendorMenuCategoryResource::collection($sub_categories)
+                ],404);
+            }
+        }
+
     }
 }

@@ -148,7 +148,7 @@ class VendorController extends Controller
                                   ->where('status','active')
                                   ->whereNull('parent_category_id')
                                   ->with([
-                                    'children_categories'=>function($q){
+                                    'sub_categories'=>function($q){
                                         $q->where('status','active')
                                            ->orderBy('sort');
                                     }
