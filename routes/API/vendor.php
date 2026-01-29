@@ -19,6 +19,7 @@ use App\Http\Middleware\custom_middleware\API\Branch\Index as BranchIndex;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategoryCreate;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\Branch\GetBranchFeatures as BranchGetBranchFeatures;
+use App\Http\Middleware\custom_middleware\API\Branch\ToggleActivation as BranchToggleActivation;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Feature\Edit as VendorBranch__FeatureEdit;
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
 use App\Http\Middleware\custom_middleware\API\Vendor\GetvendorData;
@@ -71,6 +72,9 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::get('/branch-data',[BranchController::class,'getBranchData'])
                         ->name('branch_data')
                         ->middleware(BranchSingle::class); // Final Done
+                Route::post('/toggle-activation',[BranchController::class,'toggleActivationBranch'])
+                        ->name('toggle_activation')
+                        ->middleware(BranchToggleActivation::class);
 
                 Route::put('/update-branch-data',[BranchController::class,'updateBranchData'])
                       ->name('update_branch_data')

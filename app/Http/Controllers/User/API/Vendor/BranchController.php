@@ -222,4 +222,22 @@ class BranchController extends BaseController
             'data' => Shams__VendorFeatureResource::collection($branch_features)
         ],200);
     }
+
+    public function toggleActivationBranch($locale,$branch_slug,Request $request)
+    {
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if($branch == null)
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'This Branch Not exist',
+            ], 404);
+        }
+        $branch->activation_status = $request->activation_status;
+        $branch->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Change Activation StatusSuccefully',
+        ], 200);
+    }
 }
