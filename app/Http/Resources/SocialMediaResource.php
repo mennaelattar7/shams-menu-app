@@ -15,6 +15,10 @@ class SocialMediaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            $this->name =>$this->when($request->routeIs([
+                'user.api.public.branch.get_vendor_data',
+            ]),$this->pivot->link ?? null),
+
             'id'=>$this->id,
             'name'=>$this->name,
             'display_name' =>$this->display_name,
