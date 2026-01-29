@@ -5,6 +5,7 @@ use App\Http\Controllers\User\API\Meta\DistrictController;
 use App\Http\Controllers\User\API\Meta\LangController;
 use App\Http\Controllers\User\API\Meta\ProductBadgeController as Meta_ProductBadgeController;
 use App\Http\Controllers\User\API\Meta\ProductCookingLevelController as Meta_ProductCookingLevelController;
+use App\Http\Controllers\User\API\Meta\ProductAllergenController as Meta_ProductAllergenController;
 use App\Http\Controllers\User\API\Meta\ProductTypeController;
 use App\Http\Controllers\User\API\Meta\ShamsFeatureController;
 use App\Http\Controllers\User\API\Meta\SocialMediaIconController;
@@ -29,9 +30,11 @@ use Illuminate\Support\Facades\Route;
         Route::prefix('product-badges')->name('product_badge.')->group(function(){
             Route::get('/',[Meta_ProductBadgeController::class,'index'])->name('index');
         });
-        Route::prefix('product-badges')->name('product_badge.')->group(function(){
-            Route::get('/',[Meta_ProductBadgeController::class,'index'])->name('index');
+
+        Route::prefix('product-allergens')->name('product_allergen.')->group(function(){
+            Route::get('/',[Meta_ProductAllergenController::class,'index'])->name('index');
         });
+
         Route::prefix('product-cooking-levels')->name('product_cooking_level.')->group(function(){
             Route::get('/',[Meta_ProductCookingLevelController::class,'index'])->name('index');
         });

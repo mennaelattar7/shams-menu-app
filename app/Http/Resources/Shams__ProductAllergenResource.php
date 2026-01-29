@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductAllergenResource extends JsonResource
+class Shams__ProductAllergenResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,7 @@ class ProductAllergenResource extends JsonResource
         return [
             'id'=>$this->id,
             'name' =>$this->name,
-            'display_name' =>$this->display_name
+            'slug' =>$this->slug
         ];
     }
 }
