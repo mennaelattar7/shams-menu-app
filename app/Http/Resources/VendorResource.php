@@ -34,12 +34,12 @@ class VendorResource extends JsonResource
             'logo' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.public.branch.get_vendor_data',
-            ]), $this->logo != null? 'http://127.0.0.1:8000/storage/'.$this->logo:null),
+            ]), $this->logo != null? 'https://srv1219886.hstgr.cloud/storage/'.$this->logo:null),
 
             'banar' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.public.branch.get_vendor_data',
-            ]),$this->banar != null?'http://127.0.0.1:8000/storage/'.$this->banar:null),
+            ]),$this->banar != null?'https://srv1219886.hstgr.cloud/storage/'.$this->banar:null),
 
             'slogan' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',

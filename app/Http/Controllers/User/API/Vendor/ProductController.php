@@ -83,15 +83,15 @@ class ProductController extends BaseController
         //add in product___product_badges table
         $new_product->cooking_levels()->sync($request->cooking_level_ids);
 
-        //add in product___product_allergens table
-        foreach($request->allergens as $one_allergen)
-        {
-            $new_product_allergen = new Product__ProductAllergen();
-            $new_product_allergen->name = $one_allergen['name'];
-            $new_product_allergen->display_name = $one_allergen['display_name'];
-            $new_product_allergen->product_id = $new_product->id;
-            $new_product_allergen->save();
-        }
+        // //add in product___product_allergens table
+        // foreach($request->allergens as $one_allergen)
+        // {
+        //     $new_product_allergen = new Product__ProductAllergen();
+        //     $new_product_allergen->name = $one_allergen['name'];
+        //     $new_product_allergen->display_name = $one_allergen['display_name'];
+        //     $new_product_allergen->product_id = $new_product->id;
+        //     $new_product_allergen->save();
+        // }
         return response()->json([
             'success' => true,
             'message' => 'Product Add successfuly'

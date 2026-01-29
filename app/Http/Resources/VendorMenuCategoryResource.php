@@ -50,7 +50,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.index',
                 'user.api.vendor.menu_category.get_sub_categories',
                 'user.api.public.branch.getMenuCategories',
-            ]),$this->image != null? 'http://127.0.0.1:8000/storage/'.$this->image : null) ,
+            ]),$this->image != null? 'https://srv1219886.hstgr.cloud/storage/'.$this->image : null) ,
 
             'activation_status' =>$this->when($request->routeIs([
                 'user.api.public.product.single',

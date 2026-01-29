@@ -53,10 +53,10 @@ class ProductResource extends JsonResource
                 'user.api.public.product.single',
                 'user.api.public.menu_category.get_products',
             ]),$this->calories),
-            'allergens' =>$this->when($request->routeIs([
-                'user.api.public.product.single',
-                'user.api.public.menu_category.get_products',
-            ]),ProductAllergenResource::collection($this->allergens)),
+            // 'allergens' =>$this->when($request->routeIs([
+            //     'user.api.public.product.single',
+            //     'user.api.public.menu_category.get_products',
+            // ]),ProductAllergenResource::collection($this->allergens)),
             'badges' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
             ]),ProductBadgeResource::collection($this->badges)),

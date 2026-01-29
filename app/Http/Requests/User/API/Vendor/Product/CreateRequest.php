@@ -69,29 +69,29 @@ class CreateRequest extends FormRequest
 
 
 
-            'allergens' => [
-                'nullable',
-                'array'
-            ],
-            'allergens.*.name' => [
-                'required',
-                'string',
-                'max:100',
-            ],
-            'allergens.*.display_name' => [
-                'required',
-                'array',
-            ],
+            // 'allergens' => [
+            //     'nullable',
+            //     'array'
+            // ],
+            // 'allergens.*.name' => [
+            //     'required',
+            //     'string',
+            //     'max:100',
+            // ],
+            // 'allergens.*.display_name' => [
+            //     'required',
+            //     'array',
+            // ],
 
-            'allergens.*.display_name.en' => [
-                'required',
-                'string',
-            ],
+            // 'allergens.*.display_name.en' => [
+            //     'required',
+            //     'string',
+            // ],
 
-            'allergens.*.display_name.ar' => [
-                'required',
-                'string',
-            ],
+            // 'allergens.*.display_name.ar' => [
+            //     'required',
+            //     'string',
+            // ],
         ];
         return $rules;
     }
