@@ -15,12 +15,8 @@ class DistrictResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' =>$this->when($request->routeIs([
-                'user.api.vendor.branch.index'
-            ]),$this->id),
-            'name' =>$this->when($request->routeIs([
-                'user.api.vendor.branch.index'
-            ]),$this->name),
+            'id' => $this->id,
+            'name' => $this->name,
             // 'city' => new CityResource($this->city)
         ];
     }
