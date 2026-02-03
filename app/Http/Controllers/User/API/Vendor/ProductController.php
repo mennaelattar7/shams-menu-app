@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Product__ProductAllergen;
 use App\Models\Product__ProductVariant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Str;
 
@@ -60,7 +61,6 @@ class ProductController extends BaseController
             $file->storeAs('Vendor/Product/Images',$fileName,'public');
             $new_product->image = 'Vendor/Product/Images/' . $fileName;
         }
-        $new_product->activation_status = $request->activation_status;
         $new_product->calories = $request->calories;
         $new_product->save();
 
@@ -79,19 +79,27 @@ class ProductController extends BaseController
         //add in product___product_branches table
         $new_product->branches()->sync($request->branches_ids);
         //add in product___product_badges table
-        $new_product->badges()->sync($request->badges_ids);
+        if($request->badges_ids)
+        {
+            $new_product->badges()->sync($request->badges_ids);
+        }
         //add in product___product_badges table
-        $new_product->cooking_levels()->sync($request->cooking_level_ids);
+        if($request->cooking_level_ids)
+        {
+            $new_product->cooking_levels()->sync($request->cooking_level_ids);
+        }
+        if($request->allergens_ids)
+        {
+            $data=[];
+            foreach($request->allergens_ids as $key => $one_item)
+            {
+                $data[$one_item] = [
+                    'created_by_id' => Auth::user()->id
+                ];
+            }
 
-        // //add in product___product_allergens table
-        // foreach($request->allergens as $one_allergen)
-        // {
-        //     $new_product_allergen = new Product__ProductAllergen();
-        //     $new_product_allergen->name = $one_allergen['name'];
-        //     $new_product_allergen->display_name = $one_allergen['display_name'];
-        //     $new_product_allergen->product_id = $new_product->id;
-        //     $new_product_allergen->save();
-        // }
+            $new_product->allergens()->sync($data);
+        }
         return response()->json([
             'success' => true,
             'message' => 'Product Add successfuly'

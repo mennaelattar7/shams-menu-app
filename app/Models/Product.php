@@ -61,7 +61,7 @@ class Product extends Model
 
     public function allergens()
     {
-        return $this->hasMany(Product__ProductAllergen::class,'product_id','id');
+        return $this->belongsToMany(Shams__ProductAllergen::class,'product___product_allergens','product_id','allergen_id')->withPivot('created_by_id');
     }
     public function category()
     {
