@@ -23,6 +23,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.index',
                 'user.api.vendor.menu_category.get_sub_categories',
                 'user.api.public.branch.getMenuCategories',
+                'user.api.vendor.branch.categories.by_branches',
             ]),optional($this->parent_category)->name) ,
 
             'name' =>$this->when($request->routeIs([
@@ -32,6 +33,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.index',
                 'user.api.vendor.menu_category.get_sub_categories',
                 'user.api.public.branch.getMenuCategories',
+                'user.api.vendor.branch.categories.by_branches',
             ]),$this->name),
 
             'slug' =>$this->when($request->routeIs([
@@ -41,6 +43,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.index',
                 'user.api.vendor.menu_category.get_sub_categories',
                 'user.api.public.branch.getMenuCategories',
+                'user.api.vendor.branch.categories.by_branches',
             ]),$this->slug) ,
 
             'image' =>$this->when($request->routeIs([
@@ -50,6 +53,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.index',
                 'user.api.vendor.menu_category.get_sub_categories',
                 'user.api.public.branch.getMenuCategories',
+                'user.api.vendor.branch.categories.by_branches',
             ]),$this->image != null? 'https://srv1219886.hstgr.cloud/storage/'.$this->image : null) ,
 
             'activation_status' =>$this->when($request->routeIs([
@@ -58,6 +62,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.get_sub_categories',
                 'user.api.vendor.menu_category.index',
+                'user.api.vendor.branch.categories.by_branches',
             ]),$this->activation_status) ,
 
             'sort' =>$this->when($request->routeIs([
@@ -67,6 +72,7 @@ class VendorMenuCategoryResource extends JsonResource
                     'user.api.vendor.menu_category.index',
                     'user.api.vendor.menu_category.get_sub_categories',
                     'user.api.public.branch.getMenuCategories',
+                    'user.api.vendor.branch.categories.by_branches',
                 ]),$this->sort),
 
 

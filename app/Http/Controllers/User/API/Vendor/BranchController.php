@@ -290,4 +290,61 @@ class BranchController extends BaseController
         }
 
     }
+
+    public function getCategoriesByBranches($locale,Request $request,$category_type=null)
+    {
+        $branchIds = $request->branches_ids; // ?branches_ids[]=1&branches_ids[]=2
+
+        if (!$branchIds || !is_array($branchIds)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'branches_ids must be an array of IDs'
+            ], 400);
+        }
+        $categories = collect();
+        for($i=0;$i<count($branchIds);$i++)
+        {
+            $branch = VendorBranche::find($branchIds[$i]);
+            $categories = $categories->merge($branch->categories);
+        }
+        $categories = $categories->unique('id');
+
+        if($category_type != null)
+        {
+            if($category_type == "main")
+            {
+                $categories = $categories->where([
+                    ['vendor___menu_categories.activation_status' ,'active'],
+                    ['parent_category_id','=',null]
+                ]);
+            }
+            elseif($category_type = "sub")
+            {
+                $categories = $categories->where([
+                    ['vendor___menu_categories.activation_status' ,'active'],
+                    ['parent_category_id','!=',null]
+                ]);
+            }
+        }
+        else
+        {
+            $categories = $categories;
+        }
+        if($categories->isNotEmpty())
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'Get All ' . $category_type.' Categories Successfully',
+                'categories' =>VendorMenuCategoryResource::collection($categories)
+            ],200);
+        }
+        else
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'There Are No '.$category_type.' Categories in This Banch',
+            ],404);
+        }
+
+    }
 }

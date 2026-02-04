@@ -69,6 +69,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                   ->name('create')
                   ->middleware(BranchCreate::class); ///Final Done
 
+            Route::get('/categories/by-branches/{category_type?}',[BranchController::class,'getCategoriesByBranches'])
+                ->name('categories.by_branches')
+                ->middleware(BranchGetCategories::class);
+
             Route::prefix('/{branch_slug}')->group(function(){
                 Route::get('/branch-data',[BranchController::class,'getBranchData'])
                         ->name('branch_data')
