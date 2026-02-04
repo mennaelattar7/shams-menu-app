@@ -32,7 +32,6 @@ namespace App\Swagger\Vendor\Home;
  *                     @OA\Property(property="name", type="string", example="Nigresco pasta"),
  *                     @OA\Property(property="slug", type="string", example="Nigresco pasta"),
  *                     @OA\Property(property="activation_status", type="string", example="active"),
- *                     @OA\Property(property="availability_status", type="string", example="available"),
  *                     @OA\Property(
  *                         property="variants",
  *                         type="array",

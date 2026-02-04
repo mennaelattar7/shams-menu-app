@@ -7,6 +7,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Product__ProductAllergen;
 use App\Models\Product__ProductVariant;
+use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -16,11 +17,15 @@ class ProductController extends BaseController
 {
     public function index(Request $request)
     {
+        $all_products = Product::query();
+        if($request->branch_slug)
+        {
+            $branch = VendorBranche::where('slug',$request->branch_slug)->first();
+            $all_products = $branch->products()->with('category');
+        }
         if($request->per_page != null)
         {
-            $all_products= Product::whereHas('category',function($q){
-                $q->where('vendor_id',$this->vendor->id);
-            })->paginate($request->per_page);
+            $all_products= $all_products->paginate($request->per_page);
 
             return ProductResource::collection($all_products)
             ->additional([
@@ -30,17 +35,11 @@ class ProductController extends BaseController
             ->response()
             ->setStatusCode(200);
         }
-        else
-        {
-            $all_products = Product::whereHas('category',function($q){
-                $q->where('vendor_id',$this->vendor->id);
-            })->get();
-            return response()->json([
-                'success' => true,
-                'message' => 'Get Products Succefully',
-                'data' => ProductResource::collection($all_products)
-            ], 200);
-        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Products Succefully',
+            'data' => ProductResource::collection($all_products->get())
+        ], 200);
     }
     public function create(CreateRequest $request)
     {

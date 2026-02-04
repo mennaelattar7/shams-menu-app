@@ -60,6 +60,10 @@ class VendorBranche extends Model
     {
         return $this->belongsToMany(Vendor__MenuCategory::class,'vendor_branch___vendor_menu_categories','branch_id','vendor_menu_category_id')->withPivot('activation_status');
     }
+    public function products()
+    {
+        return $this->belongsToMany(Product::class,'product___product_branches','branch_id','product_id')->withPivot('availability_status');
+    }
 
     public function features()
     {

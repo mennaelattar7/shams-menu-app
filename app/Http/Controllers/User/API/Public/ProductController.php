@@ -71,7 +71,7 @@ class ProductController extends Controller
         $menu_category = Vendor__MenuCategory::where('slug',$category_slug)->first();
         if($menu_category)
         {
-            $products = $menu_category->products->where('activation_status','active')->where('availability_status','available');
+            $products = $menu_category->products->where('activation_status','active');
             if($products->isNotEmpty())
             {
                 return response()->json([
