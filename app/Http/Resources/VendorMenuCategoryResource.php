@@ -21,7 +21,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.index',
-                'user.api.vendor.menu_category.get_sub_categories',
+                'user.api.vendor.menu_category.sub_categories',
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
             ]),optional($this->parent_category)->name) ,
@@ -31,7 +31,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.index',
-                'user.api.vendor.menu_category.get_sub_categories',
+                'user.api.vendor.menu_category.sub_categories',
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
             ]),$this->name),
@@ -41,7 +41,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.index',
-                'user.api.vendor.menu_category.get_sub_categories',
+                'user.api.vendor.menu_category.sub_categories',
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
             ]),$this->slug) ,
@@ -51,7 +51,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.branch.categories',
                 'user.api.vendor.menu_category.index',
-                'user.api.vendor.menu_category.get_sub_categories',
+                'user.api.vendor.menu_category.sub_categories',
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
             ]),$this->image != null? 'https://srv1219886.hstgr.cloud/storage/'.$this->image : null) ,
@@ -60,7 +60,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
                 'user.api.vendor.branch.categories',
-                'user.api.vendor.menu_category.get_sub_categories',
+                'user.api.vendor.menu_category.sub_categories',
                 'user.api.vendor.menu_category.index',
                 'user.api.vendor.branch.categories.by_branches',
             ]),$this->activation_status) ,
@@ -70,19 +70,10 @@ class VendorMenuCategoryResource extends JsonResource
                     'user.api.vendor.product.index',
                     'user.api.vendor.branch.categories',
                     'user.api.vendor.menu_category.index',
-                    'user.api.vendor.menu_category.get_sub_categories',
+                    'user.api.vendor.menu_category.sub_categories',
                     'user.api.public.branch.getMenuCategories',
                     'user.api.vendor.branch.categories.by_branches',
                 ]),$this->sort),
-
-
-            // 'image' => $this->image,
-
-            // 'status' => $this->status,
-            // 'childreen' => $this->when(
-            //                             $request->routeIs('user.vendor.VendorMenuCategories'),
-            //                             $this->sub_categories != null? VendorMenuCategoryResource::collection($this->whenLoaded('sub_categories')):null
-            //                         )
         ];
     }
 }

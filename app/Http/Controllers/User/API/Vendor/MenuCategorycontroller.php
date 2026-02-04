@@ -115,9 +115,9 @@ class MenuCategorycontroller extends BaseController
         ], 500);
     }
 
-    public function getSubCategories($locale,$main_category_slug)
+    public function getSubCategories($locale,$category_slug)
     {
-        $main_category = Vendor__MenuCategory::where('slug',$main_category_slug)->first();
+        $main_category = Vendor__MenuCategory::where('slug',$category_slug)->first();
         if($main_category == null)
         {
             return response()->json([

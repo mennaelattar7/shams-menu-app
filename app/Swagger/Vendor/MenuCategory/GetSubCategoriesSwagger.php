@@ -3,7 +3,7 @@
 namespace App\Swagger\Vendor\MenuCategory;
 /**
  * @OA\Get(
- *     path="/api/{locale}/user/vendor/menu-categories/{main_category_slug}/sub-categories",
+ *     path="/api/{locale}/user/vendor/menu-categories/{category_slug}/sub-categories",
  *     tags={"Vendor - Menu Category"},
  *     operationId="All sub Categories",
  *     summary="---Get All sub Categories Endpoint---",
@@ -17,7 +17,7 @@ namespace App\Swagger\Vendor\MenuCategory;
  *         @OA\Schema(type="string", example="en")
  *     ),
  *     @OA\Parameter(
- *         name="main_category_slug",
+ *         name="category_slug",
  *         in="path",
  *         required=true,
  *         description="slug of main category code",

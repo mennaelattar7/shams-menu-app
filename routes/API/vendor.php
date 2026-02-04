@@ -106,9 +106,15 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                  ->name('create')
                  ->middleware(MenuCategoryCreate::class); //Final Done
 
-            Route::get('/{main_category_slug}/sub-categories',[MenuCategorycontroller::class,'getSubCategories'])
-                ->name('get_sub_categories')
-                ->middleware(MenuCategoryIndex::class);
+            // Route::get('/{main_category_slug}/sub-categories',[MenuCategorycontroller::class,'getSubCategories'])
+            //     ->name('get_sub_categories')
+            //     ->middleware(MenuCategoryIndex::class);
+
+            Route::prefix('/{category_slug}')->group(function(){
+                Route::get('/sub-categories',[MenuCategorycontroller::class,'getSubCategories'])
+                    ->name('sub_categories')
+                    ->middleware(MenuCategoryIndex::class);
+            });
         });
         //Product Routes
         Route::prefix('products')->name('product.')->group(function(){
