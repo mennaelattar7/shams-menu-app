@@ -23,6 +23,13 @@ namespace App\Swagger\Vendor\Product;
  *         description="Number of items per page for pagination",
  *         @OA\Schema(type="integer", example="3")
  *     ),
+ *     @OA\Parameter(
+ *         name="branch_slug",
+ *         in="query",
+ *         required=false,
+ *         description="Slug Of Branch",
+ *         @OA\Schema(type="string", example="eldoky-branch")
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Get All Products in vendor Successfully",
