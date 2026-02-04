@@ -33,7 +33,6 @@ class CreateRequest extends FormRequest
                 'min:0.01',
             ],
             'calories' =>[
-                'required',
                 'numeric',
             ],
             'image'=>[
@@ -58,11 +57,9 @@ class CreateRequest extends FormRequest
                 'array'
             ],
             'badges_ids' =>[
-                'required',
                 'array'
             ],
             'cooking_level_ids' =>[
-                'required',
                 'array'
             ],
 
