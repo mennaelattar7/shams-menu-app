@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\MenuCategory\CreateRequest;
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\VendorMenuCategoryResource;
 use App\Models\Vendor__MenuCategory;
 use App\Models\VendorBranch__VendorMenuCategory;
@@ -143,6 +144,35 @@ class MenuCategorycontroller extends BaseController
                     'Sub_Categories' => VendorMenuCategoryResource::collection($sub_categories)
                 ],404);
             }
+        }
+
+    }
+
+    public function getProducts($locale,$category_slug)
+    {
+        $category = Vendor__MenuCategory::where('slug',$category_slug)->first();
+        if($category == null)
+        {
+            return response()->json([
+                'success' =>true,
+                'messages' => 'This Category Not Exist',
+            ],404);
+        }
+        if($category->products()->exists())
+        {
+            $products = $category->products;
+            return response()->json([
+                'success' =>true,
+                'messages' => 'Get Products In Category Successfully',
+                'data'=>ProductResource::collection($products)
+            ],200);
+        }
+        else
+        {
+            return response()->json([
+                'success' =>true,
+                'messages' => 'There are no Products in Category',
+            ],200);
         }
 
     }

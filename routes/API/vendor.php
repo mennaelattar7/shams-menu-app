@@ -47,9 +47,6 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
     });
     Route::middleware('auth:sanctum')->group(function () {
         // token : 102|iguWY9qWV9grcYKN4r3B1v5hJChbWnB3EmnNE8Ie007850a9
-
-
-
         Route::prefix('home')->name('home.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
                  ->name('most_viewed_product')
@@ -106,13 +103,13 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                  ->name('create')
                  ->middleware(MenuCategoryCreate::class); //Final Done
 
-            // Route::get('/{main_category_slug}/sub-categories',[MenuCategorycontroller::class,'getSubCategories'])
-            //     ->name('get_sub_categories')
-            //     ->middleware(MenuCategoryIndex::class);
-
             Route::prefix('/{category_slug}')->group(function(){
                 Route::get('/sub-categories',[MenuCategorycontroller::class,'getSubCategories'])
                     ->name('sub_categories')
+                    ->middleware(MenuCategoryIndex::class);
+
+                Route::get('/products',[MenuCategorycontroller::class,'getProducts'])
+                    ->name('products')
                     ->middleware(MenuCategoryIndex::class);
             });
         });
