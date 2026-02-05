@@ -309,21 +309,16 @@ class BranchController extends BaseController
         }
         $categories = $categories->unique('id');
 
+
         if($category_type != null)
         {
             if($category_type == "main")
             {
-                $categories = $categories->where([
-                    ['vendor___menu_categories.activation_status' ,'active'],
-                    ['parent_category_id','=',null]
-                ]);
+                $categories = $categories->where('activation_status' ,'active')->where('parent_category_id','=',null);
             }
-            elseif($category_type = "sub")
+            elseif($category_type == "sub")
             {
-                $categories = $categories->where([
-                    ['vendor___menu_categories.activation_status' ,'active'],
-                    ['parent_category_id','!=',null]
-                ]);
+                $categories = $categories->where('activation_status' ,'active')->where('parent_category_id','!=',null);
             }
         }
         else

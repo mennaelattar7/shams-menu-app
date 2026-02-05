@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ProductResource extends JsonResource
 {
@@ -81,7 +82,7 @@ class ProductResource extends JsonResource
                 'user.api.public.menu_category.get_products',
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
-            ]),$this->image != null? 'https://srv1219886.hstgr.cloud/storage/'.$this->image : null),
+            ]),$this->image ? Storage::url($this->image) : null),
 
             'calories' =>$this->when($request->routeIs([
                 'user.api.public.product.single',

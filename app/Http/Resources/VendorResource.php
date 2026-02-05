@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class VendorResource extends JsonResource
 {
@@ -34,12 +35,12 @@ class VendorResource extends JsonResource
             'logo' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.public.branch.get_vendor_data',
-            ]), $this->logo != null? 'https://srv1219886.hstgr.cloud/storage/'.$this->logo:null),
+            ]), $this->logo ? Storage::url($this->logo) : null),
 
             'banar' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.public.branch.get_vendor_data',
-            ]),$this->banar != null?'https://srv1219886.hstgr.cloud/storage/'.$this->banar:null),
+            ]),$this->banar ? Storage::url($this->banar) : null),
 
             'slogan' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',

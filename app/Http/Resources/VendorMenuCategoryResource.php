@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Illuminate\Support\Facades\Storage;
 class VendorMenuCategoryResource extends JsonResource
 {
     /**
@@ -54,7 +54,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.sub_categories',
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
-            ]),$this->image != null? 'https://srv1219886.hstgr.cloud/storage/'.$this->image : null) ,
+            ]),$this->image ? Storage::url($this->image) : null) ,
 
             'activation_status' =>$this->when($request->routeIs([
                 'user.api.public.product.single',

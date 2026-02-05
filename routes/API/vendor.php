@@ -117,6 +117,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         Route::prefix('products')->name('product.')->group(function(){
             Route::get('/',[ProductController::class,'index'])->name('index');
             Route::post('create',[ProductController::class,'create'])->name('create');
+
         });
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){

@@ -5,12 +5,11 @@ namespace App\Http\Controllers\User\API\Vendor;
 use App\Http\Requests\User\API\Vendor\Product\CreateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use App\Models\Product__ProductAllergen;
 use App\Models\Product__ProductVariant;
+use App\Models\Vendor__MenuCategory;
 use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Str;
 
 class ProductController extends BaseController
@@ -21,7 +20,32 @@ class ProductController extends BaseController
         if($request->branch_slug)
         {
             $branch = VendorBranche::where('slug',$request->branch_slug)->first();
-            $all_products = $branch->products()->with('category');
+            if($branch != null)
+            {
+                $all_products = $branch->products()->with('category');
+            }
+            else
+            {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Branch Not Exist',
+                ], 404);
+            }
+        }
+        if($request->category_slug)
+        {
+            $category = Vendor__MenuCategory::where('slug',$request->category_slug)->first();
+            if($category != null)
+            {
+                $all_products = $all_products->where('category_id',$category->id);
+            }
+            else
+            {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Category Not Exist',
+                ], 404);
+            }
         }
         if($request->per_page != null)
         {
@@ -61,6 +85,16 @@ class ProductController extends BaseController
             $new_product->image = 'Vendor/Product/Images/' . $fileName;
         }
         $new_product->calories = $request->calories;
+        //get last product sort in same category
+        $last_product = Product::where('category_id',$request->category_id)->latest()->first();
+        if($last_product == null)
+        {
+            $new_product->sort = 1;
+        }
+        else
+        {
+            $new_product->sort = $last_product->sort + 1;
+        }
         $new_product->save();
 
         //add in product___product_variants table

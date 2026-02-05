@@ -2,26 +2,40 @@
 
 namespace App\Http\Requests\User\API\Vendor\Product;
 
+use App\Models\Vendor__MenuCategory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\Request;
+
 class CreateRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return true;
     }
-    public function rules(): array
+    public function rules(Request $request): array
     {
+        $category = Vendor__MenuCategory::find($request->category_id);
+        $vendor = $category->vendor;
+        //get all categories in vendor
+        $categories_ids = $vendor->menu_categories()->pluck('id')->toArray();
+
         $rules =[
             'name.en' => [
                 'required',
-                Rule::unique('products', 'name->en'),
+                Rule::unique('products', 'name->en')
+                ->where(function($q) use ($categories_ids){
+                    $q->whereIn('category_id',$categories_ids);
+                }),
             ],
             'name.ar' => [
                 'required',
-                Rule::unique('products', 'name->ar'),
+                Rule::unique('products', 'name->ar')
+                ->where(function($q) use ($categories_ids){
+                    $q->whereIn('category_id',$categories_ids);
+                }),
             ],
             'description' =>[
                 'required',
@@ -62,33 +76,6 @@ class CreateRequest extends FormRequest
             'cooking_level_ids' =>[
                 'array'
             ],
-
-
-
-
-            // 'allergens' => [
-            //     'nullable',
-            //     'array'
-            // ],
-            // 'allergens.*.name' => [
-            //     'required',
-            //     'string',
-            //     'max:100',
-            // ],
-            // 'allergens.*.display_name' => [
-            //     'required',
-            //     'array',
-            // ],
-
-            // 'allergens.*.display_name.en' => [
-            //     'required',
-            //     'string',
-            // ],
-
-            // 'allergens.*.display_name.ar' => [
-            //     'required',
-            //     'string',
-            // ],
         ];
         return $rules;
     }

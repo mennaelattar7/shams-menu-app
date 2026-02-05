@@ -29,6 +29,11 @@ class Vendor__MenuCategory extends Model
     {
         return $this->hasMany(Vendor__MenuCategory::class,'parent_category_id','id')->orderBy('sort');
     }
+    public function vendor()
+    {
+        return $this->belongsto(Vendor::class,'vendor_id','id');
+    }
+
 
     public function products()
     {

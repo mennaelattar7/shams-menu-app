@@ -97,7 +97,7 @@ class MenuCategorycontroller extends BaseController
                 $new_branch_menu_category->created_by_id = $this->user->id;
                 $new_branch_menu_category->branch_id = $one_branch;
                 $new_branch_menu_category->vendor_menu_category_id = $new_vendor_menu_category->id;
-                $new_branch_menu_category->status = $request->activation_status;
+                $new_branch_menu_category->activation_status = $request->activation_status;
                 $new_branch_menu_category->save();
             }
         }
