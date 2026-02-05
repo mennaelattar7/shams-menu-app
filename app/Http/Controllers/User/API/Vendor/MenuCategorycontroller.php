@@ -145,7 +145,6 @@ class MenuCategorycontroller extends BaseController
                 ],404);
             }
         }
-
     }
 
     public function getProducts($locale,$category_slug)

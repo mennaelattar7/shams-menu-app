@@ -95,6 +95,14 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.products',
             ]),ProductBadgeResource::collection($this->badges)),
 
+            'sort' =>$this->when($request->routeIs([
+                'user.api.public.product.single',
+                'user.api.public.menu_category.get_products',
+                'user.api.vendor.product.index',
+                'user.api.vendor.menu_category.products',
+
+            ]),$this->sort),
+
             'views_count' =>$this->when($request->routeIs([
                 'user.api.vendor.home.most_viewed_product',
                 'user.api.vendor.menu_category.products',

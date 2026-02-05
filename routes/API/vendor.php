@@ -21,6 +21,8 @@ use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategory
 use App\Http\Middleware\custom_middleware\API\Branch\GetBranchFeatures as BranchGetBranchFeatures;
 use App\Http\Middleware\custom_middleware\API\Branch\GetCategories as BranchGetCategories;
 use App\Http\Middleware\custom_middleware\API\Branch\ToggleActivation as BranchToggleActivation;
+use App\Http\Middleware\custom_middleware\API\Product\Index as ProductIndex;
+use App\Http\Middleware\custom_middleware\API\Product\Create as ProductCreate;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Feature\Edit as VendorBranch__FeatureEdit;
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
 use App\Http\Middleware\custom_middleware\API\Vendor\GetvendorData;
@@ -115,8 +117,14 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
         //Product Routes
         Route::prefix('products')->name('product.')->group(function(){
-            Route::get('/',[ProductController::class,'index'])->name('index');
-            Route::post('create',[ProductController::class,'create'])->name('create');
+            Route::get('/',[ProductController::class,'index'])
+                 ->name('index')
+                 ->middleware(ProductIndex::class);
+
+            Route::post('create',[ProductController::class,'create'])
+                  ->name('create')
+                  ->middleware(ProductCreate::class);
+
 
         });
         //Settings Routes

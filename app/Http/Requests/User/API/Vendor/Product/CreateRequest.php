@@ -17,24 +17,35 @@ class CreateRequest extends FormRequest
     }
     public function rules(Request $request): array
     {
-        $category = Vendor__MenuCategory::find($request->category_id);
-        $vendor = $category->vendor;
-        //get all categories in vendor
-        $categories_ids = $vendor->menu_categories()->pluck('id')->toArray();
+
 
         $rules =[
             'name.en' => [
                 'required',
                 Rule::unique('products', 'name->en')
-                ->where(function($q) use ($categories_ids){
-                    $q->whereIn('category_id',$categories_ids);
+                ->where(function($q) use ($request){
+                    $category = Vendor__MenuCategory::find($request->category_id);
+                    if($category)
+                    {
+                        $vendor = $category->vendor;
+                        //get all categories in vendor
+                        $categories_ids = $vendor->menu_categories()->pluck('id')->toArray();
+                        $q->whereIn('category_id',$categories_ids);
+                    }
                 }),
             ],
             'name.ar' => [
                 'required',
                 Rule::unique('products', 'name->ar')
-                ->where(function($q) use ($categories_ids){
-                    $q->whereIn('category_id',$categories_ids);
+                ->where(function($q) use ($request){
+                    $category = Vendor__MenuCategory::find($request->category_id);
+                    if($category)
+                    {
+                        $vendor = $category->vendor;
+                        //get all categories in vendor
+                        $categories_ids = $vendor->menu_categories()->pluck('id')->toArray();
+                        $q->whereIn('category_id',$categories_ids);
+                    }
                 }),
             ],
             'description' =>[
