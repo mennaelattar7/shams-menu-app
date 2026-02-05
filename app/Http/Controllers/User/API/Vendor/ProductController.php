@@ -151,7 +151,7 @@ class ProductController extends BaseController
         }
         return response()->json([
             'success' => true,
-            'message' => 'Get Branche Data Succefully',
+            'message' => 'Get Product Data Succefully',
             'data' => new ProductResource($product)
         ], 200);
     }
