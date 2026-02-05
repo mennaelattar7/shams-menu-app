@@ -138,4 +138,21 @@ class ProductController extends BaseController
             'message' => 'Product Add successfuly'
         ]);
     }
+
+    public function single($locale,$product_slug)
+    {
+        $product = Product::where('slug',$product_slug)->first();
+        if($product == null)
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'This Product Not exist',
+            ], 404);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Branche Data Succefully',
+            'data' => new ProductResource($product)
+        ], 200);
+    }
 }

@@ -38,7 +38,7 @@ class Product extends Model
     }
     public function branches()
     {
-        return $this->belongsToMany(VendorBranche::class,'product___product_branches','product_id','branch_id');
+        return $this->belongsToMany(VendorBranche::class,'product___product_branches','product_id','branch_id')->withPivot('availability_status');
     }
     public function badges()
     {

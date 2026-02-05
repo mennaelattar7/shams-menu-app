@@ -62,7 +62,8 @@ class VendorBranchResource extends JsonResource
                 'user.api.vendor.branch.branch_data',
                 'user.api.vendor.branch.filter',
                 'user.api.public.branch.get_branch_data',
-                'user.api.public.branch.get_branch_table'
+                'user.api.public.branch.get_branch_table',
+                'user.api.vendor.product.single',
             ]),$this->name) ,
 
             'slug' =>$this->when($request->routeIs([
@@ -70,7 +71,8 @@ class VendorBranchResource extends JsonResource
                 'user.api.vendor.branch.branch_data',
                 'user.api.vendor.branch.filter',
                 'user.api.public.branch.get_branch_data',
-                'user.api.public.branch.get_branch_table'
+                'user.api.public.branch.get_branch_table',
+                'user.api.vendor.product.single',
             ]),$this->slug),
 
             'city' =>$this->when($request->routeIs([
@@ -85,12 +87,18 @@ class VendorBranchResource extends JsonResource
                 'user.api.public.branch.get_branch_data',
             ]),new DistrictResource($this->district)),
 
+            'availability_status' =>$this->when($request->routeIs([
+                'user.api.vendor.product.single',
+            ]),$this->pivot->availability_status ?? null),
+
             'activation_status' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',
                 'user.api.vendor.branch.branch_data',
                 'user.api.vendor.branch.filter',
                 'user.api.public.branch.get_branch_data',
-                'user.api.public.branch.get_branch_table'
+                'user.api.public.branch.get_branch_table',
+                'user.api.vendor.product.single',
+
             ]),$this->activation_status),
 
             'google_map_link' =>$this->when($request->routeIs([
