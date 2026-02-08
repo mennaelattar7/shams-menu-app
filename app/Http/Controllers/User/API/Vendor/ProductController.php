@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Requests\User\API\Vendor\Product\CreateRequest;
+use App\Http\Requests\User\API\Vendor\Product\UpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Product__ProductVariant;
@@ -154,5 +155,76 @@ class ProductController extends BaseController
             'message' => 'Get Product Data Succefully',
             'data' => new ProductResource($product)
         ], 200);
+    }
+
+    public function update($locale,$product_slug,UpdateRequest $request)
+    {
+        $product = Product::where('slug',$product_slug)->first();
+        if($product == null)
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'This Product Not exist',
+            ], 404);
+        }
+
+        //update in product tabel
+        $product->updated_by_id = $this->user->id;
+        $product->category_id = $request->category_id;
+        $product->product_type_id = $request->product_type_id;
+        $product->name = $request->name;
+        $product->description = $request->description;
+        if(request()->hasFile('image'))
+        {
+            $file=$request->image;
+            $name = $file->getClientOriginalName();
+            $extension = pathinfo($name)['extension'];
+            $fileName = 'Product_' . Str::random(5) . '.' . $extension;
+
+            $file->storeAs('Vendor/Product/Images',$fileName,'public');
+            $product->image = 'Vendor/Product/Images/' . $fileName;
+        }
+        $product->calories = $request->calories;
+        $product->save();
+
+        //Update in product___product_variants table
+        $product_variant = $product->variants->first();
+        $product_variant->updated_by_id = $this->user->id;
+        if($request->product_variant_name != null)
+        {
+            $product_variant->name = $request->product_variant_name;
+        }
+        $product_variant->price = $request->price;
+        $product_variant->activation_status =  "active";
+        $product_variant->save();
+
+        //add in product___product_branches table
+        $product->branches()->sync($request->branches_ids);
+        //add in product___product_badges table
+        if($request->badges_ids)
+        {
+            $product->badges()->sync($request->badges_ids);
+        }
+        //add in product___product_badges table
+        if($request->cooking_level_ids)
+        {
+            $product->cooking_levels()->sync($request->cooking_level_ids);
+        }
+        if($request->allergens_ids)
+        {
+            $data=[];
+            foreach($request->allergens_ids as $key => $one_item)
+            {
+                $data[$one_item] = [
+                    'created_by_id' => Auth::user()->id
+                ];
+            }
+
+            $product->allergens()->sync($data);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Product Updated successfuly'
+        ]);
     }
 }
