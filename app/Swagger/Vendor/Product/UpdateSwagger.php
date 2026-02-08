@@ -2,7 +2,7 @@
 
 namespace App\Swagger\Vendor\Product;
 /**
- * @OA\Put(
+ * @OA\Post(
  *     path="/api/{locale}/user/vendor/products/{product_slug}/update",
  *     tags={"Vendor - Product"},
  *     operationId="Update Product Data",

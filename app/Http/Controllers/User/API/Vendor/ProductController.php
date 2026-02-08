@@ -6,6 +6,7 @@ use App\Http\Requests\User\API\Vendor\Product\CreateRequest;
 use App\Http\Requests\User\API\Vendor\Product\UpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\Product__ProductBranch;
 use App\Models\Product__ProductVariant;
 use App\Models\Vendor__MenuCategory;
 use App\Models\VendorBranche;
@@ -227,4 +228,56 @@ class ProductController extends BaseController
             'message' => 'Product Updated successfuly'
         ]);
     }
+
+    public function toggleAvailability($locale,$product_slug,$branch_slug)
+    {
+        $product = Product::where('slug',$product_slug)->first();
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if($product == null || $branch == null)
+        {
+            return response()->json([
+                'status' =>false,
+                'message' => 'product or branch not exist'
+            ]);
+        }
+        $avilabilty = Product__ProductBranch::where('branch_id',$branch->id)->where('product_id',$product->id)->first();
+        if($avilabilty->availability_status == "available")
+        {
+            $avilabilty->availability_status = "not_available";
+        }
+        else
+        {
+            $avilabilty->availability_status = "available";
+        }
+        $avilabilty->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Change Product Avilabilty Succefully',
+        ], 200);
+    }
+    public function toggleActivation($locale,$product_slug)
+    {
+        $product = Product::where('slug',$product_slug)->first();
+        if($product == null)
+        {
+            return response()->json([
+                'status' =>false,
+                'message' => 'this product not exist'
+            ]);
+        }
+        if($product->activation_status == "active")
+        {
+            $product->activation_status = "inactive";
+        }
+        else
+        {
+            $product->activation_status = "active";
+        }
+        $product->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Change Product Activation Succefully',
+        ], 200);
+    }
+
 }

@@ -25,6 +25,8 @@ use App\Http\Middleware\custom_middleware\API\Product\Index as ProductIndex;
 use App\Http\Middleware\custom_middleware\API\Product\Create as ProductCreate;
 use App\Http\Middleware\custom_middleware\API\Product\Single as ProductSingle;
 use App\Http\Middleware\custom_middleware\API\Product\Edit as ProductEdit;
+use App\Http\Middleware\custom_middleware\API\Product\ToggleAvailability as ProductToggleAvailability;
+use App\Http\Middleware\custom_middleware\API\Product\ToggleActivation as ProductToggleActivation;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Feature\Edit as VendorBranch__FeatureEdit;
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
 use App\Http\Middleware\custom_middleware\API\Vendor\GetvendorData;
@@ -134,7 +136,16 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
 
                 Route::put('/update',[ProductController::class,'update'])
                       ->name('update')
-                      ->middleware(ProductEdit::class);
+                      ->middleware(ProductEdit::class); //new
+
+                Route::post('/toggle-availability/{branch_slug}',[ProductController::class,'toggleAvailability'])
+                        ->name('toggle_availability')
+                        ->middleware(ProductToggleAvailability::class); //new
+
+                Route::post('/toggle-activation',[ProductController::class,'toggleActivation'])
+                        ->name('toggle_activation')
+                        ->middleware(ProductToggleActivation::class); //new
+
             });
 
 
