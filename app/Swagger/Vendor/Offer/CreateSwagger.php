@@ -19,7 +19,7 @@ namespace App\Swagger\Vendor\Offer;
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"branch_id,name,discount_type,discount_value,start_date,end_date,activation_status"},
+ *             required={"branch_id","name","discount_type","discount_value","start_date","end_date","activation_status"},
  *             type="object",
  *             @OA\Property(property="branch_id", type="integer", example="19"),
  *             @OA\Property(property="category_id", type="integer", example="19"),
