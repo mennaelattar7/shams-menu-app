@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class VendorBranch__Offer extends Model
 {
+    use HasSlug;
     protected $table = "vendor_branch___offers";
     protected $casts = [
         'name' => 'array',
@@ -22,6 +25,12 @@ class VendorBranch__Offer extends Model
         $locale =  app()->getLocale();
         $array_values = json_decode($this->attributes['description'],true);
         return $array_values[$locale];
+    }
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['name'])
+            ->saveSlugsTo('slug');
     }
     public function is_active()
     {

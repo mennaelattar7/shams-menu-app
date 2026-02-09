@@ -26,7 +26,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
-
+                'user.api.vendor.branch.products',
             ]),$this->name),
 
             'slug' =>$this->when($request->routeIs([
@@ -35,6 +35,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
+                'user.api.vendor.branch.products',
             ]),$this->slug),
 
             'description' =>$this->when($request->routeIs([
@@ -59,7 +60,9 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
+                'user.api.vendor.branch.products',
             ]),$this->activation_status),
+            
             'availability_status' => $this->whenPivotLoaded('product___product_branches', function () {
                 return $this->pivot->availability_status;
             }),

@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\User\API\Vendor\OfferController;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorData;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdateVendorRatings;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,7 @@ use App\Http\Controllers\User\API\Vendor\HomeController;
 use App\Http\Controllers\User\API\Vendor\LangController;
 use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
+use App\Http\Controllers\User\API\Vendor\TableRequestController;
 use App\Http\Controllers\User\API\Vendor\VendorController;
 use App\Http\Middleware\custom_middleware\API\Branch\Create as BranchCreate;
 use App\Http\Middleware\custom_middleware\API\Branch\Edit as BranchEdit;
@@ -20,6 +22,7 @@ use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategor
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\Branch\GetBranchFeatures as BranchGetBranchFeatures;
 use App\Http\Middleware\custom_middleware\API\Branch\GetCategories as BranchGetCategories;
+use App\Http\Middleware\custom_middleware\API\Branch\GetProducts as BranchGetProducts;
 use App\Http\Middleware\custom_middleware\API\Branch\GetTableRequest as BranchGetTableRequest;
 use App\Http\Middleware\custom_middleware\API\Branch\ToggleActivation as BranchToggleActivation;
 use App\Http\Middleware\custom_middleware\API\Product\Index as ProductIndex;
@@ -32,6 +35,10 @@ use App\Http\Middleware\custom_middleware\API\VendorBranch__Feature\Edit as Vend
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
 use App\Http\Middleware\custom_middleware\API\Vendor\GetvendorData;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorSocialMedia;
+
+use App\Http\Middleware\custom_middleware\API\TableRequest\Respond as TableRequestRespond;
+use App\Http\Middleware\custom_middleware\API\TableRequest\Single as TableRequestSingle;
+use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Create as VendorBranch__OfferCreate;
 
 Route::prefix('vendor')->name('vendor.')->group(function(){
     //Authentication Routes
@@ -98,6 +105,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                       ->name('categories')
                       ->middleware(BranchGetCategories::class);
 
+                Route::get('/products/{availability_status?}',[BranchController::class,'getProducts'])
+                      ->name('products')
+                      ->middleware(BranchGetProducts::class); //new
+
                 Route::get('/table_requests/{request_type?}',[BranchController::class,'getTableRequests'])
                       ->name('table_requests')
                       ->middleware(BranchGetTableRequest::class); //new
@@ -152,8 +163,26 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                         ->middleware(ProductToggleActivation::class); //new
 
             });
+        });
+        //Table Request Routes
+        Route::prefix('table-requests')->name('table_request.')->group(function(){
+            Route::prefix('/{request_id}')->group(function(){
+                Route::post('/respond',[TableRequestController::class,'respond'])
+                    ->name('respond')
+                    ->middleware(TableRequestRespond::class); //new
 
+                Route::get('/',[TableRequestController::class,'single'])
+                    ->name('single')
+                    ->middleware(TableRequestSingle::class); //new
 
+            });
+        });
+
+        //Offer Routes
+        Route::prefix('offers')->name('offer.')->group(function(){
+            Route::post('create',[OfferController::class,'create'])
+                  ->name('create')
+                  ->middleware(VendorBranch__OfferCreate::class); //new
         });
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){
@@ -184,7 +213,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             });
         });
 
-        
+
 
 
 

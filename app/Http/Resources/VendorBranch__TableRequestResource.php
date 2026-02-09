@@ -21,7 +21,11 @@ class VendorBranch__TableRequestResource extends JsonResource
             'request_type' =>$this->request_type,
             'current_status' =>$this->current_status,
             'requested_at' =>$this->requested_at,
-            'completed_at' =>$this->completed_at
+            'completed_at' =>$this->completed_at,
+
+            'status_history' =>$this->when($request->routeIs([
+                'user.api.vendor.table_request.single',
+            ]),VendorBranch__TableRequest_StatusHistoryResource::collection($this->status_history)),
         ];
     }
 }

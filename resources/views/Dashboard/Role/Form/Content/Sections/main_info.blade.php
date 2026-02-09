@@ -174,20 +174,33 @@
                                     <a class="nav-link show active" id="v-product-tab" data-toggle="pill" href="#v-product" role="tab" aria-controls="v-product" aria-selected="true">
                                         {{ trans('Dashboard.Products')}}
                                     </a>
+
+                                    <h6 class="mt-3 mb-1 text-muted">📌 {{ trans('Dashboard.Branches')}}</h6>
                                     <a class="nav-link" id="v-branch-tab" data-toggle="pill" href="#v-branch" role="tab" aria-controls="v-branch" aria-selected="true">
                                         {{ trans('Dashboard.Branches')}}
                                     </a>
+                                    <a class="nav-link" id="v-vendor_branch___feature-tab" data-toggle="pill" href="#v-vendor_branch___feature" role="tab" aria-controls="v-vendor_branch___feature" aria-selected="true">
+                                        {{ trans('Dashboard.Features')}}
+                                    </a>
+                                    <a class="nav-link" id="v-vendor_branch___table_request-tab" data-toggle="pill" href="#v-vendor_branch___table_request" role="tab" aria-controls="v-vendor_branch___table_request" aria-selected="true">
+                                        {{ trans('Dashboard.Table_Requests')}}
+                                    </a>
+                                    <a class="nav-link" id="v-vendor_branch___offer-tab" data-toggle="pill" href="#v-vendor_branch___offer" role="tab" aria-controls="v-vendor_branch___offer" aria-selected="true">
+                                        {{ trans('Dashboard.Offers')}}
+                                    </a>
+
+                                    <h6 class="mt-3 mb-1 text-muted">📌 kjbkjbk</h6>
                                     <a class="nav-link" id="v-vendor___menu_category-tab" data-toggle="pill" href="#v-vendor___menu_category" role="tab" aria-controls="v-vendor___menu_category" aria-selected="true">
                                         {{ trans('Dashboard.Menu_Categories')}}
                                     </a>
                                     <a class="nav-link" id="v-vendor-tab" data-toggle="pill" href="#v-vendor" role="tab" aria-controls="v-vendor" aria-selected="true">
                                         {{ trans('Dashboard.Vendor')}}
                                     </a>
-                                    <a class="nav-link" id="v-vendor_branch___feature-tab" data-toggle="pill" href="#v-vendor_branch___feature" role="tab" aria-controls="v-vendor_branch___feature" aria-selected="true">
-                                        {{ trans('Dashboard.Vendor_Branch_Features')}}
-                                    </a>
 
-                                    <h6 class="mt-3 mb-1 text-muted">📌 الصلاحيات و الادوار</h6>
+
+
+
+                                    <h6 class="mt-3 mb-1 text-muted">📌 {{ trans('Dashboard.Roles&Permissions') }}</h6>
                                     <a class="nav-link" id="v-permission-tab" data-toggle="pill" href="#v-permission" role="tab" aria-controls="v-permission" aria-selected="true">
                                         {{ trans('Dashboard.Permissions')  }}
                                     </a>
@@ -302,6 +315,52 @@
                                             </div>
                                         @endforeach
                                     </div>
+
+                                    <div class="tab-pane" id="v-vendor_branch___table_request" role="tabpanel" aria-labelledby="v-vendor_branch___table_request-tab">
+                                        <h6><i>-- {{ $role->guard_name }} Guard Name --</i></h6>
+                                        @foreach($vendor_branch___table_request_permissions->where('guard_name',$role->guard_name) as $one_permission)
+                                            <div class="col-md-12">
+                                                <div class="fancy-checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="permission_ids[]" value="{{$one_permission->id}}"
+                                                        @if($role->hasPermissionTo($one_permission))
+                                                            checked="checked"
+                                                        @endif
+                                                        @if(Route::currentRouteName() == "dashboard.role.show")
+                                                            disabled
+                                                        @endif
+                                                        >
+                                                        <span>{{$one_permission->display_name}}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <div class="tab-pane" id="v-vendor_branch___offer" role="tabpanel" aria-labelledby="v-vendor_branch___offer-tab">
+                                        <h6><i>-- {{ $role->guard_name }} Guard Name --</i></h6>
+                                        @foreach($vendor_branch___offer_permissions->where('guard_name',$role->guard_name) as $one_permission)
+                                            <div class="col-md-12">
+                                                <div class="fancy-checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="permission_ids[]" value="{{$one_permission->id}}"
+                                                        @if($role->hasPermissionTo($one_permission))
+                                                            checked="checked"
+                                                        @endif
+                                                        @if(Route::currentRouteName() == "dashboard.role.show")
+                                                            disabled
+                                                        @endif
+                                                        >
+                                                        <span>{{$one_permission->display_name}}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+
+
+
 
 
 

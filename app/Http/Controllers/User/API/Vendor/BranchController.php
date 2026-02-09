@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\API\Vendor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\Branch\CreateRequest;
 use App\Http\Requests\User\API\Vendor\Branch\UpdateRequest;
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\Shams__VendorFeatureResource;
 use App\Http\Resources\VendorBranch__TableRequestResource;
 use App\Http\Resources\VendorBranchResource;
@@ -213,7 +214,6 @@ class BranchController extends BaseController
         ]);
 
     }
-
     public function getBranchFeatures($locale,$branch_slug)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
@@ -225,7 +225,6 @@ class BranchController extends BaseController
             'data' => Shams__VendorFeatureResource::collection($branch_features)
         ],200);
     }
-
     public function toggleActivationBranch($locale,$branch_slug,Request $request)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
@@ -243,7 +242,6 @@ class BranchController extends BaseController
             'message' => 'Change Activation StatusSuccefully',
         ], 200);
     }
-
     public function getCategories($locale,$branch_slug,$category_type=null)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
@@ -292,7 +290,6 @@ class BranchController extends BaseController
         }
 
     }
-
     public function getTableRequests($locale,$branch_slug,$request_type=null)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
@@ -331,6 +328,38 @@ class BranchController extends BaseController
 
     }
 
+    public function getProducts($locale,$branch_slug,$availability_status=null)
+    {
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if(!$branch)
+        {
+            return response()->json([
+                'success' =>false,
+                'message' =>'This Branch Not found'
+            ],404);
+        }
+        if($availability_status == null)
+        {
+            $products = $branch->products;
+        }
+        else
+        {
+            $products = $branch->products()->wherePivot('availability_status',$availability_status)->get();
+        }
+
+        if($products->isEmpty())
+        {
+            return response()->json([
+                'success' =>false,
+                'message' =>'There Are no Products'
+            ],404);
+        }
+        return response()->json([
+            'success' =>true,
+            'message' =>'Get Branch Products successfully',
+            'data' => ProductResource::collection($products)
+        ],200);
+    }
     public function getCategoriesByBranches($locale,Request $request,$category_type=null)
     {
         $branchIds = $request->branches_ids; // ?branches_ids[]=1&branches_ids[]=2

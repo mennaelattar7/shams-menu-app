@@ -58,5 +58,10 @@ return [
     'Rating' =>'Rating',
     'Actions' =>'Actions',
     'Create_Vendor' =>'Create Vendor',
-    'Vendor_Branch_Features' =>'Vendor Branch Features'
+    'Vendor_Branch_Features' =>'Vendor Branch Features',
+    'Vendor_Branch_Table_Request' =>'Vendor Branch Table Request',
+    'Roles&Permissions' =>'Roles & Permissions',
+    'Features' =>'Features',
+    'Offers' =>'Offers',
+    'Table_Requests' =>'Table Requests'
 ];
