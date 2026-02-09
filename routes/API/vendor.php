@@ -20,6 +20,7 @@ use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategor
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\Branch\GetBranchFeatures as BranchGetBranchFeatures;
 use App\Http\Middleware\custom_middleware\API\Branch\GetCategories as BranchGetCategories;
+use App\Http\Middleware\custom_middleware\API\Branch\GetTableRequest as BranchGetTableRequest;
 use App\Http\Middleware\custom_middleware\API\Branch\ToggleActivation as BranchToggleActivation;
 use App\Http\Middleware\custom_middleware\API\Product\Index as ProductIndex;
 use App\Http\Middleware\custom_middleware\API\Product\Create as ProductCreate;
@@ -96,6 +97,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::get('/categories/{category_type?}',[BranchController::class,'getCategories'])
                       ->name('categories')
                       ->middleware(BranchGetCategories::class);
+
+                Route::get('/table_requests/{request_type?}',[BranchController::class,'getTableRequests'])
+                      ->name('table_requests')
+                      ->middleware(BranchGetTableRequest::class); //new
 
             });
         });
@@ -178,6 +183,8 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     ->middleware(VendorBranch__FeatureEdit::class);
             });
         });
+
+        
 
 
 

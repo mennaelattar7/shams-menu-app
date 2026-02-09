@@ -16,6 +16,7 @@ class TableRequestController extends Controller
         $branch_table = VendorBranch__Table::find($request->table_id);
         $branch = $branch_table->branch;
         $new_table_request = new VendorBranch__TableRequest();
+
         if(Auth::check())
         {
             $new_table_request->customer_id = Auth::user()->customer->id;
@@ -40,6 +41,7 @@ class TableRequestController extends Controller
         }
         $new_table_request->request_type = $request->request_type;
         $new_table_request->requested_at = now();
+
         $new_table_request->save();
 
         //add this status in vendor_branch___table_request__status_histories table

@@ -12,4 +12,9 @@ class VendorBranch__Table extends Model
     {
         return $this->belongsTo(VendorBranche::class,'branch_id','id');
     }
+
+    public function table_requests()
+    {
+        return $this->hasMany(VendorBranch__TableRequest::class,'branch_table_id','id');
+    }
 }

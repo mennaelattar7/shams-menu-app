@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\Branch\CreateRequest;
 use App\Http\Requests\User\API\Vendor\Branch\UpdateRequest;
 use App\Http\Resources\Shams__VendorFeatureResource;
+use App\Http\Resources\VendorBranch__TableRequestResource;
 use App\Http\Resources\VendorBranchResource;
 use App\Http\Resources\VendorMenuCategoryResource;
 use App\Models\VendorBranch__Feature;
@@ -13,6 +14,7 @@ use App\Models\VendorBranch__Feature_StatusHistory;
 use App\Models\VendorBranch__OperatingHour;
 use App\Models\VendorBranch__OperatingHourShift;
 use App\Models\VendorBranch__Table;
+use App\Models\VendorBranch__TableRequest;
 use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -286,6 +288,44 @@ class BranchController extends BaseController
             return response()->json([
                 'success' =>true,
                 'message' =>'There Are No '.$category_type.' Categories in This Banch',
+            ],404);
+        }
+
+    }
+
+    public function getTableRequests($locale,$branch_slug,$request_type=null)
+    {
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        $tables_ids = $branch->tables->pluck('id')->toArray();
+        if($branch == null)
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'This Branch Not exist',
+            ], 404);
+        }
+        if($request_type != null)
+        {
+            $table_requests = VendorBranch__TableRequest::whereIn('branch_table_id',$tables_ids)
+                                                         ->where('request_type',$request_type)->get();
+        }
+        else
+        {
+            $table_requests = VendorBranch__TableRequest::whereIn('branch_table_id',$tables_ids)->get();
+        }
+        if($table_requests->isNotEmpty())
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'Get All ' . $request_type.' Table Requests Successfully',
+                'table_requests' =>VendorBranch__TableRequestResource::collection($table_requests)
+            ],200);
+        }
+        else
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'There Are No Table Requests in '.$request_type.' Type',
             ],404);
         }
 
