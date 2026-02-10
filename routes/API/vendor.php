@@ -84,7 +84,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                   ->name('create')
                   ->middleware(BranchCreate::class); ///Final Done
 
-            Route::get('/categories/by-branches/{category_type?}',[BranchController::class,'getCategoriesByBranches'])
+            Route::post('/categories/by-branches/{category_type?}',[BranchController::class,'getCategoriesByBranches'])
                 ->name('categories.by_branches')
                 ->middleware(BranchGetCategories::class);
 
@@ -232,10 +232,6 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     ->middleware(VendorBranch__FeatureEdit::class);
             });
         });
-
-
-
-
 
     });
 });
