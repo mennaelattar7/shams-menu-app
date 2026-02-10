@@ -203,8 +203,6 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::post('create',[EmployeePositionController::class,'create'])
                   ->name('create'); //new
 
-            });
-
         });
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){
