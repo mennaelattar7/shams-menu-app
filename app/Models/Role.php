@@ -10,9 +10,13 @@ class Role extends SpatieRole
 {
     use HasFactory;
     protected $table = "roles";
-    protected $fillable = [
-        'display_name',
-        'guard_name',
+    // protected $fillable = [
+    //     'display_name',
+    //     'guard_name',
+    // ];
+
+    protected $casts = [
+        'name' => 'array',
     ];
     public $guarded = [];
 

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\User\API\Vendor\Authentication\AuthController ;
 use App\Http\Controllers\User\API\Vendor\BranchController;
+use App\Http\Controllers\User\API\Vendor\EmployeePositionController;
 use App\Http\Controllers\User\API\Vendor\HomeController;
 use App\Http\Controllers\User\API\Vendor\LangController;
 use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
@@ -195,6 +196,13 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     Route::get('/',[OfferController::class,'single'])
                         ->name('single')
                         ->middleware(VendorBranch__OfferSingle::class); //new
+            });
+        });
+
+        Route::prefix('employee_positions')->name('employee_position.')->group(function(){
+            Route::post('create',[EmployeePositionController::class,'create'])
+                  ->name('create'); //new
+
             });
 
         });

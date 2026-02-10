@@ -39,5 +39,7 @@ use Illuminate\Support\Facades\Route;
             Route::get('/',[Meta_ProductCookingLevelController::class,'index'])->name('index');
         });
 
-
+        Route::prefix('permissions')->name('permission.')->group(function(){
+            Route::get('/',[Meta_ProductCookingLevelController::class,'index'])->name('index');
+        });
     });
