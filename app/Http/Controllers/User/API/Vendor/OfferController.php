@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\Offer\CreateRequest;
+use App\Http\Resources\VendorBranch__OfferResource;
 use App\Models\Vendor__MenuCategory;
 use App\Models\VendorBranch__Offer;
 use App\Models\VendorBranch__OfferProduct;
@@ -12,6 +13,23 @@ use Illuminate\Http\Request;
 
 class OfferController extends BaseController
 {
+    public function index()
+    {
+        $vendor = $this->vendor->load('branches.offers');
+        $offers = $vendor->branches->pluck('offers')->flatten();
+        if($offers->isEmpty())
+        {
+            return response()->json([
+                'success' => false,
+                'message' =>'There Ar no Offers In Vendor'
+            ],404);
+        }
+        return response()->json([
+            'success' =>true,
+            'message' =>'get Offers of Vendor successfully',
+            'data' => VendorBranch__OfferResource::collection($offers)
+        ],200);
+    }
     public function create(CreateRequest $request)
     {
         $branch = VendorBranche::find($request->branch_id);
@@ -106,5 +124,22 @@ class OfferController extends BaseController
             ],404);
         }
 
+    }
+
+    public function single($locale,$offer_slug)
+    {
+        $offer = VendorBranch__Offer::where('slug',$offer_slug)->first();
+        if(!$offer)
+        {
+            return response()->json([
+                'success' =>false,
+                'message' => 'This Offer Not Exist'
+            ],404);
+        }
+        return response()->json([
+            'success' =>true,
+            'message' => 'Get Offer Successfully',
+            'data' => new VendorBranch__OfferResource($offer)
+        ],200);
     }
 }

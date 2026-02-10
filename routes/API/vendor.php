@@ -38,7 +38,10 @@ use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorSocialMedia;
 
 use App\Http\Middleware\custom_middleware\API\TableRequest\Respond as TableRequestRespond;
 use App\Http\Middleware\custom_middleware\API\TableRequest\Single as TableRequestSingle;
+
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Create as VendorBranch__OfferCreate;
+use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Index as VendorBranch__OfferIndex;
+use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Single as VendorBranch__OfferSingle;
 
 Route::prefix('vendor')->name('vendor.')->group(function(){
     //Authentication Routes
@@ -183,6 +186,17 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::post('create',[OfferController::class,'create'])
                   ->name('create')
                   ->middleware(VendorBranch__OfferCreate::class); //new
+
+            Route::get('/',[OfferController::class,'index'])
+                  ->name('index')
+                  ->middleware(VendorBranch__OfferIndex::class); //new
+
+            Route::prefix('/{offer_slug}')->group(function(){
+                    Route::get('/',[OfferController::class,'single'])
+                        ->name('single')
+                        ->middleware(VendorBranch__OfferSingle::class); //new
+            });
+
         });
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){

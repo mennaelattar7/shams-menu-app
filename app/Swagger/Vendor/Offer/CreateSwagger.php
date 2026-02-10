@@ -34,7 +34,7 @@ namespace App\Swagger\Vendor\Offer;
  *                 @OA\Property(property="en", type="string", example="offer1"),
  *                 @OA\Property(property="ar", type="string", example="offer1")
  *             ),
- *             @OA\Property(property="discount_type", type="string", example="fixed Or percentage"),
+ *             @OA\Property(property="discount_type", type="string", enum={"fixed","percentage"}, example="fixed Or percentage"),
  *             @OA\Property(property="discount_value", type="integer", example="50"),
  *             @OA\Property(property="start_date", type="string", example="2026-12-11"),
  *             @OA\Property(property="end_date", type="string", example="2026-12-11"),

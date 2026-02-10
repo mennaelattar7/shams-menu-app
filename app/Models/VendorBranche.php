@@ -69,7 +69,10 @@ class VendorBranche extends Model
     {
         return $this->belongsToMany(Shams__VendorFeature::class,'vendor_branch___features','branch_id','feature_id');
     }
-
+    public function offers()
+    {
+        return $this->hasMany(VendorBranch__Offer::class,'branch_id','id');
+    }
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');

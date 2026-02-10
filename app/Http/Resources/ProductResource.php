@@ -27,6 +27,8 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
                 'user.api.vendor.branch.products',
+                'user.api.vendor.offer.index',
+                'user.api.vendor.offer.single',
             ]),$this->name),
 
             'slug' =>$this->when($request->routeIs([
@@ -36,6 +38,8 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
                 'user.api.vendor.branch.products',
+                'user.api.vendor.offer.index',
+                'user.api.vendor.offer.single',
             ]),$this->slug),
 
             'description' =>$this->when($request->routeIs([
@@ -52,6 +56,8 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
+                'user.api.vendor.offer.index',
+                'user.api.vendor.offer.single',
             ]) && $this->variants->count() == 1 ,$this->variants->first()->price),
 
             'activation_status' =>$this->when($request->routeIs([
@@ -62,10 +68,16 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.vendor.branch.products',
             ]),$this->activation_status),
-            
+
             'availability_status' => $this->whenPivotLoaded('product___product_branches', function () {
                 return $this->pivot->availability_status;
             }),
+            'activation_status_in_offer' => $this->when($request->routeIs([
+                    'user.api.vendor.offer.index',
+                    'user.api.vendor.offer.single',
+                    ]), $this->whenPivotLoaded('vendor_branch___offer_products', function () {
+                        return $this->pivot->activation_status;
+            })),
 
             'variants' => $this->when($request->routeIs([
                 'user.api.public.product.single',

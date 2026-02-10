@@ -12,18 +12,11 @@ class VendorBranch__Offer extends Model
     protected $table = "vendor_branch___offers";
     protected $casts = [
         'name' => 'array',
-        'description'=>'array'
     ];
     public function getNameAttribute()
     {
         $locale =  app()->getLocale();
         $array_values = json_decode($this->attributes['name'],true);
-        return $array_values[$locale];
-    }
-    public function getDescriptionAttribute()
-    {
-        $locale =  app()->getLocale();
-        $array_values = json_decode($this->attributes['description'],true);
         return $array_values[$locale];
     }
     public function getSlugOptions() : SlugOptions
@@ -37,6 +30,14 @@ class VendorBranch__Offer extends Model
         return $this->status == "active" &&
                $this->start_date <= now() &&
                $this->end_date > now();
+    }
+    public function branch()
+    {
+        return $this->belongsTo(VendorBranche::class,'branch_id','id');
+    }
+    public function products()
+    {
+        return $this->belongsToMany(Product::class,'vendor_branch___offer_products','offer_id','product_id')->withPivot('activation_status');
     }
     public function created_by()
     {
