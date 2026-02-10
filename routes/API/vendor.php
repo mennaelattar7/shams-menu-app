@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\User\API\Vendor\OfferController;
+use App\Http\Controllers\User\API\Vendor\PermissionController;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorData;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdateVendorRatings;
 use Illuminate\Support\Facades\Route;
@@ -186,23 +187,27 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         Route::prefix('offers')->name('offer.')->group(function(){
             Route::post('create',[OfferController::class,'create'])
                   ->name('create')
-                  ->middleware(VendorBranch__OfferCreate::class); //new
+                  ->middleware(VendorBranch__OfferCreate::class);
 
             Route::get('/',[OfferController::class,'index'])
                   ->name('index')
-                  ->middleware(VendorBranch__OfferIndex::class); //new
+                  ->middleware(VendorBranch__OfferIndex::class);
 
             Route::prefix('/{offer_slug}')->group(function(){
                     Route::get('/',[OfferController::class,'single'])
                         ->name('single')
-                        ->middleware(VendorBranch__OfferSingle::class); //new
+                        ->middleware(VendorBranch__OfferSingle::class);
             });
         });
 
         Route::prefix('employee_positions')->name('employee_position.')->group(function(){
             Route::post('create',[EmployeePositionController::class,'create'])
                   ->name('create'); //new
+        });
 
+        Route::prefix('permissions')->name('permission.')->group(function(){
+            Route::post('/',[PermissionController::class,'index'])
+                  ->name('index'); //new
         });
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){

@@ -81,6 +81,11 @@ class RoleRequest extends FormRequest
             for ($i=0; $i < count($this->permission_ids) ; $i++)
             {
                 $permission = Permission::find($this->permission_ids[$i]);
+                if($role->type =="vendor_employee")
+                {
+                    $permission->is_vendor = true;
+                    $permission->save();
+                }
                 array_push($permissions_name_array,$permission->name);
             }
         }
