@@ -23,8 +23,8 @@ namespace App\Swagger\Vendor\EmployeePosition;
  *             @OA\Property(
  *                 property="name",
  *                 type="object",
- *                 @OA\Property(property="en", type="string", example="branch1"),
- *                 @OA\Property(property="ar", type="string", example="branch1")
+ *                 @OA\Property(property="en", type="string", example="postion 23"),
+ *                 @OA\Property(property="ar", type="string", example="postion 23")
  *             ),
  *             @OA\Property(
  *                 property="permission_ids",
