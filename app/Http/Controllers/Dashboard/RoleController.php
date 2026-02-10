@@ -86,6 +86,7 @@ class RoleController extends Controller
         $vendor_branch___feature_permissions = Permission::where('name', 'like','8_'.'%vendor_branch___feature%')->get();
         $vendor_branch___table_request_permissions = Permission::where('name', 'like','9_'.'%vendor_branch___table_request%')->get();
         $vendor_branch___offer_permissions = Permission::where('name', 'like','10_'.'%vendor_branch___offer%')->get();
+        $vendor___employee_position_permissions = Permission::where('name', 'like','11_'.'%vendor___employee_position%')->get();
 
 
 
@@ -101,6 +102,7 @@ class RoleController extends Controller
             'vendor_branch___feature_permissions',
             'vendor_branch___table_request_permissions',
             'vendor_branch___offer_permissions',
+            'vendor___employee_position_permissions',
 
             'permission_permissions',
             'role_permissions',
