@@ -206,7 +206,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
 
         Route::prefix('permissions')->name('permission.')->group(function(){
-            Route::post('/',[PermissionController::class,'index'])
+            Route::get('/',[PermissionController::class,'index'])
                   ->name('index'); //new
         });
         //Settings Routes
