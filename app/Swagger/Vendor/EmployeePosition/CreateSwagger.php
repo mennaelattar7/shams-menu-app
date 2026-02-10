@@ -26,6 +26,11 @@ namespace App\Swagger\Vendor\EmployeePosition;
  *                 @OA\Property(property="en", type="string", example="branch1"),
  *                 @OA\Property(property="ar", type="string", example="branch1")
  *             ),
+ *             @OA\Property(
+ *                 property="permission_ids",
+ *                 type="array",
+ *                 @OA\Items(type="integer", example=88)
+ *             )
  *         )
  *     ),
  *
