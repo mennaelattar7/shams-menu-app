@@ -16,6 +16,34 @@ namespace App\Swagger\Vendor\Offer;
  *         description="Language code",
  *         @OA\Schema(type="string", example="en")
  *     ),
+ *     @OA\Parameter(
+ *         name="activation_status",
+ *         in="path",
+ *         required=false,
+ *         description="activation_status ('active', 'inactive')",
+ *         @OA\Schema(type="string", example="active")
+ *     ),
+ *     @OA\Parameter(
+ *         name="discount_type",
+ *         in="path",
+ *         required=false,
+ *         description="discount_type ('fixed', 'percentage')",
+ *         @OA\Schema(type="string", example="fixed")
+ *     ),
+ *     @OA\Parameter(
+ *         name="start_date",
+ *         in="path",
+ *         required=false,
+ *         description="start_date",
+ *         @OA\Schema(type="string", example="2026-12-11")
+ *     ),
+ *     @OA\Parameter(
+ *         name="end_date",
+ *         in="path",
+ *         required=false,
+ *         description="end_date",
+ *         @OA\Schema(type="string", example="2026-12-11")
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Get All Offers in vendor Successfully",

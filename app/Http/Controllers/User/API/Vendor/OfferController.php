@@ -13,23 +13,41 @@ use Illuminate\Http\Request;
 
 class OfferController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $vendor = $this->vendor->load('branches.offers');
-        $offers = $vendor->branches->pluck('offers')->flatten();
-        if($offers->isEmpty())
-        {
+        $offersQuery = VendorBranch__Offer::whereHas('branch', function ($q) {
+            $q->where('vendor_id', $this->vendor->id);
+        });
+
+        if ($request->filled('activation_status')) {
+            $offersQuery->where('activation_status', $request->activation_status);
+        }
+
+        if ($request->filled('discount_type')) {
+            $offersQuery->where('discount_type', $request->discount_type);
+        }
+
+        if ($request->filled('start_date')) {
+            $offersQuery->whereDate('start_date', '>=', $request->start_date);
+        }
+        if ($request->filled('end_date')) {
+            $offersQuery->whereDate('end_date', '<=', $request->end_date);
+        }
+
+        $offers = $offersQuery->get();
+        if ($offers->isEmpty()) {
             return response()->json([
                 'success' => false,
-                'message' =>'There Ar no Offers In Vendor'
+                'message' => 'There are no offers'
             ],404);
         }
         return response()->json([
-            'success' =>true,
-            'message' =>'get Offers of Vendor successfully',
+            'success' => true,
+            'message' => 'get Offers successfully',
             'data' => VendorBranch__OfferResource::collection($offers)
         ],200);
     }
+
     public function create(CreateRequest $request)
     {
         $branch = VendorBranche::find($request->branch_id);

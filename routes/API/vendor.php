@@ -111,11 +111,11 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
 
                 Route::get('/products/{availability_status?}',[BranchController::class,'getProducts'])
                       ->name('products')
-                      ->middleware(BranchGetProducts::class); //new
+                      ->middleware(BranchGetProducts::class);
 
                 Route::get('/table_requests/{request_type?}',[BranchController::class,'getTableRequests'])
                       ->name('table_requests')
-                      ->middleware(BranchGetTableRequest::class); //new
+                      ->middleware(BranchGetTableRequest::class);
 
             });
         });
@@ -156,15 +156,15 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
 
                 Route::put('/update',[ProductController::class,'update'])
                       ->name('update')
-                      ->middleware(ProductEdit::class); //new
+                      ->middleware(ProductEdit::class);
 
                 Route::post('/toggle-availability/{branch_slug}',[ProductController::class,'toggleAvailability'])
                         ->name('toggle_availability')
-                        ->middleware(ProductToggleAvailability::class); //new
+                        ->middleware(ProductToggleAvailability::class);
 
                 Route::post('/toggle-activation',[ProductController::class,'toggleActivation'])
                         ->name('toggle_activation')
-                        ->middleware(ProductToggleActivation::class); //new
+                        ->middleware(ProductToggleActivation::class);
 
             });
         });
@@ -173,11 +173,11 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::prefix('/{request_id}')->group(function(){
                 Route::post('/respond',[TableRequestController::class,'respond'])
                     ->name('respond')
-                    ->middleware(TableRequestRespond::class); //new
+                    ->middleware(TableRequestRespond::class);
 
                 Route::get('/',[TableRequestController::class,'single'])
                     ->name('single')
-                    ->middleware(TableRequestSingle::class); //new
+                    ->middleware(TableRequestSingle::class);
 
             });
         });
