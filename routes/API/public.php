@@ -26,10 +26,12 @@ Route::prefix('public')->name('public.')->group(function(){
 
     //get branch data
     Route::prefix('branches')->name('branch.')->group(function(){
-        Route::get('/{branch_slug}',[BranchController::class,'getBranchData'])->name('get_branch_data');
-        Route::get('/{branch_slug}/vendor-data',[VendorController::class,'getVendorData'])->name('get_vendor_data');
-        Route::get('/{branch_slug}/menu-categories',[MenuCategoryController::class,'getMenuCategories'])->name('getMenuCategories');
-        Route::get('/{branch_slug}/tables',[BranchController::class,'getBranchTables'])->name('get_branch_table');
+        Route::prefix('/{branch_slug}')->group(function(){
+            Route::get('/',[BranchController::class,'getBranchData'])->name('get_branch_data');
+            Route::get('/vendor-data',[VendorController::class,'getVendorData'])->name('get_vendor_data');
+            Route::get('/menu-categories',[MenuCategoryController::class,'getMenuCategories'])->name('getMenuCategories');
+            Route::get('/tables',[BranchController::class,'getBranchTables'])->name('get_branch_table');
+        });
     });
 
     //get categories data
@@ -45,6 +47,11 @@ Route::prefix('public')->name('public.')->group(function(){
     Route::middleware(OptionalSanctumAuth::class)->group(function () {
         Route::prefix('table-requests')->name('table_request.')->group(function(){
             Route::post('/send-request',[TableRequestController::class,'sendRequest'])->name('send_request');
+        });
+        Route::prefix('branches')->name('branch.')->group(function(){
+            Route::prefix('/{branch_slug}')->group(function(){
+                Route::get('/products',[BranchController::class,'getProducts'])->name('get_products');
+            });
         });
     });
 

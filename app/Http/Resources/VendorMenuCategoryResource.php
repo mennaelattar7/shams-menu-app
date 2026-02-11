@@ -24,6 +24,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.sub_categories',
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
+                'user.api.public.branch.get_products',
             ]),optional($this->parent_category)->name) ,
 
             'name' =>$this->when($request->routeIs([
@@ -34,6 +35,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.sub_categories',
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
+                'user.api.public.branch.get_products',
             ]),$this->name),
 
             'slug' =>$this->when($request->routeIs([
@@ -44,6 +46,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.sub_categories',
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
+                'user.api.public.branch.get_products',
             ]),$this->slug) ,
 
             'image' =>$this->when($request->routeIs([
@@ -54,6 +57,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.sub_categories',
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
+                'user.api.public.branch.get_products',
             ]),$this->image ? Storage::url($this->image) : null) ,
 
             'activation_status' =>$this->when($request->routeIs([
@@ -63,6 +67,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.sub_categories',
                 'user.api.vendor.menu_category.index',
                 'user.api.vendor.branch.categories.by_branches',
+                'user.api.public.branch.get_products',
             ]),$this->activation_status) ,
 
             'sort' =>$this->when($request->routeIs([
@@ -73,7 +78,11 @@ class VendorMenuCategoryResource extends JsonResource
                     'user.api.vendor.menu_category.sub_categories',
                     'user.api.public.branch.getMenuCategories',
                     'user.api.vendor.branch.categories.by_branches',
+                    'user.api.public.branch.get_products',
                 ]),$this->sort),
+            'products' =>$this->when($request->routeIs([
+                    'user.api.public.branch.get_products',
+                ]),ProductResource::collection($this->products)),
         ];
     }
 }
