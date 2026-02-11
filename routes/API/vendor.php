@@ -15,26 +15,34 @@ use App\Http\Controllers\User\API\Vendor\LangController;
 use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
 use App\Http\Controllers\User\API\Vendor\TableRequestController;
+use App\Http\Controllers\User\API\Vendor\UserController;
 use App\Http\Controllers\User\API\Vendor\VendorController;
+
 use App\Http\Middleware\custom_middleware\API\Branch\Create as BranchCreate;
 use App\Http\Middleware\custom_middleware\API\Branch\Edit as BranchEdit;
 use App\Http\Middleware\custom_middleware\API\Branch\Single as BranchSingle;
 use App\Http\Middleware\custom_middleware\API\Branch\Index as BranchIndex;
-use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategoryCreate;
-use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\Branch\GetBranchFeatures as BranchGetBranchFeatures;
 use App\Http\Middleware\custom_middleware\API\Branch\GetCategories as BranchGetCategories;
 use App\Http\Middleware\custom_middleware\API\Branch\GetProducts as BranchGetProducts;
 use App\Http\Middleware\custom_middleware\API\Branch\GetTableRequest as BranchGetTableRequest;
 use App\Http\Middleware\custom_middleware\API\Branch\ToggleActivation as BranchToggleActivation;
+
+use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategoryCreate;
+use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
+
+
+
 use App\Http\Middleware\custom_middleware\API\Product\Index as ProductIndex;
 use App\Http\Middleware\custom_middleware\API\Product\Create as ProductCreate;
 use App\Http\Middleware\custom_middleware\API\Product\Single as ProductSingle;
 use App\Http\Middleware\custom_middleware\API\Product\Edit as ProductEdit;
 use App\Http\Middleware\custom_middleware\API\Product\ToggleAvailability as ProductToggleAvailability;
 use App\Http\Middleware\custom_middleware\API\Product\ToggleActivation as ProductToggleActivation;
-use App\Http\Middleware\custom_middleware\API\VendorBranch__Feature\Edit as VendorBranch__FeatureEdit;
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
+
+use App\Http\Middleware\custom_middleware\API\VendorBranch__Feature\Edit as VendorBranch__FeatureEdit;
+
 use App\Http\Middleware\custom_middleware\API\Vendor\GetvendorData;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorSocialMedia;
 
@@ -44,6 +52,11 @@ use App\Http\Middleware\custom_middleware\API\TableRequest\Single as TableReques
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Create as VendorBranch__OfferCreate;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Index as VendorBranch__OfferIndex;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Single as VendorBranch__OfferSingle;
+
+use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Create as Vendor__EmployeePositionCreate;
+
+use App\Http\Middleware\custom_middleware\API\User\Create as UserCreate;
+
 
 Route::prefix('vendor')->name('vendor.')->group(function(){
     //Authentication Routes
@@ -202,13 +215,21 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
 
         Route::prefix('employee_positions')->name('employee_position.')->group(function(){
             Route::post('create',[EmployeePositionController::class,'create'])
-                  ->name('create'); //new
+                  ->name('create')
+                  ->middleware(Vendor__EmployeePositionCreate::class);
         });
 
         Route::prefix('permissions')->name('permission.')->group(function(){
             Route::get('/',[PermissionController::class,'index'])
-                  ->name('index'); //new
+                  ->name('index');
         });
+
+        Route::prefix('users')->name('user.')->group(function(){
+            Route::post('create',[UserController::class,'create'])
+                  ->name('create')
+                  ->middleware(UserCreate::class); //new
+        });
+
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){
             Route::get('/my-roles-permissions',[VendorController::class,'getRolesPremissions'])->name('get_roles_premissions');

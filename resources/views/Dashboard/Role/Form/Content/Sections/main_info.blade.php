@@ -193,7 +193,7 @@
                                     </a>
 
 
-                                    <h6 class="mt-3 mb-1 text-muted">📌 kjbkjbk</h6>
+                                    <h6 class="mt-3 mb-1 text-muted">📌 Vendor</h6>
                                     <a class="nav-link" id="v-vendor___menu_category-tab" data-toggle="pill" href="#v-vendor___menu_category" role="tab" aria-controls="v-vendor___menu_category" aria-selected="true">
                                         {{ trans('Dashboard.Menu_Categories')}}
                                     </a>
@@ -383,12 +383,6 @@
                                         @endforeach
                                     </div>
 
-
-
-
-
-
-
                                     <div class="tab-pane" id="v-permission" role="tabpanel" aria-labelledby="v-permission-tab">
 
                                     </div>
@@ -412,7 +406,8 @@
                                         @endforeach
                                     </div>
                                     <div class="tab-pane" id="v-user" role="tabpanel" aria-labelledby="v-user-tab">
-                                        @foreach($user_permissions as $one_permission)
+                                        <h6><i>-- {{ $role->guard_name }} Guard Name --</i></h6>
+                                        @foreach($user_permissions->where('guard_name',$role->guard_name) as $one_permission)
                                             <div class="col-md-12">
                                                 <div class="fancy-checkbox">
                                                     <label>

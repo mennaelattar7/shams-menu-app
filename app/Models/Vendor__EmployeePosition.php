@@ -26,6 +26,11 @@ class Vendor__EmployeePosition extends Model
             ->saveSlugsTo('slug');
     }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class,'role_id','id');
+    }
+
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');
