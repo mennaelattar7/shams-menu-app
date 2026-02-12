@@ -139,7 +139,7 @@ class OfferController extends BaseController
             return response()->json([
                 'success' =>true,
                 'message' =>'Assign Offer To Products Successfully'
-            ],404);
+            ],200);
         }
 
     }
