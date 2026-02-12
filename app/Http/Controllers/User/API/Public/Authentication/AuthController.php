@@ -132,15 +132,23 @@ class AuthController extends Controller
             ->where('type',"customer_login")
             ->orWhere('type',"customer_register")
             ->latest()->first();
+
             if(!$user_otp)
             {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Invalid or expired OTP',
+                    'message' => 'This OTP Invalid',
                 ], 400);
             }
             else
             {
+                if($user_otp->status == "inactive")
+                {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'This OTP Is expired',
+                    ], 400);
+                }
                 $user->verified_at = now();
                 $user->activation_status = "active";
                 $user->account_status = "approved";
