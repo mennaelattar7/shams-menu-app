@@ -40,7 +40,7 @@ class UserController extends BaseController
         $new_user->phone_number = $request->phone_number;
         $new_user->account_type = "vendor_employee";
         $new_user->activation_status = "inactive";
-        $new_user->account_status ="not_approved";
+        $new_user->account_status ="pending_activation";
         $new_user->save();
 
         //add in user___account_status_histories table
