@@ -278,7 +278,7 @@ class BranchController extends BaseController
             return response()->json([
                 'success' =>true,
                 'message' =>'Get All ' . $category_type.' Categories Successfully',
-                'categories' =>VendorMenuCategoryResource::collection($categories)
+                'data' =>VendorMenuCategoryResource::collection($categories)
             ],200);
         }
         else
@@ -399,7 +399,7 @@ class BranchController extends BaseController
             return response()->json([
                 'success' =>true,
                 'message' =>'Get All ' . $category_type.' Categories Successfully',
-                'categories' =>VendorMenuCategoryResource::collection($categories)
+                'data' =>VendorMenuCategoryResource::collection($categories)
             ],200);
         }
         else

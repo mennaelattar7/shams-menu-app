@@ -141,7 +141,7 @@ class MenuCategorycontroller extends BaseController
                 return response()->json([
                     'success' =>true,
                     'message' =>'Get Sub Categories Successfully',
-                    'Sub_Categories' => VendorMenuCategoryResource::collection($sub_categories)
+                    'data' => VendorMenuCategoryResource::collection($sub_categories)
                 ],404);
             }
         }
