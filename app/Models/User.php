@@ -79,4 +79,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(VendorRepresentative::class,'user_id','id');
     }
+
+    public function employee()
+    {
+        return $this->hasOne(Vendor__Employee::class,'user_id','id');
+    }
 }

@@ -13,10 +13,14 @@ class BaseController extends Controller
 
     public function __construct()
     {
-        $this->vendor = Auth::user()
-            ->vendor_representative
-            ->vendor;
+        if(Auth::user()->vendor_representative)
+        {
+            $this->vendor = Auth::user()->vendor_representative->vendor;
+        }
+        else
+        {
+            $this->vendor = Auth::user()->employee->vendor;
+        }
         $this->user = Auth::user();
-
     }
 }
