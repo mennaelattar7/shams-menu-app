@@ -152,13 +152,15 @@ class AuthController extends Controller
         //check password is null exist
         $user = User::where([
             ['phone_number',$request->phone_number],
-            ['account_type',"vendor_representative"],
-            ['activation_status',"active"]
+            // ['account_type',"vendor_representative"],
+            // ['activation_status',"active"]
         ])->first();
 
         if($user && !$user->password)
         {
             $user->password = Hash::make($request->password);
+            $user->activation_status = "active";
+            $user->account_status = "approved";
             $user->save();
         }
         $credentials = [
@@ -171,6 +173,7 @@ class AuthController extends Controller
             $user = Auth::user();
             $user->tokens()->delete();
             $token = $user->createToken('api-token')->plainTextToken;
+
             return response()->json([
                 'success' => true,
                 'message' =>"success Login",
