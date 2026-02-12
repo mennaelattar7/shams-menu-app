@@ -31,6 +31,7 @@ Route::prefix('public')->name('public.')->group(function(){
             Route::get('/vendor-data',[VendorController::class,'getVendorData'])->name('get_vendor_data');
             Route::get('/menu-categories',[MenuCategoryController::class,'getMenuCategories'])->name('getMenuCategories');
             Route::get('/tables',[BranchController::class,'getBranchTables'])->name('get_branch_table');
+            Route::get('/features',[BranchController::class,'getFeatures'])->name('get_features');
         });
     });
 

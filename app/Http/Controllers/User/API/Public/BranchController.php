@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\API\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ShamsFeatureResource;
 use App\Http\Resources\VendorBranch__TableResource;
 use App\Http\Resources\VendorBranchResource;
 use App\Http\Resources\VendorMenuCategoryResource;
@@ -69,6 +70,24 @@ class BranchController extends Controller
             'success' =>true,
             'message' =>'get products successfully',
             'data' => VendorMenuCategoryResource::collection($categories)
+        ],200);
+    }
+
+    public function getFeatures($locale,$branch_slug)
+    {
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if(!$branch)
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'Branch not found or inactive',
+            ],404);
+        }
+        $features = $branch->features->where('activation_status','active');
+        return response()->json([
+            'success' =>true,
+            'message' =>'get Features successfully',
+            'data' => ShamsFeatureResource::collection($features)
         ],200);
     }
 }

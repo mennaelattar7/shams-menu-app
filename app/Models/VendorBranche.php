@@ -64,7 +64,6 @@ class VendorBranche extends Model
     {
         return $this->belongsToMany(Product::class,'product___product_branches','branch_id','product_id')->withPivot('availability_status');
     }
-
     public function features()
     {
         return $this->belongsToMany(Shams__VendorFeature::class,'vendor_branch___features','branch_id','feature_id');
