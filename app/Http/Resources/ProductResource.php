@@ -199,7 +199,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
                 'user.api.public.branch.get_products',
-            ]),$this->image ? Storage::url($this->image) : null),
+            ]),$this->image ? url(Storage::url($this->image))  : null),
 
             'is_favorite' =>$this->when($request->routeIs([
                 'user.api.public.branch.get_products',
