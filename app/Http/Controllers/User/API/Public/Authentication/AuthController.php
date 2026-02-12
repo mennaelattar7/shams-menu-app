@@ -40,7 +40,7 @@ class AuthController extends Controller
                     //add in user__OTPs
                     $user_otp = new User_OTP();
                     $user_otp->user_id = $user->id;
-                    $user_otp->otp = rand(100000, 999999);
+                    $user_otp->otp = rand(1000, 9999);
                     $user_otp->type = "customer_login";
                     $user_otp->expired_at = Carbon::now()->addMinutes(20);
                     $user_otp->save();
@@ -94,7 +94,7 @@ class AuthController extends Controller
             //add in user__OTPs
             $new_user_otp = new User_OTP();
             $new_user_otp->user_id = $new_user->id;
-            $new_user_otp->otp = rand(100000, 999999);
+            $new_user_otp->otp = rand(1000, 9999);
             $new_user_otp->type = "customer_register";
             $new_user_otp->expired_at = Carbon::now()->addMinutes(20);
             $new_user_otp->save();
@@ -201,7 +201,7 @@ class AuthController extends Controller
                 //add in user__OTPs
                 $new_user_otp = new User_OTP();
                 $new_user_otp->user_id = $user->id;
-                $new_user_otp->otp = rand(100000, 999999);
+                $new_user_otp->otp = rand(1000, 9999);
                 $new_user_otp->type = "reset_password";
                 $new_user_otp->expired_at = Carbon::now()->addMinutes(20);
                 $new_user_otp->save();
