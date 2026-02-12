@@ -9,6 +9,18 @@ class Vendor__Employee extends Model
 
     protected $table = "vendor___employees";
 
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class,'vendor_id','id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+    public function position()
+    {
+        return $this->belongsTo(Vendor__EmployeePosition::class,'position_id','id');
+    }
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');

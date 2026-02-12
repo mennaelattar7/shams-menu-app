@@ -22,6 +22,8 @@ class UserResource extends JsonResource
             'user_country_dial_code' => $this->country->dial_code,
             'user_phone_number' =>$this->phone_number,
             'user_account_type' =>$this->account_type,
+            'activation_status' =>$this->activation_status,
+            'account_status' =>$this->account_status,
             'roles' =>$this->getRoleNames(),
             // 'vendor_representative'=> $this->when(
             //                                      $request->routeIs('user.api.vendor.auth.login'),

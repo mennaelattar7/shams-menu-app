@@ -21,18 +21,21 @@ class VendorResource extends JsonResource
             'company_name' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.vendor.employee_position.index',
+                'user.api.vendor.user.index',
             ]),$this->company_name),
 
             'slug' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.public.branch.get_vendor_data',
                 'user.api.vendor.employee_position.index',
+                'user.api.vendor.user.index',
             ]),$this->slug),
 
             'brand_name' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.public.branch.get_vendor_data',
                 'user.api.vendor.employee_position.index',
+                'user.api.vendor.user.index',
             ]),$this->brand_name),
 
             'logo' =>$this->when($request->routeIs([

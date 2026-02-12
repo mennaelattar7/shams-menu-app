@@ -57,6 +57,7 @@ use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Create as
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Index as Vendor__EmployeePositionIndex;
 
 use App\Http\Middleware\custom_middleware\API\User\Create as UserCreate;
+use App\Http\Middleware\custom_middleware\API\User\Index as UserIndex;
 
 
 Route::prefix('vendor')->name('vendor.')->group(function(){
@@ -231,6 +232,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
 
         Route::prefix('users')->name('user.')->group(function(){
+            Route::get('/',[UserController::class,'index'])
+                  ->name('index')
+                  ->middleware(UserIndex::class);
+
             Route::post('create',[UserController::class,'create'])
                   ->name('create')
                   ->middleware(UserCreate::class); //new

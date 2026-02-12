@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\User\CreateRequest;
+use App\Http\Resources\Vendor__EmployeeResource;
 use App\Models\User;
 use App\Models\User__AccountStatusHistory;
 use App\Models\Vendor__Employee;
@@ -13,6 +14,23 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController
 {
+    public function index()
+    {
+        $vendor = $this->vendor;
+        $employees = $vendor->employees;
+        if($employees->isEmpty())
+        {
+            return response()->json([
+                'success' =>false,
+                'message' => 'There Are No Employees In Vendor'
+            ],404);
+        }
+        return response()->json([
+            'success' =>true,
+            'message' =>'get Employee Successfully',
+            'data' => Vendor__EmployeeResource::collection($employees)
+        ],200);
+    }
     public function create(CreateRequest $request)
     {
         //add to user table
