@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\Route;
 
     Route::prefix('meta')->name('meta.')->group(function(){
         Route::prefix('cities')->name('city.')->group(function(){
-            Route::get('/',[CityController::class, 'index'])->name('index'); //Done Doc
-            Route::get('/filter-districts/{city_id}',[CityController::class, 'filterDistrict'])->name('filter'); //Done Doc
+            Route::get('/',[CityController::class, 'index'])->name('index');
+            Route::get('/filter-districts/{city_id}',[CityController::class, 'filterDistrict'])->name('filter');
         });
-        Route::get('districts',[DistrictController::class, 'index'])->name('district.index'); // Done Doc
-        Route::get('langs',[LangController::class, 'index'])->name('lang.index.'); // Done Doc
+        Route::get('districts',[DistrictController::class, 'index'])->name('district.index');
+        Route::get('langs',[LangController::class, 'index'])->name('lang.index.');
         Route::get('currencies',[CurrencyController::class, 'index'])->name('currency.index.');
 
         Route::get('social-media-icons',[SocialMediaIconController::class, 'index'])->name('social_media_icon.index.');

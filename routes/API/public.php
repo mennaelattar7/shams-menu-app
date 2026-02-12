@@ -5,6 +5,7 @@ use App\Http\Controllers\User\API\Public\BranchController;
 use App\Http\Controllers\User\API\Public\CustomerFavouriteController;
 use App\Http\Controllers\User\API\Public\MenuCategoryController;
 use App\Http\Controllers\User\API\Public\ProductController;
+use App\Http\Controllers\User\API\Public\ReviewController;
 use App\Http\Controllers\User\API\Public\TableRequestController;
 use App\Http\Controllers\User\API\Public\VendorController;
 use App\Http\Middleware\custom_middleware\API\OptionalSanctumAuth;
@@ -52,8 +53,15 @@ Route::prefix('public')->name('public.')->group(function(){
         Route::prefix('branches')->name('branch.')->group(function(){
             Route::prefix('/{branch_slug}')->group(function(){
                 Route::get('/products',[BranchController::class,'getProducts'])->name('get_products');
+                
+                Route::prefix('reviews')->name('review.')->group(function(){
+                    Route::post('/add-review',[ReviewController::class,'addReview'])->name('add_review');
+                });
             });
         });
+
+
+
     });
 
     Route::middleware('auth:sanctum')->group(function () {
