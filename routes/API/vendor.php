@@ -54,6 +54,7 @@ use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Index as Vendo
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Single as VendorBranch__OfferSingle;
 
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Create as Vendor__EmployeePositionCreate;
+use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Index as Vendor__EmployeePositionIndex;
 
 use App\Http\Middleware\custom_middleware\API\User\Create as UserCreate;
 
@@ -207,9 +208,9 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                   ->middleware(VendorBranch__OfferIndex::class);
 
             Route::prefix('/{offer_slug}')->group(function(){
-                    Route::get('/',[OfferController::class,'single'])
-                        ->name('single')
-                        ->middleware(VendorBranch__OfferSingle::class);
+                Route::get('/',[OfferController::class,'single'])
+                    ->name('single')
+                    ->middleware(VendorBranch__OfferSingle::class);
             });
         });
 
@@ -217,6 +218,11 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::post('create',[EmployeePositionController::class,'create'])
                   ->name('create')
                   ->middleware(Vendor__EmployeePositionCreate::class);
+
+            Route::get('/',[EmployeePositionController::class,'index'])
+                  ->name('index')
+                  ->middleware(Vendor__EmployeePositionIndex::class);
+
         });
 
         Route::prefix('permissions')->name('permission.')->group(function(){

@@ -31,6 +31,11 @@ class Vendor__EmployeePosition extends Model
         return $this->belongsTo(Role::class,'role_id','id');
     }
 
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class,'vendor_id','id');
+    }
+
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');

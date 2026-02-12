@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\EmployeePosition\CreateRequest;
+use App\Http\Resources\Vendor__EmployeePositionResource;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Vendor__EmployeePosition;
@@ -11,6 +12,23 @@ use Illuminate\Http\Request;
 
 class EmployeePositionController extends BaseController
 {
+    public function index()
+    {
+        $employee_postions = $this->vendor->employee_positions;
+        if($employee_postions->isEmpty())
+        {
+            return response()->json([
+                'success' => false,
+                'message' =>'There Are No Position'
+            ],404);
+        }
+        return response()->json([
+            'success'=>true,
+            'message' => 'Get All Postion successfully',
+            'data' => Vendor__EmployeePositionResource::collection($employee_postions)
+        ],200);
+
+    }
     public function create(CreateRequest $request)
     {
         //add in vendor___employee_positions table
@@ -45,5 +63,7 @@ class EmployeePositionController extends BaseController
         ],200);
 
     }
+
+
 
 }
