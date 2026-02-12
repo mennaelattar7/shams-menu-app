@@ -142,7 +142,7 @@ class MenuCategorycontroller extends BaseController
                     'success' =>true,
                     'message' =>'Get Sub Categories Successfully',
                     'data' => VendorMenuCategoryResource::collection($sub_categories)
-                ],404);
+                ],200);
             }
         }
     }
