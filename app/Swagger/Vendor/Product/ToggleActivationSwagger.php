@@ -3,7 +3,7 @@
 namespace App\Swagger\Vendor\Product;
 /**
  * @OA\Post(
- *     path="/api/{locale}/user/vendor/products/{product_slug}/toggle-activation/{branch_slug}",
+ *     path="/api/{locale}/user/vendor/products/{product_slug}/toggle-activation",
  *     tags={"Vendor - Product"},
  *     operationId="Change Toggle Product activation",
  *     summary="---Change Toggle Product activation---",
