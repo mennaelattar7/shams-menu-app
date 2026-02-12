@@ -4,7 +4,7 @@ namespace App\Swagger\Public\Branch;
 /**
  * @OA\Get(
  *     path="/api/{locale}/user/public/branches/{branch_slug}/products",
- *     tags={"Public - Product"},
+ *     tags={"Public - Branch"},
  *     operationId="All Products In one branch",
  *     summary="---Get All Products In branch Endpoint---",
  *     description="Get All Products In branchy",
