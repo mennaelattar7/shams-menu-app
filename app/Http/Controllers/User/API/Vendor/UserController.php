@@ -23,7 +23,6 @@ class UserController extends BaseController
         $new_user->account_type = "vendor_employee";
         $new_user->activation_status = "inactive";
         $new_user->account_status ="not_approved";
-        $new_user->password = Hash::make($request->password);
         $new_user->save();
 
         //add in user___account_status_histories table

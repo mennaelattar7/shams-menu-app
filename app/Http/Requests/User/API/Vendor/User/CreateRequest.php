@@ -29,15 +29,6 @@ class CreateRequest extends FormRequest
                 'required',
                 'exists:vendor___employee_positions,id'
             ],
-            'password' =>[
-                'required',
-                'confirmed',
-                'min:6',
-                'max:20'
-            ],
-            'password_confirmation'=>[
-                'required'
-            ]
         ];
         return $rules;
     }
