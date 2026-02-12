@@ -58,7 +58,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.public.branch.getMenuCategories',
                 'user.api.vendor.branch.categories.by_branches',
                 'user.api.public.branch.get_products',
-            ]),$this->image ? Storage::url($this->image) : null) ,
+            ]),$this->image ? url(Storage::url($this->image)) : null) ,
 
             'activation_status' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
