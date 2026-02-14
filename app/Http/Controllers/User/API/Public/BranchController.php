@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\API\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\ShamsFeatureResource;
 use App\Http\Resources\VendorBranch__TableResource;
 use App\Http\Resources\VendorBranchResource;
@@ -65,12 +66,99 @@ class BranchController extends Controller
                 'message' =>'Branch not found or inactive',
             ],404);
         }
-        $categories = $branch->categories->where('activation_status','active');
-        return response()->json([
-            'success' =>true,
-            'message' =>'get products successfully',
-            'data' => VendorMenuCategoryResource::collection($categories)
-        ],200);
+        $features = $branch->features;
+        $activation_features = collect();
+        foreach($features as $one_feature)
+        {
+            if($one_feature->activation_status == "active")
+            {
+                if($one_feature->pivot->activation_status == "active")
+                {
+                    $activation_features->push($one_feature);
+                }
+            }
+        }
+        $items = $activation_features->whereIn('code', ['main_category', 'subcategory']);
+        if($items->count() == 2)
+        {
+            $categories = $branch->categories->where('activation_status','active');
+            return response()->json([
+                'success' =>true,
+                'message' =>'get products successfully',
+                'data' => VendorMenuCategoryResource::collection($categories)
+            ],200);
+        }
+        elseif($items->count() == 1)
+        {
+            if($items->first()->code == "main_category")
+            {
+                $categories = collect();
+                $main_categories = $branch->categories->where('activation_status','active')->where('parent_category_id',null);
+                foreach($main_categories as $one_category)
+                {
+                    $categories->push($one_category);
+                }
+                if($categories->isEmpty())
+                {
+                    return response()->json([
+                        'success' =>false,
+                        'message' =>'There Are no Main categories',
+                    ],404);
+                }
+                else
+                {
+                    return response()->json([
+                        'success' =>true,
+                        'message' =>'get products successfully',
+                        'data' => VendorMenuCategoryResource::collection($categories)
+                    ],200);
+                }
+            }
+            else
+            {
+                $categories = $branch->categories->where('activation_status','active')->where('parent_category_id','!=',null);
+                if($categories->isEmpty())
+                {
+                    return response()->json([
+                        'success' =>false,
+                        'message' =>'There Are no Sub categories',
+                    ],404);
+                }
+                else
+                {
+                    return response()->json([
+                        'success' =>true,
+                        'message' =>'get products successfully',
+                        'data' => VendorMenuCategoryResource::collection($categories)
+                    ],200);
+                }
+
+            }
+        }
+        else
+        {
+            $categories = $branch->categories->where('activation_status','active');
+            $products = collect();
+            foreach($categories as $one_category)
+            {
+                foreach($one_category->products as $one_product)
+                {
+                    $products->push($one_product);
+                }
+            }
+            if($products->isEmpty())
+            {
+                return response()->json([
+                    'success' =>false,
+                    'message' =>'There Are No Products',
+                ],404);
+            }
+            return response()->json([
+                'success' =>true,
+                'message' =>'get products successfully',
+                'data' => ProductResource::collection($products)
+            ],200);
+        }
     }
 
     public function getFeatures($locale,$branch_slug)

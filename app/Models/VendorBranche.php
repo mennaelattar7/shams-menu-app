@@ -66,7 +66,7 @@ class VendorBranche extends Model
     }
     public function features()
     {
-        return $this->belongsToMany(Shams__VendorFeature::class,'vendor_branch___features','branch_id','feature_id');
+        return $this->belongsToMany(Shams__VendorFeature::class,'vendor_branch___features','branch_id','feature_id')->withPivot('activation_status');
     }
     public function offers()
     {

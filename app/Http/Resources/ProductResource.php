@@ -25,7 +25,9 @@ class ProductResource extends JsonResource
 
         $offer = $offers->first();
 
+
         $price_after_discount = $this->variants->first()->price; // السعر الافتراضي
+
 
         if($offer) {
             if($offer->discount_type == "fixed") {
