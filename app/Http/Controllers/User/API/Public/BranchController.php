@@ -96,6 +96,13 @@ class BranchController extends Controller
                 $main_categories = $branch->categories->where('activation_status','active')->where('parent_category_id',null);
                 foreach($main_categories as $one_category)
                 {
+                    if($one_category->sub_categories->isNotEmpty())
+                    {
+                        foreach($one_category->sub_categories as $one_sub)
+                        {
+                            $categories->push($one_sub);
+                        }
+                    }
                     $categories->push($one_category);
                 }
                 if($categories->isEmpty())
