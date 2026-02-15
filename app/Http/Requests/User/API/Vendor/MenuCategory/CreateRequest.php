@@ -17,7 +17,8 @@ class CreateRequest extends FormRequest
         $rules =[
             'parent_category_id' =>[
                 'nullable',
-                'integer'
+                'integer',
+                'exists:vendor___menu_categories,id'
             ],
             'name'=>[
                 'required',
