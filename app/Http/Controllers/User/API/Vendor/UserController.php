@@ -14,10 +14,19 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
         $vendor = $this->vendor;
         $employees = $vendor->employees;
+        if($request->activation_status)
+        {
+            $employees = $vendor->employees()
+            ->whereHas('user', function ($q) use($request) {
+                $q->where('activation_status', $request->activation_status);
+            })
+            ->with('user') // لو محتاجين بيانات user في Resource
+            ->get();
+        }
         if($employees->isEmpty())
         {
             return response()->json([
