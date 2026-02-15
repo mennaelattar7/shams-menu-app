@@ -49,9 +49,9 @@ class VendorBranchResource extends JsonResource
         }
         else
         {
-            $start_time = 'This branch has no Start Time To Day.';
-            $end_time = 'This branch has no End Time To Day.';
-            $current_status_operating_hours = "This branch has no operating hours set for today.";
+            $start_time = null;
+            $end_time = null;
+            $current_status_operating_hours = null;
         }
 
         return [
