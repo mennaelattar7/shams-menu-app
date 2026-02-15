@@ -170,7 +170,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     ->name('single')
                     ->middleware(ProductSingle::class);
 
-                Route::put('/update',[ProductController::class,'update'])
+                Route::post('/update',[ProductController::class,'update'])
                       ->name('update')
                       ->middleware(ProductEdit::class);
 
