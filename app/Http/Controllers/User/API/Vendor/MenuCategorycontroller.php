@@ -17,6 +17,7 @@ class MenuCategorycontroller extends BaseController
     public function index(Request $request)
     {
 
+
         $all_menu_categories= $this->vendor->menu_categories();
 
         if($request->activation_status)

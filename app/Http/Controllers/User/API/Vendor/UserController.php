@@ -17,29 +17,42 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $vendor = $this->vendor;
-        $employees = $vendor->employees;
-        if($request->activation_status)
-        {
-            $employees = $vendor->employees()
-            ->whereHas('user', function ($q) use($request) {
+
+        // 1️⃣ نبدأ Query Builder
+        $employeesQuery = $vendor->employees()->with('user');
+
+        // 2️⃣ فلترة حسب activation_status لو موجودة
+        if ($request->filled('activation_status')) {
+            $employeesQuery->whereHas('user', function ($q) use($request) {
                 $q->where('activation_status', $request->activation_status);
-            })
-            ->with('user') // لو محتاجين بيانات user في Resource
-            ->get();
+            });
         }
-        if($employees->isEmpty())
-        {
+
+        // 3️⃣ pagination لو موجودة
+        if ($request->filled('per_page')) {
+            $employees = $employeesQuery->paginate($request->per_page);
+        } else {
+            $employees = $employeesQuery->get();
+        }
+
+        // 4️⃣ التحقق لو مفيش بيانات بعد الفلترة
+        if ($employees->isEmpty()) {
             return response()->json([
-                'success' =>false,
+                'success' => false,
                 'message' => 'There Are No Employees In Vendor'
-            ],404);
+            ], 404);
         }
-        return response()->json([
-            'success' =>true,
-            'message' =>'get Employee Successfully',
-            'data' => Vendor__EmployeeResource::collection($employees)
-        ],200);
+
+        // 5️⃣ إرجاع Resource
+        return Vendor__EmployeeResource::collection($employees)
+            ->additional([
+                'success' => true,
+                'message' => 'Get Employee Successfully'
+            ])
+            ->response()
+            ->setStatusCode(200);
     }
+
     public function create(CreateRequest $request)
     {
         //add to user table
