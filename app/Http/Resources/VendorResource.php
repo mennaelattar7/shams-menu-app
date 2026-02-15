@@ -41,12 +41,12 @@ class VendorResource extends JsonResource
             'logo' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.public.branch.get_vendor_data',
-            ]), $this->logo ? Storage::url($this->logo) : null),
+            ]), $this->logo ? url(Storage::url($this->logo))  : null),
 
             'banar' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.public.branch.get_vendor_data',
-            ]),$this->banar ? Storage::url($this->banar) : null),
+            ]),$this->banar ? url(Storage::url($this->banar)) : null),
 
             'slogan' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
