@@ -42,10 +42,10 @@ class EmployeePositionController extends BaseController
         $new_role = new Role();
         $new_role->position_id = $new_employee_position->id;
         $new_role->name = $this->vendor->slug.'_'.$new_employee_position->slug;
-        $brandNames = json_decode($this->vendor->getRawOriginal('brand_name'), true);
+        $company_name = $this->vendor->company_name;
         $positionNames = json_decode($new_employee_position->getRawOriginal('name'), true);
-        $new_role->display_name_en = $brandNames['en'].' ('. $positionNames['en'].')';
-        $new_role->display_name_ar = $brandNames['ar'].' ('. $positionNames['ar'].')';
+        $new_role->display_name_en = $company_name.' ('. $positionNames['en'].')';
+        $new_role->display_name_ar = $company_name.' ('. $positionNames['ar'].')';
         $new_role->type = "vendor_employee";
         $new_role->guard_name = "api";
         $new_role->save();

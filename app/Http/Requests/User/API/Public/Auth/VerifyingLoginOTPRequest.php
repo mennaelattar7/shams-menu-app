@@ -30,7 +30,7 @@ class VerifyingLoginOTPRequest extends FormRequest
             ],
             'otp' =>[
                 'required',
-                'digits:6'
+                'digits:4'
             ]
         ];
 

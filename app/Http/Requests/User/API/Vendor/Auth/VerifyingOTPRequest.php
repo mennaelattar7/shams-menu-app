@@ -30,7 +30,7 @@ class VerifyingOTPRequest extends FormRequest
             ],
             'otp' =>[
                 'required',
-                'digits:6'
+                'digits:4'
             ]
         ];
 

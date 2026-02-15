@@ -80,7 +80,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
     });
     Route::middleware('auth:sanctum')->group(function () {
-        // token : 102|iguWY9qWV9grcYKN4r3B1v5hJChbWnB3EmnNE8Ie007850a9
+        // token : 124|oBVpITzn5xkseXeBx0NKDs1JpRAWxUlwbreYPZt4c50f154b
         Route::prefix('home')->name('home.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
                  ->name('most_viewed_product')

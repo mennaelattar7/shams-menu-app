@@ -81,7 +81,7 @@ class BranchController extends Controller
         $items = $activation_features->whereIn('code', ['main_category', 'subcategory']);
         if($items->count() == 2)
         {
-            $categories = $branch->categories->where('activation_status','active');
+            $categories = $branch->categories->where('activation_status','active')->where('parent_category_id','!=',null);
             return response()->json([
                 'success' =>true,
                 'message' =>'get products successfully',
