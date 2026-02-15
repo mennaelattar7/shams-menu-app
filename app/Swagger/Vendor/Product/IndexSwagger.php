@@ -17,18 +17,39 @@ namespace App\Swagger\Vendor\Product;
  *         @OA\Schema(type="string", example="en")
  *     ),
  *     @OA\Parameter(
- *         name="per_page",
- *         in="query",
- *         required=false,
- *         description="Number of items per page for pagination",
- *         @OA\Schema(type="integer", example="3")
- *     ),
- *     @OA\Parameter(
  *         name="branch_slug",
  *         in="query",
  *         required=false,
  *         description="Slug Of Branch",
  *         @OA\Schema(type="string", example="eldoky-branch")
+ *     ),
+ *     @OA\Parameter(
+ *         name="activation_status",
+ *         in="query",
+ *         required=false,
+ *         description="activation_status",
+ *         @OA\Schema(type="string", example="active")
+ *     ),
+ *     @OA\Parameter(
+ *         name="category_slug",
+ *         in="query",
+ *         required=false,
+ *         description="category_slug",
+ *         @OA\Schema(type="string", example="category6")
+ *     ),
+ *     @OA\Parameter(
+ *         name="product_name",
+ *         in="query",
+ *         required=false,
+ *         description="product_name",
+ *         @OA\Schema(type="string", example="طاجن لحمهةىﻻتةﻻyyyyyyyyyyyyyyyyyyyyyy")
+ *     ),
+ *     @OA\Parameter(
+ *         name="per_page",
+ *         in="query",
+ *         required=false,
+ *         description="Number of items per page for pagination",
+ *         @OA\Schema(type="integer", example="3")
  *     ),
  *     @OA\Response(
  *         response=200,
