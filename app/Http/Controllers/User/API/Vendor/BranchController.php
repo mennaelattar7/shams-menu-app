@@ -315,6 +315,7 @@ class BranchController extends BaseController
             return response()->json([
                 'success' =>true,
                 'message' =>'Get All ' . $request_type.' Table Requests Successfully',
+                'count' => $table_requests->count(),
                 'table_requests' =>VendorBranch__TableRequestResource::collection($table_requests)
             ],200);
         }
