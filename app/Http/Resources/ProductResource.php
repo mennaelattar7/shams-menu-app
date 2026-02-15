@@ -171,6 +171,9 @@ class ProductResource extends JsonResource
             'availability_status' => $this->whenPivotLoaded('product___product_branches', function () {
                 return $this->pivot->availability_status;
             }),
+            'availability_branches' => $this->when($request->routeIs([
+                'user.api.public.menu_category.get_products',
+            ]), $this->branches),
             'activation_status_in_offer' => $this->when($request->routeIs([
                     'user.api.vendor.offer.index',
                     'user.api.vendor.offer.single',

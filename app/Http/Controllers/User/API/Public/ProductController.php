@@ -56,7 +56,7 @@ class ProductController extends Controller
                 'viewed_at' => now()->toDateTimeString(),
             ];
             Redis::rpush($logsKey, json_encode($log));
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Get Prodct Successfuly',
