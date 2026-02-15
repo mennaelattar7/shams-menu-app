@@ -52,6 +52,16 @@ class ProductController extends BaseController
                 ], 404);
             }
         }
+        if($request->activation_status)
+        {
+            $all_products = $all_products->where('activation_status',$request->activation_status);
+        }
+        if ($request->product_name) {
+            $all_products = $all_products->where(function ($q) use ($request) {
+                $q->where('name->en', 'like', '%' . $request->product_name . '%')
+                ->orWhere('name->ar', 'like', '%' . $request->product_name . '%');
+            });
+        }
         if($request->per_page != null)
         {
             $all_products= $all_products->paginate($request->per_page);

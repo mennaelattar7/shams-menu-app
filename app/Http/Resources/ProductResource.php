@@ -213,6 +213,7 @@ class ProductResource extends JsonResource
 
             'is_favorite' =>$this->when($request->routeIs([
                 'user.api.public.branch.get_products',
+                'user.api.vendor.product.index',
             ]),$is_favorite),
 
             'calories' =>$this->when($request->routeIs([
