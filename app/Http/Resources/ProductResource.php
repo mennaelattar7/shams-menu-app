@@ -39,15 +39,23 @@ class ProductResource extends JsonResource
 
         if(Auth::check())
         {
-            $customer = Auth::user()->customer;
-            $favourites_products_ids_array = $customer->favourites->pluck('id')->toArray();
-            if (in_array($this->id, $favourites_products_ids_array)) {
-                $is_favorite = true;
+            if(Auth::user()->account_type == "customer")
+            {
+                $customer = Auth::user()->customer;
+                $favourites_products_ids_array = $customer->favourites->pluck('id')->toArray();
+                if (in_array($this->id, $favourites_products_ids_array)) {
+                    $is_favorite = true;
+                }
+                else
+                {
+                    $is_favorite =false;
+                }
             }
             else
             {
                 $is_favorite =false;
             }
+
         }
         else
         {
@@ -148,7 +156,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
-            ])  ,$this->category->vendor->currencies->first()->symbol),
+            ])  ,$this->category?->vendor?->currencies?->first()?->symbol),
 
             'activation_status' =>$this->when($request->routeIs([
                 'user.api.public.product.single',

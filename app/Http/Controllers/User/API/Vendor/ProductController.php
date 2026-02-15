@@ -18,7 +18,10 @@ class ProductController extends BaseController
 {
     public function index(Request $request)
     {
-        $all_products = Product::query();
+        $vendor = $this->vendor;
+        $menu_categories_ids = $vendor->menu_categories->pluck('id')->toArray();
+
+        $all_products = Product::whereIn('category_id',$menu_categories_ids);
         if($request->branch_slug)
         {
             $branch = VendorBranche::where('slug',$request->branch_slug)->first();
@@ -61,11 +64,22 @@ class ProductController extends BaseController
             ->response()
             ->setStatusCode(200);
         }
-        return response()->json([
-            'success' => true,
-            'message' => 'Get Products Succefully',
-            'data' => ProductResource::collection($all_products->get())
-        ], 200);
+        $all_products = $all_products->get();
+        if($all_products->isEmpty())
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'There Are No Products',
+            ], 404);
+        }
+        else
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'Get Products Succefully',
+                'data' => ProductResource::collection($all_products)
+            ], 200);
+        }
     }
     public function create(CreateRequest $request)
     {
