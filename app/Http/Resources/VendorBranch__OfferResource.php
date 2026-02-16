@@ -18,6 +18,7 @@ class VendorBranch__OfferResource extends JsonResource
             'id' =>$this->id,
             'branch' => new VendorBranchResource($this->branch),
             'name' =>$this->name,
+            'name_object' => json_decode($this->getRawOriginal('name'), true),
             'slug' =>$this->slug,
             'discount_type' =>$this->discount_type,
             'discount_value'=>$this->discount_value,

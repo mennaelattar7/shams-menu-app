@@ -68,6 +68,17 @@ class VendorBranchResource extends JsonResource
                 'user.api.vendor.offer.single',
                 'user.api.vendor.menu_category.single',
             ]),$this->name) ,
+            'name_object' => $this->when($request->routeIs([
+                'user.api.vendor.branch.index',
+                'user.api.vendor.branch.branch_data',
+                'user.api.vendor.branch.filter',
+                'user.api.public.branch.get_branch_data',
+                'user.api.public.branch.get_branch_table',
+                'user.api.vendor.product.single',
+                'user.api.vendor.offer.index',
+                'user.api.vendor.offer.single',
+                'user.api.vendor.menu_category.single',
+            ]),json_decode($this->getRawOriginal('name'), true)),
 
             'slug' =>$this->when($request->routeIs([
                 'user.api.vendor.branch.index',

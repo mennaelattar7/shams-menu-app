@@ -80,6 +80,19 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.single',
             ]),$this->name),
 
+            'name_object' => $this->when($request->routeIs([
+                'user.api.public.product.single',
+                'user.api.public.menu_category.get_products',
+                'user.api.vendor.product.index',
+                'user.api.vendor.menu_category.products',
+                'user.api.vendor.product.single',
+                'user.api.vendor.branch.products',
+                'user.api.vendor.offer.index',
+                'user.api.vendor.offer.single',
+                'user.api.public.branch.get_products',
+                'user.api.vendor.menu_category.single',
+            ]),json_decode($this->getRawOriginal('name'), true)),
+
             'slug' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.public.menu_category.get_products',
@@ -207,6 +220,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
+                'user.api.vendor.offer.single',
 
             ]),new VendorMenuCategoryResource($this->category)) ,
 

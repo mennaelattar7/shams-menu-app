@@ -27,6 +27,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.public.branch.get_products',
                 'user.api.vendor.product.single',
                 'user.api.vendor.menu_category.single',
+                'user.api.vendor.offer.single',
             ]),optional($this->parent_category)->name) ,
 
             'name' =>$this->when($request->routeIs([
@@ -40,6 +41,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.public.branch.get_products',
                 'user.api.vendor.product.single',
                 'user.api.vendor.menu_category.single',
+                'user.api.vendor.offer.single',
             ]),$this->name),
 
             'name_object' => $this->when($request->routeIs([
@@ -53,6 +55,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.public.branch.get_products',
                 'user.api.vendor.product.single',
                 'user.api.vendor.menu_category.single',
+                'user.api.vendor.offer.single',
             ]),json_decode($this->getRawOriginal('name'), true)),
 
             'slug' =>$this->when($request->routeIs([
@@ -66,6 +69,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.public.branch.get_products',
                 'user.api.vendor.product.single',
                 'user.api.vendor.menu_category.single',
+                'user.api.vendor.offer.single',
             ]),$this->slug) ,
 
             'image' =>$this->when($request->routeIs([
