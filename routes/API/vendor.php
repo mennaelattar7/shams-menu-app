@@ -31,6 +31,7 @@ use App\Http\Middleware\custom_middleware\API\Branch\ToggleActivation as BranchT
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategoryCreate;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Single as MenuCategorySingle;
+use App\Http\Middleware\custom_middleware\API\MenuCategory\Edit as MenuCategoryEdit;
 
 
 
@@ -150,6 +151,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::get('/',[MenuCategorycontroller::class,'single'])
                     ->name('single')
                     ->middleware(MenuCategorySingle::class);
+
+                Route::post('/update',[MenuCategorycontroller::class,'update'])
+                    ->name('update')
+                    ->middleware(MenuCategoryEdit::class);
 
                 Route::get('/sub-categories',[MenuCategorycontroller::class,'getSubCategories'])
                     ->name('sub_categories')

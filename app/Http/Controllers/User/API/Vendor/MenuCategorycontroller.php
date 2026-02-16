@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\MenuCategory\CreateRequest;
+use App\Http\Requests\User\API\Vendor\MenuCategory\UpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\VendorMenuCategoryResource;
 use App\Models\Vendor__MenuCategory;
@@ -114,7 +115,6 @@ class MenuCategorycontroller extends BaseController
             'message' => 'Something went wrong'
         ], 500);
     }
-
     public function single($locale,$category_slug)
     {
         $category = Vendor__MenuCategory::where('slug',$category_slug)->first();
@@ -131,7 +131,43 @@ class MenuCategorycontroller extends BaseController
             'data' => new VendorMenuCategoryResource($category)
         ],200);
     }
+    public function update($locale,$category_slug,UpdateRequest $request)
+    {
+        $category = Vendor__MenuCategory::where('slug',$category_slug)->first();
+        $category->parent_category_id = $request->parent_category_id;
+        $category->name = $request->name;
+        if(request()->hasFile('image'))
+        {
+            $file=$request->image;
+            $name = $file->getClientOriginalName();
+            $extension = pathinfo($name)['extension'];
+            $fileName = 'vendor_menu_category_' . Str::random(5) . '.' . $extension;
 
+            $file->storeAs('vendor/menu_category/images',$fileName,'public');
+            $category->image = 'vendor/menu_category/images/' . $fileName;
+        }
+        $category->activation_status = $request->activation_status;
+        $category->sort = $request->sort;
+        $category->save();
+
+        if($request->array_branches_ids != null)
+        {
+            $data = [];
+            foreach($request->array_branches_ids as $one_branch_id)
+            {
+                $data[$one_branch_id]=[
+                    'created_by_id' => Auth::user()->id,
+                    'activation_status' => 'active'
+                ];
+            }
+            $category->branches()->sync($data);
+        }
+
+        return response()->json([
+            'success' =>true,
+            'message'=>'Category Updated Successfully'
+        ],200);
+    }
     public function getSubCategories($locale,$category_slug)
     {
         $main_category = Vendor__MenuCategory::where('slug',$category_slug)->first();
@@ -162,7 +198,6 @@ class MenuCategorycontroller extends BaseController
             }
         }
     }
-
     public function getProducts($locale,$category_slug)
     {
         $category = Vendor__MenuCategory::where('slug',$category_slug)->first();
