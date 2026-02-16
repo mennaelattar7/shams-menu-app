@@ -151,11 +151,12 @@ class BranchController extends BaseController
     public function getBranchData($loacle,$branch_slug)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
-        if($branch == null)
+
+        if($branch == null || $branch->activation_status == "inactive")
         {
             return response()->json([
                 'success' => true,
-                'message' => 'This Branch Not exist',
+                'message' => 'This Branch Not exist Or Inactive',
             ], 404);
         }
         return response()->json([
