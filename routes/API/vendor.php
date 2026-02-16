@@ -32,8 +32,7 @@ use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategor
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Single as MenuCategorySingle;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Edit as MenuCategoryEdit;
-
-
+use App\Http\Middleware\custom_middleware\API\MenuCategory\ToggleActivation as MenuCategoryToggleActivation;
 
 use App\Http\Middleware\custom_middleware\API\Product\Index as ProductIndex;
 use App\Http\Middleware\custom_middleware\API\Product\Create as ProductCreate;
@@ -155,6 +154,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::post('/update',[MenuCategorycontroller::class,'update'])
                     ->name('update')
                     ->middleware(MenuCategoryEdit::class);
+
+                Route::post('/toggle-activation',[MenuCategorycontroller::class,'toggleActivation'])
+                        ->name('toggle_activation')
+                        ->middleware(MenuCategoryToggleActivation::class);
 
                 Route::get('/sub-categories',[MenuCategorycontroller::class,'getSubCategories'])
                     ->name('sub_categories')

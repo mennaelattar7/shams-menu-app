@@ -226,4 +226,29 @@ class MenuCategorycontroller extends BaseController
         }
 
     }
+
+    public function toggleActivation($locale,$category_slug)
+    {
+        $category = Vendor__MenuCategory::where('slug',$category_slug)->first();
+        if($category == null)
+        {
+            return response()->json([
+                'status' =>false,
+                'message' => 'this Category not exist'
+            ]);
+        }
+        if($category->activation_status == "active")
+        {
+            $category->activation_status = "inactive";
+        }
+        else
+        {
+            $category->activation_status = "active";
+        }
+        $category->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Change category Activation Succefully',
+        ], 200);
+    }
 }
