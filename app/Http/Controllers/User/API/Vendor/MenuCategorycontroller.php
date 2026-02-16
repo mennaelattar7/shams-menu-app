@@ -16,8 +16,6 @@ class MenuCategorycontroller extends BaseController
 {
     public function index(Request $request)
     {
-
-
         $all_menu_categories= $this->vendor->menu_categories();
 
         if($request->activation_status)
@@ -115,6 +113,24 @@ class MenuCategorycontroller extends BaseController
             'success' => false,
             'message' => 'Something went wrong'
         ], 500);
+    }
+
+    public function single($locale,$category_slug)
+    {
+        $category = Vendor__MenuCategory::where('slug',$category_slug)->first();
+        dd($category);
+        if(!$category)
+        {
+            return response()->json([
+                'success' =>false,
+                'message' => 'This Category Not Exist'
+            ],404);
+        }
+        return response()->json([
+            'success' =>true,
+            'message' => 'Get Offer Successfully',
+            'data' => new VendorMenuCategoryResource($category)
+        ],200);
     }
 
     public function getSubCategories($locale,$category_slug)

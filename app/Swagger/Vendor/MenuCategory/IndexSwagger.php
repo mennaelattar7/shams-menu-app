@@ -28,7 +28,7 @@ namespace App\Swagger\Vendor\MenuCategory;
  *         in="query",
  *         required=false,
  *         description="activation value (active||inactive)",
- *         @OA\Schema(type="integer", example="3")
+ *         @OA\Schema(type="string", example="active")
  *     ),
  *     @OA\Response(
  *         response=200,

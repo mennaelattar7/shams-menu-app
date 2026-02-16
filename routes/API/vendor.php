@@ -30,6 +30,7 @@ use App\Http\Middleware\custom_middleware\API\Branch\ToggleActivation as BranchT
 
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategoryCreate;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
+use App\Http\Middleware\custom_middleware\API\MenuCategory\Single as MenuCategorySingle;
 
 
 
@@ -94,11 +95,11 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         Route::prefix('branches')->name('branch.')->group(function(){
             Route::get('/all/{activation_status?}/{city_id?}/{district_id?}/{branch_name?}',[BranchController::class,'index'])
                  ->name('index')
-                 ->middleware(BranchIndex::class); ///Final Done
+                 ->middleware(BranchIndex::class);
 
             Route::post('create',[BranchController::class,'create'])
                   ->name('create')
-                  ->middleware(BranchCreate::class); ///Final Done
+                  ->middleware(BranchCreate::class);
 
             Route::post('/categories/by-branches/{category_type?}',[BranchController::class,'getCategoriesByBranches'])
                 ->name('categories.by_branches')
@@ -137,15 +138,19 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
         //menu categories
         Route::prefix('menu-categories')->name('menu_category.')->group(function(){
-            Route::get('/{activation_status?}',[MenuCategorycontroller::class,'index'])
+            Route::get('/',[MenuCategorycontroller::class,'index'])
                 ->name('index')
-                ->middleware(MenuCategoryIndex::class); //Final Done
+                ->middleware(MenuCategoryIndex::class);
 
             Route::post('create',[MenuCategorycontroller::class,'create'])
                  ->name('create')
-                 ->middleware(MenuCategoryCreate::class); //Final Done
+                 ->middleware(MenuCategoryCreate::class);
 
             Route::prefix('/{category_slug}')->group(function(){
+                Route::get('/',[MenuCategorycontroller::class,'single'])
+                    ->name('single')
+                    ->middleware(MenuCategorySingle::class);
+
                 Route::get('/sub-categories',[MenuCategorycontroller::class,'getSubCategories'])
                     ->name('sub_categories')
                     ->middleware(MenuCategoryIndex::class);
