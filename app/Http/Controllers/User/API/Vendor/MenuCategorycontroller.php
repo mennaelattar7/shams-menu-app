@@ -118,7 +118,6 @@ class MenuCategorycontroller extends BaseController
     public function single($locale,$category_slug)
     {
         $category = Vendor__MenuCategory::where('slug',$category_slug)->first();
-        dd($category);
         if(!$category)
         {
             return response()->json([
@@ -128,7 +127,7 @@ class MenuCategorycontroller extends BaseController
         }
         return response()->json([
             'success' =>true,
-            'message' => 'Get Offer Successfully',
+            'message' => 'Get Category Successfully',
             'data' => new VendorMenuCategoryResource($category)
         ],200);
     }

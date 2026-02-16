@@ -77,6 +77,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
+                'user.api.vendor.menu_category.single',
             ]),$this->name),
 
             'slug' =>$this->when($request->routeIs([
@@ -89,6 +90,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
+                'user.api.vendor.menu_category.single',
             ]),$this->slug),
 
             'description' =>$this->when($request->routeIs([
@@ -110,6 +112,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
+                'user.api.vendor.menu_category.single',
             ]) && $this->variants->count() == 1 ,$this->variants->first()->price),
 
             'price_after_discount' =>$this->when($request->routeIs([
@@ -121,6 +124,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
+                'user.api.vendor.menu_category.single',
             ]) && $this->variants->count() == 1 ,$price_after_discount),
 
             'discount_type' =>$this->when($request->routeIs([

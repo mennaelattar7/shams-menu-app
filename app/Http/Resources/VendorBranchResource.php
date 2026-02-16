@@ -66,6 +66,7 @@ class VendorBranchResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
+                'user.api.vendor.menu_category.single',
             ]),$this->name) ,
 
             'slug' =>$this->when($request->routeIs([
@@ -77,6 +78,7 @@ class VendorBranchResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
+                'user.api.vendor.menu_category.single',
             ]),$this->slug),
 
             'city' =>$this->when($request->routeIs([

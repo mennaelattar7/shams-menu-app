@@ -29,12 +29,14 @@ class Vendor__MenuCategory extends Model
     {
         return $this->hasMany(Vendor__MenuCategory::class,'parent_category_id','id')->orderBy('sort');
     }
+    public function branches()
+    {
+        return $this->belongsToMany(VendorBranche::class,'vendor_branch___vendor_menu_categories','vendor_menu_category_id','branch_id')->withPivot('activation_status');
+    }
     public function vendor()
     {
         return $this->belongsto(Vendor::class,'vendor_id','id');
     }
-
-
     public function products()
     {
         return $this->hasMany(Product::class,'category_id','id');
