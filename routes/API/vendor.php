@@ -37,6 +37,7 @@ use App\Http\Middleware\custom_middleware\API\MenuCategory\ToggleActivation as M
 use App\Http\Middleware\custom_middleware\API\Product\Index as ProductIndex;
 use App\Http\Middleware\custom_middleware\API\Product\Create as ProductCreate;
 use App\Http\Middleware\custom_middleware\API\Product\Single as ProductSingle;
+use App\Http\Middleware\custom_middleware\API\Product\DeletePermanently as ProductDeletePermanently;
 use App\Http\Middleware\custom_middleware\API\Product\Edit as ProductEdit;
 use App\Http\Middleware\custom_middleware\API\Product\ToggleAvailability as ProductToggleAvailability;
 use App\Http\Middleware\custom_middleware\API\Product\ToggleActivation as ProductToggleActivation;
@@ -186,6 +187,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::post('/update',[ProductController::class,'update'])
                       ->name('update')
                       ->middleware(ProductEdit::class);
+
+                Route::get('/delete-permanently',[ProductController::class,'deletePermanently'])
+                    ->name('delete_permanently')
+                    ->middleware(ProductDeletePermanently::class);
 
                 Route::post('/toggle-availability/{branch_slug}',[ProductController::class,'toggleAvailability'])
                         ->name('toggle_availability')

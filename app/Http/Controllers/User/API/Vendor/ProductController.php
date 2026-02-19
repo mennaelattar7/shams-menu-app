@@ -253,6 +253,23 @@ class ProductController extends BaseController
         ]);
     }
 
+    public function deletePermanently($locale,$product_slug)
+    {
+        $product = Product::where('slug',$product_slug)->first();
+        if($product == null)
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'This Product Not exist',
+            ], 404);
+        }
+        $product->forceDelete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Product deleted permanently',
+        ], 200);
+    }
+
     public function toggleAvailability($locale,$product_slug,$branch_slug)
     {
         $product = Product::where('slug',$product_slug)->first();
