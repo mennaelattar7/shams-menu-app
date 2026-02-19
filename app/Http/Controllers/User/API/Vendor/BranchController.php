@@ -152,7 +152,7 @@ class BranchController extends BaseController
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
 
-        if($branch == null || $branch->activation_status == "inactive")
+        if($branch == null)
         {
             return response()->json([
                 'success' => true,

@@ -12,8 +12,9 @@ use Illuminate\Http\Request;
 
 class EmployeePositionController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
+        if($request->act)
         $employee_postions = $this->vendor->employee_positions;
         if($employee_postions->isEmpty())
         {
