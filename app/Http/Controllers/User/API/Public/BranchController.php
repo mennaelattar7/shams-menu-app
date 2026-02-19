@@ -17,20 +17,30 @@ class BranchController extends Controller
     public function getBranchData($locale,$branch_slug)
     {
         //check branch exist
-        $branch = VendorBranche::where('slug',$branch_slug)->where('activation_status','active')->first();
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch)
         {
-            return response()->json([
-                'success' =>true,
-                'message' =>'get Branch Data Succesfully',
-                'data' => new VendorBranchResource($branch)
-            ],200);
+            if($branch->activation_status == "active")
+            {
+                return response()->json([
+                    'success' =>true,
+                    'message' =>'get Branch Data Succesfully',
+                    'data' => new VendorBranchResource($branch)
+                ],200);
+            }
+            else
+            {
+                return response()->json([
+                    'success' =>true,
+                    'message' =>'Branch not active',
+                ],404);
+            }
         }
         else
         {
             return response()->json([
                 'success' =>true,
-                'message' =>'Branch not found or inactive',
+                'message' =>'Branch not found',
             ],404);
         }
 

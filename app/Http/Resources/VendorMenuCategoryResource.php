@@ -28,7 +28,7 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.offer.single',
-            ]),optional($this->parent_category)->name) ,
+            ]),$this->parent_category != null? new VendorMenuCategoryResource($this->parent_category): null ),
 
             'name' =>$this->when($request->routeIs([
                 'user.api.public.product.single',

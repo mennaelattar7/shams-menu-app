@@ -17,7 +17,7 @@ class Shams__ProductAllergenResource extends JsonResource
         return [
             'id' =>$this->id,
             'name' =>$this->name,
-            'description' =>$this->description,
+            'description' =>$this->description != null ?$this->description:null,
             'slug' =>$this->slug
         ];
     }

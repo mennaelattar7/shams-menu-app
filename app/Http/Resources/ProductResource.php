@@ -116,6 +116,19 @@ class ProductResource extends JsonResource
 
             ]),$this->description),
 
+            'description_object' => $this->when($request->routeIs([
+                'user.api.public.product.single',
+                'user.api.public.menu_category.get_products',
+                'user.api.vendor.product.index',
+                'user.api.vendor.menu_category.products',
+                'user.api.vendor.product.single',
+                'user.api.vendor.branch.products',
+                'user.api.vendor.offer.index',
+                'user.api.vendor.offer.single',
+                'user.api.public.branch.get_products',
+                'user.api.vendor.menu_category.single',
+            ]),json_decode($this->getRawOriginal('description'), true)),
+
             'price' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.public.menu_category.get_products',
