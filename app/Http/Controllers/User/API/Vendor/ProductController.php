@@ -19,93 +19,121 @@ class ProductController extends BaseController
     public function index(Request $request)
     {
         $vendor = $this->vendor;
+
         $menu_categories_ids = $vendor->menu_categories->pluck('id')->toArray();
 
-        $all_products = Product::whereIn('category_id',$menu_categories_ids);
-        if($request->branch_slug)
-        {
-            $branch = VendorBranche::where('slug',$request->branch_slug)->first();
-            if($branch != null)
-            {
-                $all_products = $branch->products()->with('category');
-            }
-            else
-            {
+        $all_products = Product::query()
+            ->whereIn('category_id', $menu_categories_ids);
+
+        /*
+        |--------------------------------
+        | Branch Filter
+        |--------------------------------
+        */
+        if ($request->branch_slug) {
+
+            $branch = VendorBranche::where('slug', $request->branch_slug)->first();
+
+            if (!$branch) {
                 return response()->json([
                     'success' => false,
                     'message' => 'This Branch Not Exist',
                 ], 404);
             }
-        }
-        if($request->category_slug)
-        {
-            $category = Vendor__MenuCategory::where('slug',$request->category_slug)->first();
 
-            if($category != null)
-            {
-                if($category->parent_category_id != null)
-                {
-                    $all_products = $all_products->where('category_id',$category->id);
-                }
-                else
-                {
-                    if($category->sub_categories->isNotEmpty())
-                    {
-                        $sub_categories_ids = $category->sub_categories->pluck('id')->toArray();
-                        $all_products->$all_products->whereIn('category_id',$sub_categories_ids);
-                    }
-                    else
-                    {
-                        $all_products = $category->products;
-                    }
-                }
+            $all_products = $branch->products()->with('category');
+
+            if ($request->availability_status) {
+                $all_products->wherePivot('availability_status', $request->availability_status);
             }
-            else
-            {
+        }
+
+        /*
+        |--------------------------------
+        | Category Filter
+        |--------------------------------
+        */
+        if ($request->category_slug) {
+
+            $category = Vendor__MenuCategory::where('slug', $request->category_slug)->first();
+
+            if (!$category) {
                 return response()->json([
                     'success' => false,
                     'message' => 'This Category Not Exist',
                 ], 404);
             }
+
+            if ($category->parent_category_id != null) {
+
+                $all_products->where('category_id', $category->id);
+
+            } else {
+
+                if ($category->sub_categories->isNotEmpty()) {
+
+                    $sub_ids = $category->sub_categories->pluck('id')->toArray();
+
+                    $all_products->whereIn('category_id', $sub_ids);
+
+                } else {
+
+                    $all_products = $category->products();
+                }
+            }
         }
-        if($request->activation_status)
-        {
-            $all_products = $all_products->where('activation_status',$request->activation_status);
+
+        /*
+        |--------------------------------
+        | Activation Status
+        |--------------------------------
+        */
+        if ($request->activation_status) {
+            $all_products->where('activation_status', $request->activation_status);
         }
+
+        /*
+        |--------------------------------
+        | Search
+        |--------------------------------
+        */
         if ($request->product_name) {
-            $all_products = $all_products->where(function ($q) use ($request) {
-                $q->where('name->en', 'like', '%' . $request->product_name . '%')
-                ->orWhere('name->ar', 'like', '%' . $request->product_name . '%');
+
+            $all_products->where(function ($q) use ($request) {
+                $q->where('name->en', 'like', "%{$request->product_name}%")
+                ->orWhere('name->ar', 'like', "%{$request->product_name}%");
             });
         }
-        if($request->per_page != null)
-        {
-            $all_products= $all_products->paginate($request->per_page);
 
-            return ProductResource::collection($all_products)
-            ->additional([
+        /*
+        |--------------------------------
+        | Pagination
+        |--------------------------------
+        */
+        if ($request->per_page) {
+
+            $products = $all_products->paginate($request->per_page);
+
+            return ProductResource::collection($products)->additional([
                 'success' => true,
                 'message' => 'Get Products Successfully'
-            ])
-            ->response()
-            ->setStatusCode(200);
+            ]);
         }
-        $all_products = $all_products->get();
-        if($all_products->isEmpty())
-        {
+
+        $products = $all_products->get();
+
+        if ($products->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'There Are No Products',
             ], 404);
         }
-        else
-        {
-            return response()->json([
-                'success' => true,
-                'message' => 'Get Products Succefully',
-                'data' => ProductResource::collection($all_products)
-            ], 200);
-        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Products Successfully',
+            'data' => ProductResource::collection($products)
+        ]);
     }
     public function create(CreateRequest $request)
     {

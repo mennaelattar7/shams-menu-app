@@ -28,7 +28,14 @@ namespace App\Swagger\Vendor\Product;
  *         in="query",
  *         required=false,
  *         description="activation_status",
- *         @OA\Schema(type="string", example="active")
+ *         @OA\Schema(type="string",enum={"active","inactive"} , example="active")
+ *     ),
+ *     @OA\Parameter(
+ *         name="availability_status",
+ *         in="query",
+ *         required=false,
+ *         description="availability_status",
+ *         @OA\Schema(type="string",enum={"available","not_available"} , example="available")
  *     ),
  *     @OA\Parameter(
  *         name="category_slug",
