@@ -21,7 +21,7 @@ namespace App\Swagger\Vendor\Branch;
  *         in="query",
  *         required=false,
  *         description="The type of Request ('invoice','issue','ready_to_order','other')",
- *         @OA\Schema(type="string",enum={'invoice','issue','ready_to_order','other'} , example="invoice")
+ *         @OA\Schema(type="string",enum={"invoice","issue","ready_to_order","other"} , example="invoice")
  *     ),
  *     @OA\Response(
  *         response=200,
