@@ -78,6 +78,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
                 'user.api.vendor.menu_category.single',
+                'user.api.vendor.home.most_viewed_product',
             ]),$this->name),
 
             'name_object' => $this->when($request->routeIs([
@@ -91,6 +92,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
                 'user.api.vendor.menu_category.single',
+                'user.api.vendor.home.most_viewed_product',
             ]),json_decode($this->getRawOriginal('name'), true)),
 
             'slug' =>$this->when($request->routeIs([
@@ -104,6 +106,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
                 'user.api.vendor.menu_category.single',
+                'user.api.vendor.home.most_viewed_product',
             ]),$this->slug),
 
             'description' =>$this->when($request->routeIs([
@@ -139,6 +142,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
                 'user.api.vendor.menu_category.single',
+                'user.api.vendor.home.most_viewed_product',
             ]) && $this->variants->count() == 1 ,$this->variants->first()->price),
 
             'price_after_discount' =>$this->when($request->routeIs([
@@ -151,6 +155,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
                 'user.api.vendor.menu_category.single',
+                'user.api.vendor.home.most_viewed_product',
             ]) && $this->variants->count() == 1 ,$price_after_discount),
 
             'discount_type' =>$this->when($request->routeIs([
@@ -251,6 +256,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
                 'user.api.public.branch.get_products',
+                'user.api.vendor.home.most_viewed_product',
             ]),$this->image ? url(Storage::url($this->image))  : null),
 
             'is_favorite' =>$this->when($request->routeIs([
