@@ -17,7 +17,16 @@ class ShamsFeatureResource extends JsonResource
         return [
             'id' =>$this->id,
             'name'=>$this->name,
-            'description'=>$this->description
+            'description'=>$this->description,
+            'slug' => $this->when($request->routeIs([
+                'user.api.public.branch.get_features',
+            ]),$this->slug),
+            'code' => $this->when($request->routeIs([
+                'user.api.public.branch.get_features',
+            ]),$this->code),
+            'activation_status' => $this->when($request->routeIs([
+                'user.api.public.branch.get_features',
+            ]),$this->activation_status),
         ];
     }
 }

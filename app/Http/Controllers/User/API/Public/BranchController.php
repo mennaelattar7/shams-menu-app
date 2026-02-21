@@ -188,7 +188,7 @@ class BranchController extends Controller
                 'message' =>'Branch not found or inactive',
             ],404);
         }
-        $features = $branch->features->where('activation_status','active');
+        $features = $branch->features;
         return response()->json([
             'success' =>true,
             'message' =>'get Features successfully',
