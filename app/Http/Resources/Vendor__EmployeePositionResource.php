@@ -19,7 +19,8 @@ class Vendor__EmployeePositionResource extends JsonResource
             'vendor' =>new VendorResource($this->vendor),
             'role' =>new RoleResource($this->role),
             'name' =>$this->name,
-            'slug' =>$this->slug
+            'slug' =>$this->slug,
+            'activation_status' => $this->activation_status
         ];
     }
 }

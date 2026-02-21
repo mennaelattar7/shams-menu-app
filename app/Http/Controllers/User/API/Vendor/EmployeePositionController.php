@@ -14,13 +14,17 @@ class EmployeePositionController extends BaseController
 {
     public function index(Request $request)
     {
-        if($request->act)
         $employee_postions = $this->vendor->employee_positions;
+        if($request->activation_status)
+        {
+            $employee_postions = $this->vendor->employee_positions->where('activation_status',$request->activation_status);
+        }
+        $employee_postions = $employee_postions;
         if($employee_postions->isEmpty())
         {
             return response()->json([
                 'success' => false,
-                'message' =>'There Are No Position'
+                'message' =>'There Are No Positions'
             ],404);
         }
         return response()->json([
