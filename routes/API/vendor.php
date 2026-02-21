@@ -131,7 +131,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                       ->name('products')
                       ->middleware(BranchGetProducts::class);
 
-                Route::get('/table_requests/{request_type?}',[BranchController::class,'getTableRequests'])
+                Route::get('/table_requests',[BranchController::class,'getTableRequests'])
                       ->name('table_requests')
                       ->middleware(BranchGetTableRequest::class);
 

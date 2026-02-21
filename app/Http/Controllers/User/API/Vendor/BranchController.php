@@ -291,7 +291,7 @@ class BranchController extends BaseController
         }
 
     }
-    public function getTableRequests($locale,$branch_slug,$request_type=null)
+    public function getTableRequests($locale,$branch_slug,Request $request)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         $tables_ids = $branch->tables->pluck('id')->toArray();
@@ -302,10 +302,10 @@ class BranchController extends BaseController
                 'message' => 'This Branch Not exist',
             ], 404);
         }
-        if($request_type != null)
+        if($request->request_type != null)
         {
             $table_requests = VendorBranch__TableRequest::whereIn('branch_table_id',$tables_ids)
-                                                         ->where('request_type',$request_type)->get();
+                                                         ->where('request_type',$request->request_type)->get();
         }
         else
         {
@@ -315,16 +315,16 @@ class BranchController extends BaseController
         {
             return response()->json([
                 'success' =>true,
-                'message' =>'Get All ' . $request_type.' Table Requests Successfully',
+                'message' =>'Get All Table Requests Successfully',
                 'count' => $table_requests->count(),
-                'table_requests' =>VendorBranch__TableRequestResource::collection($table_requests)
+                'data' =>VendorBranch__TableRequestResource::collection($table_requests)
             ],200);
         }
         else
         {
             return response()->json([
                 'success' =>true,
-                'message' =>'There Are No Table Requests in '.$request_type.' Type',
+                'message' =>'There Are No Table Requests',
             ],404);
         }
 
