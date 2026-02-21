@@ -3,7 +3,7 @@
 namespace App\Swagger\Vendor\Branch;
 /**
  * @OA\Get(
- *     path="/api/{locale}/user/vendor/branches/{branch_slug}/table_requests/issue",
+ *     path="/api/{locale}/user/vendor/branches/{branch_slug}/table_requests",
  *     tags={"Vendor - Branch"},
  *     operationId="Get All Table Requests In Branche",
  *     summary="---Get All Table Requests In Branche---",
