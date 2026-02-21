@@ -16,6 +16,20 @@ namespace App\Swagger\Vendor\EmployeePosition;
  *         description="Language code",
  *         @OA\Schema(type="string", example="en")
  *     ),
+ *     @OA\Parameter(
+ *         name="activation_status",
+ *         in="query",
+ *         required=false,
+ *         description="activation_status Of employee position",
+ *         @OA\Schema(type="string",enum={"active","inactive"} ,example="active")
+ *     ),
+ *     @OA\Parameter(
+ *         name="name",
+ *         in="query",
+ *         required=false,
+ *         description="name Of employee position",
+ *         @OA\Schema(type="string", example="data")
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Get All Employee Position Successfully",

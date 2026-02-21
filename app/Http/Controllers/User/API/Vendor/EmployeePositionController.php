@@ -14,12 +14,20 @@ class EmployeePositionController extends BaseController
 {
     public function index(Request $request)
     {
-        $employee_postions = $this->vendor->employee_positions;
+        $employee_postions = $this->vendor->employee_positions();
         if($request->activation_status)
         {
-            $employee_postions = $this->vendor->employee_positions->where('activation_status',$request->activation_status);
+            $employee_postions = $employee_postions->where('activation_status',$request->activation_status);
         }
-        $employee_postions = $employee_postions;
+        if($request->name)
+        {
+            $employee_postions = $employee_postions
+                ->where(function ($q) use ($request) {
+                    $q->where('name->ar', 'like', '%'.$request->name.'%')
+                    ->orWhere('name->en', 'like', '%'.$request->name.'%');
+                });
+        }
+        $employee_postions = $employee_postions->get();
         if($employee_postions->isEmpty())
         {
             return response()->json([
@@ -32,7 +40,6 @@ class EmployeePositionController extends BaseController
             'message' => 'Get All Postion successfully',
             'data' => Vendor__EmployeePositionResource::collection($employee_postions)
         ],200);
-
     }
     public function create(CreateRequest $request)
     {
