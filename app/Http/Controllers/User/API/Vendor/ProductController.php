@@ -40,9 +40,25 @@ class ProductController extends BaseController
         if($request->category_slug)
         {
             $category = Vendor__MenuCategory::where('slug',$request->category_slug)->first();
+
             if($category != null)
             {
-                $all_products = $all_products->where('category_id',$category->id);
+                if($category->parent_category_id != null)
+                {
+                    $all_products = $all_products->where('category_id',$category->id);
+                }
+                else
+                {
+                    if($category->sub_categories->isNotEmpty())
+                    {
+                        $sub_categories_ids = $category->sub_categories->pluck('id')->toArray();
+                        $all_products->$all_products->whereIn('category_id',$sub_categories_ids);
+                    }
+                    else
+                    {
+                        $all_products = $category->products;
+                    }
+                }
             }
             else
             {
