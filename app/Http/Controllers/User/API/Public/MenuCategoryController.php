@@ -18,7 +18,10 @@ class MenuCategoryController extends Controller
         {
             if($branch->activation_status == "active")
             {
-                $all_menu_categories = $branch->vendor->menu_categories->where('activation_status','active')->sortBy('sort');
+                $all_menu_categories = $branch->categories()
+                                      ->wherePivot('activation_status','active')
+                                      ->where('vendor___menu_categories.activation_status', 'active')
+                                      ->get();
                 if($all_menu_categories->isNotEmpty())
                 {
                     return response()->json([
@@ -32,6 +35,7 @@ class MenuCategoryController extends Controller
                     return response()->json([
                         'success' =>true,
                         'message' =>'There are no categories for this vendor',
+                        'data' =>[]
                     ],200);
                 }
             }
