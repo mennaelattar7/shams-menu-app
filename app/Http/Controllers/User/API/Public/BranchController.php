@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\API\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ShamsFeatureResource;
+use App\Http\Resources\Vendor__MenuThemeResource;
 use App\Http\Resources\VendorBranch__TableResource;
 use App\Http\Resources\VendorBranchResource;
 use App\Http\Resources\VendorMenuCategoryResource;
@@ -193,6 +194,23 @@ class BranchController extends Controller
             'success' =>true,
             'message' =>'get Features successfully',
             'data' => ShamsFeatureResource::collection($features)
+        ],200);
+    }
+    public function getMenuTheme($locale,$branch_slug)
+    {
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if(!$branch)
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'Branch not found or inactive',
+            ],404);
+        }
+        $menu_theme = $branch->vendor->menu_theme;
+        return response()->json([
+            'success' =>true,
+            'message' => 'get menu theme successfully',
+            'data' => new Vendor__MenuThemeResource($menu_theme)
         ],200);
     }
 }

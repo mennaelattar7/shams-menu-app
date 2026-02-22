@@ -33,6 +33,7 @@ Route::prefix('public')->name('public.')->group(function(){
             Route::get('/menu-categories',[MenuCategoryController::class,'getMenuCategories'])->name('getMenuCategories');
             Route::get('/tables',[BranchController::class,'getBranchTables'])->name('get_branch_table');
             Route::get('/features',[BranchController::class,'getFeatures'])->name('get_features');
+            Route::get('/menu_theme',[BranchController::class,'getMenuTheme'])->name('get_menu_theme');
         });
     });
 
@@ -53,7 +54,7 @@ Route::prefix('public')->name('public.')->group(function(){
         Route::prefix('branches')->name('branch.')->group(function(){
             Route::prefix('/{branch_slug}')->group(function(){
                 Route::get('/products',[BranchController::class,'getProducts'])->name('get_products');
-                
+
                 Route::prefix('reviews')->name('review.')->group(function(){
                     Route::post('/add-review',[ReviewController::class,'addReview'])->name('add_review');
                 });
