@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\User\API\Vendor\MenuThemeController;
 use App\Http\Controllers\User\API\Vendor\OfferController;
 use App\Http\Controllers\User\API\Vendor\PermissionController;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorData;
@@ -13,6 +14,7 @@ use App\Http\Controllers\User\API\Vendor\EmployeePositionController;
 use App\Http\Controllers\User\API\Vendor\HomeController;
 use App\Http\Controllers\User\API\Vendor\LangController;
 use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
+use App\Http\Controllers\User\API\Vendor\MenuDesignSettingController;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
 use App\Http\Controllers\User\API\Vendor\TableRequestController;
 use App\Http\Controllers\User\API\Vendor\UserController;
@@ -57,6 +59,9 @@ use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Single as Vend
 
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Create as Vendor__EmployeePositionCreate;
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Index as Vendor__EmployeePositionIndex;
+
+use App\Http\Middleware\custom_middleware\API\Vendor__MenuTheme\Edit as Vendor__MenuThemeEdit;
+
 
 use App\Http\Middleware\custom_middleware\API\User\Create as UserCreate;
 use App\Http\Middleware\custom_middleware\API\User\Index as UserIndex;
@@ -259,6 +264,12 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                   ->middleware(UserCreate::class); //new
         });
 
+        Route::prefix('menu_themes')->name('user.')->group(function(){
+            Route::get('/{vendor_slug}/update',[MenuThemeController::class,'update'])
+                  ->name('update')
+                  ->middleware(Vendor__MenuThemeEdit::class);
+        });
+
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){
             Route::get('/my-roles-permissions',[VendorController::class,'getRolesPremissions'])->name('get_roles_premissions');
@@ -279,8 +290,6 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::post('/update-ratings',[VendorController::class,'updateRatings'])
                     ->name('update_rating')
                     ->middleware(UpdateVendorRatings::class);
-
-
 
                 Route::post('/update-branch-feature-activation',[VendorController::class,'updateBranchFeatureActivation'])
                     ->name('update_branch_feature_activation')

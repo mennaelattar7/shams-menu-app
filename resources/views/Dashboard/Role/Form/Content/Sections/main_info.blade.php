@@ -193,12 +193,17 @@
                                     </a>
 
 
+
+
                                     <h6 class="mt-3 mb-1 text-muted">📌 Vendor</h6>
+                                    <a class="nav-link" id="v-vendor-tab" data-toggle="pill" href="#v-vendor" role="tab" aria-controls="v-vendor" aria-selected="true">
+                                        {{ trans('Dashboard.Vendor')}}
+                                    </a>
                                     <a class="nav-link" id="v-vendor___menu_category-tab" data-toggle="pill" href="#v-vendor___menu_category" role="tab" aria-controls="v-vendor___menu_category" aria-selected="true">
                                         {{ trans('Dashboard.Menu_Categories')}}
                                     </a>
-                                    <a class="nav-link" id="v-vendor-tab" data-toggle="pill" href="#v-vendor" role="tab" aria-controls="v-vendor" aria-selected="true">
-                                        {{ trans('Dashboard.Vendor')}}
+                                    <a class="nav-link" id="v-vendor___menu_theme-tab" data-toggle="pill" href="#v-vendor___menu_theme" role="tab" aria-controls="v-vendor___menu_theme" aria-selected="true">
+                                        {{ trans('Dashboard.Menu_themes')}}
                                     </a>
 
 
@@ -382,6 +387,29 @@
                                             </div>
                                         @endforeach
                                     </div>
+
+                                    <div class="tab-pane" id="v-vendor___menu_theme" role="tabpanel" aria-labelledby="v-vendor___menu_theme-tab">
+                                        <h6><i>-- {{ $role->guard_name }} Guard Name --</i></h6>
+                                        @foreach($vendor___menu_theme_permissions->where('guard_name',$role->guard_name) as $one_permission)
+                                            <div class="col-md-12">
+                                                <div class="fancy-checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="permission_ids[]" value="{{$one_permission->id}}"
+                                                        @if($role->hasPermissionTo($one_permission))
+                                                            checked="checked"
+                                                        @endif
+                                                        @if(Route::currentRouteName() == "dashboard.role.show")
+                                                            disabled
+                                                        @endif
+                                                        >
+                                                        <span>{{$one_permission->display_name}}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+
 
                                     <div class="tab-pane" id="v-permission" role="tabpanel" aria-labelledby="v-permission-tab">
 

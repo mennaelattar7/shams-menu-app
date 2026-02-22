@@ -63,5 +63,7 @@ return [
     'Roles&Permissions' =>'Roles & Permissions',
     'Features' =>'Features',
     'Offers' =>'Offers',
-    'Table_Requests' =>'Table Requests'
+    'Table_Requests' =>'Table Requests',
+    'Employee_Possions' =>'Employee Possions',
+    'Menu_themes' =>'Menu themes'
 ];

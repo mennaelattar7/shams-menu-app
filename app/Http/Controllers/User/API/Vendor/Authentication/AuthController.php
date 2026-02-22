@@ -14,6 +14,8 @@ use App\Models\User;
 use App\Models\User__AccountStatusHistory;
 use App\Models\User_OTP;
 use App\Models\Vendor;
+use App\Models\Vendor__MenuTheme;
+use App\Models\Vendor__MenuThemeDetail;
 use App\Models\Vendor__PackegeSubscription;
 use App\Models\Vendor_VendorType;
 use App\Models\VendorRepresentative;
@@ -77,6 +79,54 @@ class AuthController extends Controller
         $new_vendor_package_subscription->price_at_purchase = 0;
         $new_vendor_package_subscription->paid_amount = 0;
         $new_vendor_package_subscription->save();
+
+        //add in vendor___menu_themes table
+        $new_vendor_menu_theme = new Vendor__MenuTheme();
+        $new_vendor_menu_theme->created_by_id = $new_user->id;
+        $new_vendor_menu_theme->vendor_id = $new_vendor->id;
+        $new_vendor_menu_theme->save();
+
+        //add in vendor___menu_theme_details table
+        $new_menu_theme_details = new Vendor__MenuThemeDetail();
+        $new_menu_theme_details->menu_theme_id = $new_vendor_menu_theme->id;
+        $new_menu_theme_details->background_color = "#1A73E8";
+        $new_menu_theme_details->borders_and_dividers_color = "#1A73E8";
+        $new_menu_theme_details->main_text_color = "#1A73E8";
+        $new_menu_theme_details->secondary_text_color = "#1A73E8";
+        $new_menu_theme_details->lang_btn_color = "#1A73E8";
+        $new_menu_theme_details->lang_btn_background_color = "#1A73E8";
+        $new_menu_theme_details->review_and_working_hours_text_color = "#1A73E8";
+        $new_menu_theme_details->card_background_color = "#1A73E8";
+        $new_menu_theme_details->card_title_color = "#1A73E8";
+        $new_menu_theme_details->social_media_color = "#1A73E8";
+        $new_menu_theme_details->main_category_specified_color = "#1A73E8";
+        $new_menu_theme_details->main_category_not_specified_color = "#1A73E8";
+        $new_menu_theme_details->sub_category_specified_color = "#1A73E8";
+        $new_menu_theme_details->sub_category_not_specified_color = "#1A73E8";
+        $new_menu_theme_details->category_title_color = "#1A73E8";
+        $new_menu_theme_details->product_title_color = "#1A73E8";
+        $new_menu_theme_details->product_description_color = "#1A73E8";
+        $new_menu_theme_details->product_data_color = "#1A73E8";
+        $new_menu_theme_details->product_image_border_color = "#1A73E8";
+        $new_menu_theme_details->product_price_color = "#1A73E8";
+        $new_menu_theme_details->product_price_before_discount_color = "#1A73E8";
+        $new_menu_theme_details->offer_background_color = "#1A73E8";
+        $new_menu_theme_details->offer_text_color = "#1A73E8";
+        $new_menu_theme_details->call_waiter_btn_color = "#1A73E8";
+        $new_menu_theme_details->call_waiter_btn_background_color = "#1A73E8";
+        $new_menu_theme_details->favourite_btn_color = "#1A73E8";
+        $new_menu_theme_details->favourite_icon_color = "#1A73E8";
+        $new_menu_theme_details->review_btn_text_color = "#1A73E8";
+        $new_menu_theme_details->review_btn_background_color = "#1A73E8";
+        $new_menu_theme_details->back_btn_color = "#1A73E8";
+        $new_menu_theme_details->back_btn_background_color = "#1A73E8";
+        $new_menu_theme_details->close_btn_color = "#1A73E8";
+        $new_menu_theme_details->close_btn_background_color = "#1A73E8";
+        $new_menu_theme_details->input_filed_background_color = "#1A73E8";
+        $new_menu_theme_details->input_filed_text_color = "#1A73E8";
+        $new_menu_theme_details->additional_information_color = "#1A73E8";
+        $new_menu_theme_details->font_family = "Cairo";
+        $new_menu_theme_details->save();
 
         //assign role to user
         $vendor_representative_role = Role::where([

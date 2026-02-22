@@ -50,6 +50,10 @@ class Vendor extends Model
     {
         return $this->hasMany(Vendor__MenuCategory::class,'vendor_id','id');
     }
+    public function menu_theme()
+    {
+        return $this->hasOne(Vendor__MenuTheme::class,'vendor_id','id');
+    }
     public function branches()
     {
         return $this->hasMany(VendorBranche::class,'vendor_id','id');
