@@ -83,7 +83,7 @@
             {
                 color: black
             }
-            .btn-primary 
+            .btn-primary
             {
                 color: black
             }
@@ -91,7 +91,7 @@
             {
                 color: black
             }
-            .btn-outline-info 
+            .btn-outline-info
             {
                 font-weight: 900
             }
@@ -155,7 +155,7 @@ dd([
         <script src="{{ asset('shams/dashboard/assets/js/pages/tables/jquery-datatable.js')}}"></script>
         <script src="{{ asset('shams/dashboard/assets/js/index.js')}}"></script>
         <script>
-            {{--  $.fn.dataTable.ext.errMode = 'none';  --}}
+            $.fn.dataTable.ext.errMode = 'none';
         </script>
     </body>
 </html>
