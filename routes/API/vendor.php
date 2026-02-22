@@ -61,6 +61,7 @@ use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Create as
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Index as Vendor__EmployeePositionIndex;
 
 use App\Http\Middleware\custom_middleware\API\Vendor__MenuTheme\Edit as Vendor__MenuThemeEdit;
+use App\Http\Middleware\custom_middleware\API\Vendor__MenuTheme\GetVendorTheme as Vendor__MenuThemeGetVendorTheme;
 
 
 use App\Http\Middleware\custom_middleware\API\User\Create as UserCreate;
@@ -264,10 +265,13 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                   ->middleware(UserCreate::class); //new
         });
 
-        Route::prefix('menu_themes')->name('user.')->group(function(){
+        Route::prefix('menu_themes')->name('menu_theme.')->group(function(){
             Route::post('/update',[MenuThemeController::class,'update'])
                   ->name('update')
                   ->middleware(Vendor__MenuThemeEdit::class);
+            Route::get('/get_vendor_theme',[MenuThemeController::class,'getVendorTheme'])
+                  ->name('get_vendor_theme')
+                  ->middleware(Vendor__MenuThemeGetVendorTheme::class);
         });
 
         //Settings Routes

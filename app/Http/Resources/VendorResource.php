@@ -22,6 +22,7 @@ class VendorResource extends JsonResource
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.vendor.employee_position.index',
                 'user.api.vendor.user.index',
+                'user.api.vendor.menu_theme.get_vendor_theme',
             ]),$this->company_name),
 
             'slug' =>$this->when($request->routeIs([
@@ -29,6 +30,7 @@ class VendorResource extends JsonResource
                 'user.api.public.branch.get_vendor_data',
                 'user.api.vendor.employee_position.index',
                 'user.api.vendor.user.index',
+                'user.api.vendor.menu_theme.get_vendor_theme',
             ]),$this->slug),
 
             'brand_name' =>$this->when($request->routeIs([
@@ -36,6 +38,7 @@ class VendorResource extends JsonResource
                 'user.api.public.branch.get_vendor_data',
                 'user.api.vendor.employee_position.index',
                 'user.api.vendor.user.index',
+                'user.api.vendor.menu_theme.get_vendor_theme',
             ]),$this->brand_name),
 
             'logo' =>$this->when($request->routeIs([

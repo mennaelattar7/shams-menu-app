@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Vendor__MenuThemeResource;
 use Illuminate\Http\Request;
 
 class MenuThemeController extends BaseController
@@ -141,6 +142,16 @@ class MenuThemeController extends BaseController
         return response()->json([
             'success' =>true,
             'message' => 'Theme Is Updated',
+        ],200);
+    }
+
+    public function getVendorTheme()
+    {
+        $menu_theme = $this->vendor->menu_theme;
+        return response()->json([
+            'success' => true,
+            'message' => 'get menu theme successfully',
+            'data' => new Vendor__MenuThemeResource($menu_theme)
         ],200);
     }
 }

@@ -12,4 +12,9 @@ class Vendor__MenuTheme extends Model
     {
         return $this->hasOne(Vendor__MenuThemeDetail::class,'menu_theme_id','id');
     }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class,'vendor_id','id');
+    }
 }
