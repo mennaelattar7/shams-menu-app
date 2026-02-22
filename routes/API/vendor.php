@@ -265,7 +265,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
 
         Route::prefix('menu_themes')->name('user.')->group(function(){
-            Route::get('/{vendor_slug}/update',[MenuThemeController::class,'update'])
+            Route::post('/{vendor_slug}/update',[MenuThemeController::class,'update'])
                   ->name('update')
                   ->middleware(Vendor__MenuThemeEdit::class);
         });
