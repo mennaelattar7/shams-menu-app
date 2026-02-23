@@ -90,9 +90,14 @@ class BranchController extends Controller
             }
         }
         $items = $activation_features->whereIn('code', ['main_category', 'subcategory']);
+
         if($items->count() == 2)
         {
-            $categories = $branch->categories->where('activation_status','active')->where('parent_category_id','!=',null);
+            $categories = $branch->categories()
+                        ->wherePivot('activation_status','active')
+                        ->where('vendor___menu_categories.activation_status','active')
+                        ->where('parent_category_id','!=',null)
+                        ->get();
             return response()->json([
                 'success' =>true,
                 'message' =>'get products successfully',
@@ -104,7 +109,11 @@ class BranchController extends Controller
             if($items->first()->code == "main_category")
             {
                 $categories = collect();
-                $main_categories = $branch->categories->where('activation_status','active')->where('parent_category_id',null);
+                $main_categories = $branch->categories()
+                                    ->wherePivot('activation_status','active')
+                                    ->where('vendor___menu_categories.activation_status','active')
+                                    ->where('parent_category_id',null)
+                                    ->get();
                 foreach($main_categories as $one_category)
                 {
                     if($one_category->sub_categories->isNotEmpty())
@@ -134,7 +143,11 @@ class BranchController extends Controller
             }
             else
             {
-                $categories = $branch->categories->where('activation_status','active')->where('parent_category_id','!=',null);
+                $categories = $branch->categories()
+                                    ->wherePivot('activation_status','active')
+                                    ->where('vendor___menu_categories.activation_status','active')
+                                    ->where('parent_category_id','!=',null)
+                                    ->get();
                 if($categories->isEmpty())
                 {
                     return response()->json([
@@ -155,7 +168,10 @@ class BranchController extends Controller
         }
         else
         {
-            $categories = $branch->categories->where('activation_status','active');
+            $categories =$branch->categories()
+                                    ->wherePivot('activation_status','active')
+                                    ->where('vendor___menu_categories.activation_status','active')
+                                    ->get();
             $products = collect();
             foreach($categories as $one_category)
             {
