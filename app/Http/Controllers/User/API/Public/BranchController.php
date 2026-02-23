@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ShamsFeatureResource;
 use App\Http\Resources\Vendor__MenuThemeResource;
+use App\Http\Resources\Vendor__SocialMediaResource;
 use App\Http\Resources\VendorBranch__TableResource;
 use App\Http\Resources\VendorBranchResource;
 use App\Http\Resources\VendorMenuCategoryResource;
@@ -66,7 +67,6 @@ class BranchController extends Controller
             ],404);
         }
     }
-
     public function getProducts($locale,$branch_slug)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
@@ -74,7 +74,7 @@ class BranchController extends Controller
         {
             return response()->json([
                 'success' =>true,
-                'message' =>'Branch not found or inactive',
+                'message' =>'Branch not found',
             ],404);
         }
         $features = $branch->features;
@@ -194,7 +194,6 @@ class BranchController extends Controller
             ],200);
         }
     }
-
     public function getFeatures($locale,$branch_slug)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
@@ -202,7 +201,7 @@ class BranchController extends Controller
         {
             return response()->json([
                 'success' =>true,
-                'message' =>'Branch not found or inactive',
+                'message' =>'Branch not found',
             ],404);
         }
         $features = $branch->features;
@@ -219,7 +218,7 @@ class BranchController extends Controller
         {
             return response()->json([
                 'success' =>true,
-                'message' =>'Branch not found or inactive',
+                'message' =>'Branch not found',
             ],404);
         }
         $menu_theme = $branch->vendor->menu_theme;
@@ -227,6 +226,23 @@ class BranchController extends Controller
             'success' =>true,
             'message' => 'get menu theme successfully',
             'data' => new Vendor__MenuThemeResource($menu_theme)
+        ],200);
+    }
+    public function getSocialMedia($locale,$branch_slug)
+    {
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if(!$branch)
+        {
+            return response()->json([
+                'success' =>true,
+                'message' =>'Branch not found',
+            ],404);
+        }
+        $social_media = $branch->vendor->social_media;
+        return response()->json([
+            'success' =>true,
+            'message' => 'get Social Media successfully',
+            'data' => Vendor__SocialMediaResource::collection($social_media)
         ],200);
     }
 }

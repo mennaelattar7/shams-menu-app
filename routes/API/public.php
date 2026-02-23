@@ -34,6 +34,7 @@ Route::prefix('public')->name('public.')->group(function(){
             Route::get('/tables',[BranchController::class,'getBranchTables'])->name('get_branch_table');
             Route::get('/features',[BranchController::class,'getFeatures'])->name('get_features');
             Route::get('/menu_theme',[BranchController::class,'getMenuTheme'])->name('get_menu_theme');
+            Route::get('/social_media',[BranchController::class,'getSocialMedia'])->name('get_social_media');
         });
     });
 
