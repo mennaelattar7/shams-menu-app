@@ -5,13 +5,13 @@ namespace App\Http\Middleware\custom_middleware\API\Product;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class ToggleAvailability
+class ToggleAvailabilityInBranch
 {
     public function handle($request, Closure $next)
     {
         if(Auth::guard('api')->check())
         {
-           if(Auth::guard('api')->user()->can('5_toggle_availability_product','api'))
+           if(Auth::guard('api')->user()->can('5_toggle_availability_in_branch_product','api'))
            {
                 return $next($request);
            }

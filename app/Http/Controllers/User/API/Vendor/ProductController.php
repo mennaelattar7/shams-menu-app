@@ -314,31 +314,84 @@ class ProductController extends BaseController
         ], 200);
     }
 
-    public function toggleAvailability($locale,$product_slug,$branch_slug)
+    public function toggleAvailabilityInBranch($locale,$product_slug,$branch_slug)
     {
-        $product = Product::where('slug',$product_slug)->first();
         $branch = VendorBranche::where('slug',$branch_slug)->first();
-        if($product == null || $branch == null)
+        if($branch != null)
         {
-            return response()->json([
-                'status' =>false,
-                'message' => 'product or branch not exist'
-            ]);
-        }
-        $avilabilty = Product__ProductBranch::where('branch_id',$branch->id)->where('product_id',$product->id)->first();
-        if($avilabilty->availability_status == "available")
-        {
-            $avilabilty->availability_status = "not_available";
+            $product = Product::where('slug',$product_slug)->first();
+            if($product != null)
+            {
+                $product_branch = Product__ProductBranch::where('branch_id',$branch->id)->where('product_id',$product->id)->first();
+                if($product_branch->availability_status == "available")
+                {
+                    $product_branch->availability_status = "not_available";
+                }
+                else
+                {
+                    $product_branch->availability_status = "available";
+                }
+                $product_branch->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Change Product Avilabilty Succefully',
+                ], 200);
+            }
+            else
+            {
+                return response()->json([
+                    'status' =>false,
+                    'message' => 'This Product Not Exist'
+                ]);
+            }
         }
         else
         {
-            $avilabilty->availability_status = "available";
+            return response()->json([
+                'status' =>false,
+                'message' => 'This Branch Not Exist'
+            ]);
         }
-        $avilabilty->save();
-        return response()->json([
-            'success' => true,
-            'message' => 'Change Product Avilabilty Succefully',
-        ], 200);
+    }
+
+    public function toggleActivationInBranch($locale,$product_slug,$branch_slug)
+    {
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if($branch != null)
+        {
+            $product = Product::where('slug',$product_slug)->first();
+            if($product != null)
+            {
+                $product_branch = Product__ProductBranch::where('branch_id',$branch->id)->where('product_id',$product->id)->first();
+                if($product_branch->activation_status == "active")
+                {
+                    $product_branch->activation_status = "inactive";
+                }
+                else
+                {
+                    $product_branch->activation_status = "active";
+                }
+                $product_branch->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Change Product Activation Succefully',
+                ], 200);
+            }
+            else
+            {
+                return response()->json([
+                    'status' =>false,
+                    'message' => 'This Product Not Exist'
+                ]);
+            }
+        }
+        else
+        {
+            return response()->json([
+                'status' =>false,
+                'message' => 'This Branch Not Exist'
+            ]);
+        }
     }
     public function toggleActivation($locale,$product_slug)
     {

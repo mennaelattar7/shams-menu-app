@@ -41,7 +41,9 @@ use App\Http\Middleware\custom_middleware\API\Product\Create as ProductCreate;
 use App\Http\Middleware\custom_middleware\API\Product\Single as ProductSingle;
 use App\Http\Middleware\custom_middleware\API\Product\DeletePermanently as ProductDeletePermanently;
 use App\Http\Middleware\custom_middleware\API\Product\Edit as ProductEdit;
-use App\Http\Middleware\custom_middleware\API\Product\ToggleAvailability as ProductToggleAvailability;
+use App\Http\Middleware\custom_middleware\API\Product\ToggleAvailabilityInBranch as ProductToggleAvailabilityInBranch;
+use App\Http\Middleware\custom_middleware\API\Product\ToggleActivationInBranch as ProductToggleActivationInBranch;
+
 use App\Http\Middleware\custom_middleware\API\Product\ToggleActivation as ProductToggleActivation;
 use App\Http\Middleware\custom_middleware\API\Product\MostViewed;
 
@@ -198,9 +200,15 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     ->name('delete_permanently')
                     ->middleware(ProductDeletePermanently::class);
 
-                Route::post('/toggle-availability/{branch_slug}',[ProductController::class,'toggleAvailability'])
-                        ->name('toggle_availability')
-                        ->middleware(ProductToggleAvailability::class);
+                Route::post('/toggle-availability/{branch_slug}',[ProductController::class,'toggleAvailabilityInBranch'])
+                        ->name('toggle_availability_in_branch')
+                        ->middleware(ProductToggleAvailabilityInBranch::class);
+
+                Route::post('/toggle-activation/{branch_slug}',[ProductController::class,'toggleActivationInBranch'])
+                        ->name('toggle_activation_in_branch')
+                        ->middleware(ProductToggleActivationInBranch::class);
+
+
 
                 Route::post('/toggle-activation',[ProductController::class,'toggleActivation'])
                         ->name('toggle_activation')
