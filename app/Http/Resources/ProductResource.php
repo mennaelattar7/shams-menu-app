@@ -79,6 +79,7 @@ class ProductResource extends JsonResource
                 'user.api.public.branch.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.public.customer.get_favourite_products',
             ]),$this->name),
 
             'name_object' => $this->when($request->routeIs([
@@ -107,6 +108,7 @@ class ProductResource extends JsonResource
                 'user.api.public.branch.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.public.customer.get_favourite_products',
             ]),$this->slug),
 
             'description' =>$this->when($request->routeIs([
@@ -116,6 +118,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
                 'user.api.public.branch.get_products',
+                'user.api.public.customer.get_favourite_products',
 
             ]),$this->description),
 
@@ -143,6 +146,7 @@ class ProductResource extends JsonResource
                 'user.api.public.branch.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.public.customer.get_favourite_products',
             ]) && $this->variants->count() == 1 ,$this->variants->first()->price),
 
             'price_after_discount' =>$this->when($request->routeIs([
@@ -156,6 +160,7 @@ class ProductResource extends JsonResource
                 'user.api.public.branch.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.public.customer.get_favourite_products',
             ]) && $this->variants->count() == 1 ,$price_after_discount),
 
             'discount_type' =>$this->when($request->routeIs([
@@ -168,6 +173,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
+                'user.api.public.customer.get_favourite_products',
             ]),$this->discount_type),
 
             'discount_value' =>$this->when($request->routeIs([
@@ -180,6 +186,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
+                'user.api.public.customer.get_favourite_products',
             ]),$this->discount_value),
 
             'currency' =>$this->when($request->routeIs([
@@ -191,6 +198,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.get_products',
+                'user.api.public.customer.get_favourite_products',
             ])  ,$this->category?->vendor?->currencies?->first()?->symbol),
 
             'activation_status' =>$this->when($request->routeIs([
@@ -257,11 +265,13 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.public.branch.get_products',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.public.customer.get_favourite_products',
             ]),$this->image ? url(Storage::url($this->image))  : null),
 
             'is_favorite' =>$this->when($request->routeIs([
                 'user.api.public.branch.get_products',
                 'user.api.vendor.product.index',
+                'user.api.public.customer.get_favourite_products',
             ]),$is_favorite),
 
             'calories' =>$this->when($request->routeIs([
@@ -283,6 +293,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
                 'user.api.public.branch.get_products',
+                'user.api.public.customer.get_favourite_products',
             ]),ProductAllergenResource::collection($this->allergens)),
 
             'cooking_levels' =>$this->when($request->routeIs([

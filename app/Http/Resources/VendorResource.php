@@ -72,7 +72,7 @@ class VendorResource extends JsonResource
 
             'vendor_social_media' =>$this->when($request->routeIs([
                 'user.api.public.branch.get_vendor_data',
-            ]),SocialMediaResource::collection($this->social_media)),
+            ]),Vendor__SocialMediaResource::collection($this->social_media)),
 
 
             'branches' =>$this->when($request->routeIs([

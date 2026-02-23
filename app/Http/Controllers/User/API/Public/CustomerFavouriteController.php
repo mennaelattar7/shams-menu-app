@@ -46,14 +46,12 @@ class CustomerFavouriteController extends Controller
             ['customer_id',$customer->id],
         ])->get();
         $products = Product::whereIn('id',$all_favourite_products->pluck('product_id')->toArray())->get();
-
-
-
         if($all_favourite_products->isEmpty())
         {
             return response()->json([
                 'success' =>true,
-                'message'=>'Favourite List is empty'
+                'message'=>'Favourite List is empty',
+                'data' => []
             ],200);
         }
         return response()->json([
