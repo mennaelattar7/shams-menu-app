@@ -184,9 +184,10 @@ class MenuCategorycontroller extends BaseController
             if($sub_categories->isEmpty())
             {
                 return response()->json([
-                    'success' =>false,
-                    'message' =>'ther are no sub categories in this main category'
-                ],404);
+                    'success' =>true,
+                    'message' =>'ther are no sub categories in this main category',
+                    'data' =>$sub_categories
+                ],200);
             }
             else
             {
