@@ -135,6 +135,32 @@ class ProductController extends BaseController
             'data' => ProductResource::collection($products)
         ]);
     }
+    public function sort(Request $request)
+    {
+        if($request->products)
+        {
+            foreach($request->products as $one_item)
+            {
+                $product = Product::find($one_item['id']);
+                if($product != null)
+                {
+                    $product->sort = $one_item['sort'];
+                    $product->save();
+                    return response()->json([
+                        'success' => true,
+                        'message' =>'sorting Products Is Done'
+                    ],200);
+                }
+                else
+                {
+                    return response()->json([
+                        'success' => false,
+                        'message' =>'This Product Not Exist'
+                    ],404);
+                }
+            }
+        }
+    }
     public function create(CreateRequest $request)
     {
         //add in product tabel

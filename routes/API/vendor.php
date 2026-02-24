@@ -183,6 +183,9 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                  ->name('index')
                  ->middleware(ProductIndex::class);
 
+            Route::post('/sort',[ProductController::class,'sort'])
+                 ->name('sort');
+
             Route::post('create',[ProductController::class,'create'])
                   ->name('create')
                   ->middleware(ProductCreate::class);
