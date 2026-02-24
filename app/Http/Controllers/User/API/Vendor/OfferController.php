@@ -159,7 +159,12 @@ class OfferController extends BaseController
 
     public function single($locale,$offer_slug)
     {
-        $offer = VendorBranch__Offer::where('slug',$offer_slug)->first();
+        // $offer = VendorBranch__Offer::where('slug',$offer_slug)->first();
+        $offer = VendorBranch__Offer::with([
+            'branch',
+            'products.category.parent_category'
+        ])->where('slug',$offer_slug)->first();
+
         if(!$offer)
         {
             return response()->json([
