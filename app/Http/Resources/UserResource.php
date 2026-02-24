@@ -14,6 +14,7 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
             'user_id' => $this->id,
             'user_name' =>$this->name,
@@ -25,6 +26,14 @@ class UserResource extends JsonResource
             'activation_status' =>$this->activation_status,
             'account_status' => $this->account_status,
             'roles' =>$this->getRoleNames(),
+            'vendor_data' => $this->when($this->vendor_representative !=null,function(){
+                return $this->vendor_representative->vendor->company_name;
+            }),
+            'vendor_data' => $this->when($this->employee !=null,function(){
+                return [
+                    'company_name' =>$this->employee->vendor->company_name
+                ];
+            })
             // 'vendor_representative'=> $this->when(
             //                                      $request->routeIs('user.api.vendor.auth.login'),
             //                                      $this->vendor_representative ? new VendorRepresentativeResource($this->vendor_representative):null
