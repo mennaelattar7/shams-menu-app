@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Product;
+use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,15 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        //check if branch_slug in route
+        if($request->route('branch_slug') != null)
+        {
+            $branch = VendorBranche::where('slug',$request->route('branch_slug'))->first();
+        }
+        else
+        {
+            $branch = null;
+        }
         // $active_offer = $this->offers->filter(fn($offer)=>$offer->is_active())->first();
         $offers = $this->offers()
             ->where('start_date', '<=', now())
@@ -76,7 +86,8 @@ class ProductResource extends JsonResource
                 'user.api.vendor.branch.products',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
+
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
                 'user.api.public.customer.get_favourite_products',
@@ -91,7 +102,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.branch.products',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
             ]),json_decode($this->getRawOriginal('name'), true)),
@@ -105,7 +116,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.branch.products',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
                 'user.api.public.customer.get_favourite_products',
@@ -117,7 +128,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.public.customer.get_favourite_products',
 
             ]),$this->description),
@@ -131,7 +142,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.branch.products',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
             ]),json_decode($this->getRawOriginal('description'), true)),
 
@@ -143,7 +154,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
                 'user.api.public.customer.get_favourite_products',
@@ -157,7 +168,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
                 'user.api.public.customer.get_favourite_products',
@@ -172,7 +183,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.branch.products',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.public.customer.get_favourite_products',
             ]),$this->discount_type),
 
@@ -185,7 +196,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.branch.products',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.public.customer.get_favourite_products',
             ]),$this->discount_value),
 
@@ -197,22 +208,41 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.vendor.offer.index',
                 'user.api.vendor.offer.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.public.customer.get_favourite_products',
             ])  ,$this->category?->vendor?->currencies?->first()?->symbol),
 
-            'activation_status' =>$this->when($request->routeIs([
+            'activation_status_in_vendor' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.public.menu_category.get_products',
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.product.single',
                 'user.api.vendor.branch.products',
 
             ]),$this->activation_status),
 
-            'availability_status' => $this->whenPivotLoaded('product___product_branches', function () {
+
+            'availability_status_in_branch' => $this->whenPivotLoaded('product___product_branches', function () {
                 return $this->pivot->availability_status;
+            }),
+            'availability_status_in_branch' => $this->when($request->routeIs(['user.api.public.branch.product.get_products'])&&$branch != null, function () use ($branch) {
+                $branchRelation = $this->branches
+                    ->firstWhere('id', $branch->id);
+
+                return $branchRelation
+                    ? $branchRelation->pivot->availability_status
+                    : null;
+            }),
+
+            'activation_status_in_branch' => $this->when($request->routeIs(['user.api.public.branch.product.get_products'])&&$branch != null, function () use ($branch) {
+                $branchRelation = $this->branches
+                    ->firstWhere('id', $branch->id);
+
+                return $branchRelation
+                    ? $branchRelation->pivot->activation_status
+                    : null;
             }),
             'availability_branches' => $this->when(
                 $request->routeIs(['user.api.public.menu_category.get_products']),
@@ -263,13 +293,13 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.home.most_viewed_product',
                 'user.api.public.customer.get_favourite_products',
             ]),$this->image ? url(Storage::url($this->image))  : null),
 
             'is_favorite' =>$this->when($request->routeIs([
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.product.index',
                 'user.api.public.customer.get_favourite_products',
             ]),$is_favorite),
@@ -278,6 +308,7 @@ class ProductResource extends JsonResource
                 'user.api.public.product.single',
                 'user.api.public.menu_category.get_products',
                 'user.api.vendor.menu_category.products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.product.single',
             ]),$this->calories),
 
@@ -292,7 +323,7 @@ class ProductResource extends JsonResource
                 'user.api.public.product.single',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
-                'user.api.public.branch.get_products',
+                'user.api.public.branch.product.get_products',
                 'user.api.public.customer.get_favourite_products',
             ]),ProductAllergenResource::collection($this->allergens)),
 
@@ -300,6 +331,7 @@ class ProductResource extends JsonResource
                 'user.api.public.product.single',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
+                'user.api.public.branch.product.get_products',
 
             ]),ProductCookingLevelResource::collection($this->cooking_levels)),
 

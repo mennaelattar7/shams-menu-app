@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Redis;
 
 class ProductController extends Controller
 {
-    public function single($locale,$slug)
+    public function single($locale,$product_slug)
     {
+        
         //check if product exist
-        $product = Product::where('slug',$slug)->first();
+        $product = Product::where('slug',$product_slug)->first();
         if(!$product)
         {
             return response()->json([

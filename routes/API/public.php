@@ -43,9 +43,7 @@ Route::prefix('public')->name('public.')->group(function(){
         Route::get('/{category_slug}/products',[ProductController::class,'getProducts'])->name('get_products');
     });
 
-    Route::prefix('products')->name('product.')->group(function(){
-        Route::get('/{branch_slug}',[ProductController::class,'single'])->name('single');
-    });
+
 
     //Route in Auth and No Auth
     Route::middleware(OptionalSanctumAuth::class)->group(function () {
@@ -54,7 +52,11 @@ Route::prefix('public')->name('public.')->group(function(){
         });
         Route::prefix('branches')->name('branch.')->group(function(){
             Route::prefix('/{branch_slug}')->group(function(){
-                Route::get('/products',[BranchController::class,'getProducts'])->name('get_products');
+                Route::prefix('products')->name('product.')->group(function(){
+                    Route::get('/',[BranchController::class,'getProducts'])->name('get_products');
+                    Route::get('/{product_slug}',[ProductController::class,'single'])->name('single');
+                });
+
 
                 Route::prefix('reviews')->name('review.')->group(function(){
                     Route::post('/add-review',[ReviewController::class,'addReview'])->name('add_review');

@@ -69,6 +69,7 @@ class BranchController extends Controller
     }
     public function getProducts($locale,$branch_slug)
     {
+
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if(!$branch)
         {
@@ -90,7 +91,6 @@ class BranchController extends Controller
             }
         }
         $items = $activation_features->whereIn('code', ['main_category', 'subcategory']);
-
         if($items->count() == 2)
         {
             $categories = $branch->categories()
