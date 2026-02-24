@@ -74,10 +74,10 @@ class UpdateRequest extends FormRequest
                 'array'
             ] ,
             'operating_hours.*.shifts.*.start_time' => [
-                'required',
+                'nullable',
             ],
             'operating_hours.*.shifts.*.end_time' =>[
-                'required'
+                'nullable'
             ],
             'operating_hours.*.shifts.*.is_open' =>[
                 'required',
