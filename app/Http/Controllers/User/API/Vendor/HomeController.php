@@ -13,7 +13,7 @@ class HomeController extends BaseController
     {
         $all_products = Product::withCount('views')->whereHas('category',function($q){
                 $q->where('vendor_id',$this->vendor->id);
-            })->orderByDesc('views_count')->get();
+            })->orderByDesc('views_count')->take(3)->get();
 
         return response()->json([
             'success' =>true,
