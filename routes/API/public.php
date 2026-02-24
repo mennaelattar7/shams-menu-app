@@ -57,7 +57,6 @@ Route::prefix('public')->name('public.')->group(function(){
                     Route::get('/{product_slug}',[ProductController::class,'single'])->name('single');
                 });
 
-
                 Route::prefix('reviews')->name('review.')->group(function(){
                     Route::post('/add-review',[ReviewController::class,'addReview'])->name('add_review');
                 });
