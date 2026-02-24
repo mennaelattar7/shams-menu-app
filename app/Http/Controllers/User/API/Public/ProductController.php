@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Redis;
 
 class ProductController extends Controller
 {
-    public function single($locale,$product_slug)
+    public function single($locale,$branch_slug,$product_slug,)
     {
-        
+
         //check if product exist
         $product = Product::where('slug',$product_slug)->first();
         if(!$product)
