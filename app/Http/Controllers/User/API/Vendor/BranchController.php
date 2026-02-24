@@ -175,44 +175,59 @@ class BranchController extends BaseController
                 'message' => 'This Branch Not found',
             ], 404);
         }
-
-        $branch->updated_by_id = Auth::user()->id;
-        $branch->city_id = $request->city_id;
-        $branch->district_id = $request->district_id;
-        $branch->name = $request->name;
-        $branch->phone_number = $request->phone_number;
-        $branch->whatsapp_number = $request->whatsapp_number;
-        $branch->google_map_link = $request->google_map_link;
-        $branch->number_of_tables = $request->number_of_tables;
-        $branch->activation_status = $request->activation_status;
-        $branch->save();
-        if($branch->operating_hours)
+        else
         {
-            $branch->operating_hours()->delete();
-        }
-        $operating_hours = $request->operating_hours;
-        foreach($operating_hours as $one_day)
-        {
-            $new_branch_operation_houre = new VendorBranch__OperatingHour();
-            $new_branch_operation_houre->created_by_id = Auth::user()->id;
-            $new_branch_operation_houre->branch_id = $branch->id;
-            $new_branch_operation_houre->day_of_week = $one_day['day_of_week'];
-            $new_branch_operation_houre->save();
-            foreach($one_day['shifts'] as $one_shift)
+            if($branch->vendor_id == $this->vendor->id)
             {
-                $new_shift = new VendorBranch__OperatingHourShift();
-                $new_shift->created_by_id = Auth::user()->id;
-                $new_shift->operating_hours_id = $new_branch_operation_houre->id;
-                $new_shift->start_time = $one_shift['start_time'];
-                $new_shift->end_time = $one_shift['end_time'];
-                $new_shift->is_open = $one_shift['is_open'];
-                $new_shift->save();
+                $branch->updated_by_id = Auth::user()->id;
+                $branch->city_id = $request->city_id;
+                $branch->district_id = $request->district_id;
+                $branch->name = $request->name;
+                $branch->phone_number = $request->phone_number;
+                $branch->whatsapp_number = $request->whatsapp_number;
+                $branch->google_map_link = $request->google_map_link;
+                $branch->number_of_tables = $request->number_of_tables;
+                $branch->activation_status = $request->activation_status;
+                $branch->save();
+                if($branch->operating_hours)
+                {
+                    $branch->operating_hours()->delete();
+                }
+                $operating_hours = $request->operating_hours;
+                foreach($operating_hours as $one_day)
+                {
+                    $new_branch_operation_houre = new VendorBranch__OperatingHour();
+                    $new_branch_operation_houre->created_by_id = Auth::user()->id;
+                    $new_branch_operation_houre->branch_id = $branch->id;
+                    $new_branch_operation_houre->day_of_week = $one_day['day_of_week'];
+                    $new_branch_operation_houre->save();
+                    foreach($one_day['shifts'] as $one_shift)
+                    {
+                        $new_shift = new VendorBranch__OperatingHourShift();
+                        $new_shift->created_by_id = Auth::user()->id;
+                        $new_shift->operating_hours_id = $new_branch_operation_houre->id;
+                        $new_shift->start_time = $one_shift['start_time'];
+                        $new_shift->end_time = $one_shift['end_time'];
+                        $new_shift->is_open = $one_shift['is_open'];
+                        $new_shift->save();
+                    }
+                }
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Branch updated successfully',
+                ]);
+            }
+            else
+            {
+                return response()->json([
+                    'success' =>false,
+                    'message' => 'This branch does not belong to this vendor'
+                ],403);
             }
         }
-        return response()->json([
-            'success' => true,
-            'message' => 'Branch updated successfully',
-        ]);
+
+
+
 
     }
     public function getBranchFeatures($locale,$branch_slug)
