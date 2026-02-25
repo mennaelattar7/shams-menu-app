@@ -19,7 +19,7 @@ class MenuThemeController extends BaseController
         $menu_theme->products_layout = $request->products_layout;
         $menu_theme->theme_name = $request->theme_name;
         $menu_theme->save();
-        
+
         $menu_theme_details->background_color = $request->background_color;
         $menu_theme_details->borders_and_dividers_color = $request->borders_and_dividers_color;
         $menu_theme_details->main_text_color = $request->main_text_color;
@@ -56,6 +56,7 @@ class MenuThemeController extends BaseController
         $menu_theme_details->input_filed_background_color = $request->input_filed_background_color;
         $menu_theme_details->input_filed_text_color = $request->input_filed_text_color;
         $menu_theme_details->additional_information_color = $request->additional_information_color;
+        $menu_theme_details->primary_color = $request->primary_color;
         $menu_theme_details->font_family = $request->font_family;
         $menu_theme_details->save();
 

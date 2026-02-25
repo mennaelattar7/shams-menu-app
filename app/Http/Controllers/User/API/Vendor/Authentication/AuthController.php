@@ -125,6 +125,7 @@ class AuthController extends Controller
         $new_menu_theme_details->input_filed_background_color = "#FFFFFF";
         $new_menu_theme_details->input_filed_text_color = "#5C5C5C";
         $new_menu_theme_details->additional_information_color = "#626262";
+        $new_menu_theme_details->primary_color = "#626262";
         $new_menu_theme_details->font_family = "Changa";
         $new_menu_theme_details->save();
 
