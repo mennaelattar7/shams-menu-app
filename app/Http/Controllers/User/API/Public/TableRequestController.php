@@ -36,12 +36,12 @@ class TableRequestController extends Controller
             }
             else
             {
-
                 $last_request = $all_branch_requests->last();
 
                 $new_table_request->request_number=$last_request->request_number+1;
             }
             $new_table_request->request_type = $request->request_type;
+            $new_table_request->notes = $request->notes;
             $new_table_request->requested_at = now();
 
             $new_table_request->save();
