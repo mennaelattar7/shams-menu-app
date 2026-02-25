@@ -70,9 +70,24 @@ class VendorResource extends JsonResource
                 'user.api.vendor.setting.vendor_data.get',
             ]),$this->message_notes),
 
-            'vendor_social_media' =>$this->when($request->routeIs([
-                'user.api.public.branch.get_vendor_data',
-            ]),Vendor__SocialMediaResource::collection($this->social_media)),
+            'vendor_social_media' => $this->when(
+                $request->routeIs([
+                    'user.api.public.branch.get_vendor_data',
+                ]),
+                function () {
+
+                    if (!$this->social_media) {
+                        return null;
+                    }
+
+                    return $this->social_media->mapWithKeys(function ($item) {
+
+                        return [
+                            strtolower($item->name ?? '') => $item->pivot->link
+                        ];
+                    })->filter();
+                }
+            ),
 
 
             'branches' =>$this->when($request->routeIs([
