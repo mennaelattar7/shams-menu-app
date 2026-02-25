@@ -95,7 +95,7 @@ class VendorController extends BaseController
 
     public function updateBranchFeatureActivation()
     {
-        
+
     }
 
     public function getRolesPremissions()

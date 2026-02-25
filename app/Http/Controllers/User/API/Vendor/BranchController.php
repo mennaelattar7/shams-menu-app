@@ -19,8 +19,10 @@ use App\Models\VendorBranch__TableRequest;
 use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isEmpty;
+
 
 class BranchController extends BaseController
 {
@@ -317,23 +319,29 @@ class BranchController extends BaseController
                 'message' => 'This Branch Not exist',
             ], 404);
         }
-        if($request->request_type != null)
-        {
-            $table_requests = VendorBranch__TableRequest::whereIn('branch_table_id',$tables_ids)
-                                                         ->where('request_type',$request->request_type)->get();
+        $requests_query = VendorBranch__TableRequest::whereIn('branch_table_id', $tables_ids);
+
+        if ($request->request_type != null) {
+            $requests_query->where('request_type', $request->request_type);
         }
-        else
-        {
-            $table_requests = VendorBranch__TableRequest::whereIn('branch_table_id',$tables_ids)->get();
-        }
+
+        $table_requests = $requests_query->get();
+
+        /* 👇 حساب count لكل request_type */
+        $counts_by_type = VendorBranch__TableRequest::whereIn('branch_table_id', $tables_ids)
+            ->select('request_type', DB::raw('count(*) as count'))
+            ->groupBy('request_type')
+            ->get()
+            ->pluck('count', 'request_type');
         if($table_requests->isNotEmpty())
         {
             return response()->json([
-                'success' =>true,
-                'message' =>'Get All Table Requests Successfully',
-                'count' => $table_requests->count(),
-                'data' =>VendorBranch__TableRequestResource::collection($table_requests)
-            ],200);
+                'success' => true,
+                'message' => 'Get All Table Requests Successfully',
+                'total_count' => $table_requests->count(),
+                'counts_by_type' => $counts_by_type,
+                'data' => VendorBranch__TableRequestResource::collection($table_requests)
+            ], 200);
         }
         else
         {
