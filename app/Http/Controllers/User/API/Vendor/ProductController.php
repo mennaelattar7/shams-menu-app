@@ -19,11 +19,8 @@ class ProductController extends BaseController
     public function index(Request $request)
     {
         $vendor = $this->vendor;
+        $all_products = Product::query();
 
-        $menu_categories_ids = $vendor->menu_categories->pluck('id')->toArray();
-
-        $all_products = Product::query()
-            ->whereIn('category_id', $menu_categories_ids);
 
         /*
         |--------------------------------
@@ -44,7 +41,7 @@ class ProductController extends BaseController
             $all_products = $branch->products()->with('category');
 
             if ($request->availability_status) {
-                $all_products->wherePivot('availability_status', $request->availability_status);
+                $all_products = $all_products->wherePivot('availability_status', $request->availability_status);
             }
         }
 
@@ -53,43 +50,51 @@ class ProductController extends BaseController
         | Category Filter
         |--------------------------------
         */
-        if ($request->category_slug) {
-
-            $category = Vendor__MenuCategory::where('slug', $request->category_slug)->first();
-
-            if (!$category) {
+        if ($request->category_slug)
+        {
+            $main_category = Vendor__MenuCategory::where('slug', $request->category_slug)->first();
+            if (!$main_category) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'This Category Not Exist',
+                    'message' => 'This Main Category Not Exist',
                 ], 404);
             }
-
-            if ($category->parent_category_id != null) {
-
-                $all_products->where('category_id', $category->id);
-
-            } else {
-
-                if ($category->sub_categories->isNotEmpty()) {
-
-                    $sub_ids = $category->sub_categories->pluck('id')->toArray();
-
-                    $all_products->whereIn('category_id', $sub_ids);
-
+            else
+            {
+                if ($main_category->sub_categories->isNotEmpty())
+                {
+                    $sub_ids = $main_category->sub_categories->pluck('id')->toArray();
+                    $all_products = $all_products->whereIn('category_id', $sub_ids);
                 } else {
-
-                    $all_products = $category->products();
+                    $all_products = $main_category->products();
                 }
             }
         }
 
+        if ($request->subcategory_slug)
+        {
+            $sub_category = Vendor__MenuCategory::where('slug', $request->subcategory_slug)->first();
+            if (!$sub_category) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Main Category Not Exist',
+                ], 404);
+            }
+            else
+            {
+                $all_products = $all_products->where('category_id', $sub_category->id);
+            }
+        }
+
+        //http://127.0.0.1:8000/api/en/user/vendor/products?branch_slug=eldoky-branch&activation_status=active&availability_status=available&category_slug=alghdaaa&product_name=طاجن لحمهةىﻻتةﻻyyyyyyyyyyyyyyyyyyyyyy
         /*
         |--------------------------------
         | Activation Status
         |--------------------------------
         */
         if ($request->activation_status) {
-            $all_products->where('activation_status', $request->activation_status);
+            $all_products = $all_products->where('products.activation_status', $request->activation_status)
+                         ->wherePivot('activation_status', $request->activation_status);
         }
 
         /*
@@ -99,7 +104,7 @@ class ProductController extends BaseController
         */
         if ($request->product_name) {
 
-            $all_products->where(function ($q) use ($request) {
+            $all_products = $all_products->where(function ($q) use ($request) {
                 $q->where('name->en', 'like', "%{$request->product_name}%")
                 ->orWhere('name->ar', 'like', "%{$request->product_name}%");
             });
