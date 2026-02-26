@@ -50,6 +50,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
     })
+    ->withEvents()
+    ->withProviders([
+        App\Providers\EventServiceProvider::class,
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
 
         $exceptions->render(function (AuthenticationException $e, $request) {

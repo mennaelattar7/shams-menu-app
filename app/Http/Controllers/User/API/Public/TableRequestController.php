@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\User\API\Public;
 
+use App\Events\Customer_SendTablerequestEvent;
+use App\Events\CustomerSendTableRequestEvent;
 use App\Http\Controllers\Controller;
 use App\Models\VendorBranch__Table;
 use App\Models\VendorBranch__TableRequest;
 use App\Models\VendorBranch__TableRequest_StatusHistory;
+use App\Notifications\Customer_SendTableRequest_VendorNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -52,6 +55,9 @@ class TableRequestController extends Controller
             $new_table_request_status->table_request_id = $new_table_request->id;
             $new_table_request_status->status = 'pending';
             $new_table_request_status->save();
+
+
+            event(new CustomerSendTableRequestEvent($new_table_request));
             return response()->json([
                 'success'=>true,
                 'message'=>'request was sended',

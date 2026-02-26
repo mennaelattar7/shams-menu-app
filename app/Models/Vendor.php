@@ -42,6 +42,11 @@ class Vendor extends Model
         return $array_values[$locale] ?? null; // fallback لو اللغة مش موجودة
     }
 
+    public function vendor_representatives()
+    {
+        return $this->hasMany(VendorRepresentative::class,'vendor_id','id');
+    }
+
     public function social_media()
     {
         return $this->belongsToMany(SocialMediaIcon::class,'vendor___social_media','vendor_id','social_media_id')->withPivot('created_by_id','link');
