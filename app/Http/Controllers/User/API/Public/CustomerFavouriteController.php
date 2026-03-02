@@ -12,23 +12,75 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomerFavouriteController extends Controller
 {
-    public function addToFavourite($locale,$branch_slug,Request $request)
+    public function toggleFavourite($locale,$branch_slug,Request $request)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
-        $products = $request->products_ids;
-        $customer = Auth::user()->customer;
-        $data = [];
-        foreach($products as $one_product_id)
+        if(!$branch)
         {
-            $data[$one_product_id]=[
-                'branch_id' => $branch->id
-            ];
+            return response()->json([
+                'success' =>false,
+                'message' =>'Branch not found',
+            ],404);
         }
-        $customer->favourites()->sync($data);
-        return response()->json([
-            'success' =>true,
-            'message'=>'Product Added In Favourite List'
-        ],200);
+        $product = Product::where('slug',$request->product_slug)->first();
+        if(!$product)
+        {
+            return response()->json([
+                'success' =>false,
+                'message' =>'This Product not exist',
+            ],404);
+        }
+        $customer = Auth::user()->customer;
+        //check product favourite
+        $check_product = Customer__Favourite::where([
+            ['customer_id',$customer->id],
+            ['product_id',$product->id]
+        ])->first();
+        if($check_product)
+        {
+            //remove product from fav list
+            $check_product->delete();
+            return response()->json([
+                'success' =>true,
+                'message' =>'Product Removed from Favourite List',
+                'status' =>'added'
+            ],200);
+        }
+        else
+        {
+            //add product to fav List
+            $new_fav_product = new Customer__Favourite();
+            $new_fav_product->customer_id = $customer->id;
+            $new_fav_product->product_id = $product->id;
+            $new_fav_product->branch_id = $branch->id;
+            $new_fav_product->save();
+            return response()->json([
+                'success' =>true,
+                'message'=>'Product Added In Favourite List',
+                'status' =>'removed'
+            ],200);
+        }
+
+
+
+
+
+
+
+        // $products = $request->products_ids;
+        // $customer = Auth::user()->customer;
+        // $data = [];
+        // foreach($products as $one_product_id)
+        // {
+        //     $data[$one_product_id]=[
+        //         'branch_id' => $branch->id
+        //     ];
+        // }
+        // $customer->favourites()->sync($data);
+        // return response()->json([
+        //     'success' =>true,
+        //     'message'=>'Product Added In Favourite List'
+        // ],200);
     }
     public function getFavouriteProducts($locale,$branch_slug)
     {

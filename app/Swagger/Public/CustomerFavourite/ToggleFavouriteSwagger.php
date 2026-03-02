@@ -3,11 +3,11 @@
 namespace App\Swagger\Public\CustomerFavourite;
 /**
  * @OA\Post(
- *     path="/api/{locale}/user/public/customers/{branch_slug}/add-to-favourite",
+ *     path="/api/{locale}/user/public/customers/{branch_slug}/toggle-favourite",
  *     tags={"public - Customer [Favourite]"},
- *     operationId="Add Product To Favourite List",
- *     summary="---Add Product To Favourite List Endpoint---",
- *     description="Add Product To Favourite Listh",
+ *     operationId="Add and remove Product To Favourite List",
+ *     summary="---Add and remove Product To Favourite List---",
+ *     description="Add and remove Product To Favourite List",
  *
  *     @OA\Parameter(
  *         name="locale",
@@ -28,19 +28,16 @@ namespace App\Swagger\Public\CustomerFavourite;
  *         @OA\JsonContent(
  *             type="object",
  *             @OA\Property(
- *                 property="products_ids",
- *                 type="array",
- *                 @OA\Items(
- *                     type="object",
- *                     @OA\Property(property="products_ids", type="integer", example="1"),
- *                )
+ *                 property="product_slug",
+ *                 type="string",
+ *                 example="mkron-ngrsko"
  *             ),
  *         )
  *     ),
  *
  *     @OA\Response(
  *         response=200,
- *         description="Add Product To Favourite List",
+ *         description="Product Removed from Favourite List",
  *         @OA\JsonContent(
  *             type="object",
  *             @OA\Property(property="success", type="string", example="true"),
@@ -54,4 +51,4 @@ namespace App\Swagger\Public\CustomerFavourite;
  * )
  */
 
-class AddToFavouriteSwagger {}
+class ToggleFavouriteSwagger {}
