@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +15,15 @@ class VendorMenuCategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        //check if branch_slug in route
+        if($request->route('branch_slug') != null)
+        {
+            $branch = VendorBranche::where('slug',$request->route('branch_slug'))->first();
+        }
+        else
+        {
+            $branch = null;
+        }
         return [
             'id'=>$this->id,
             'parent_category' =>$this->when($request->routeIs([
@@ -85,7 +95,9 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.menu_category.single',
             ]),$this->image ? url(Storage::url($this->image)) : null) ,
 
-            'activation_status' =>$this->when($request->routeIs([
+
+
+            'activation_status_in_vendor' =>$this->when($request->routeIs([
                 'user.api.public.product.single',
                 'user.api.vendor.product.index',
                 'user.api.vendor.branch.categories',
@@ -94,7 +106,18 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.branch.categories.by_branches',
                 'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
-            ]),$this->activation_status) ,
+                'user.api.public.branch.getMenuCategories',
+            ]),$this->activation_status),
+
+            'activation_status_in_branch' => $this->when($request->routeIs([
+                'user.api.public.branch.getMenuCategories'])&&$branch != null, function () use ($branch) {
+                $branchRelation = $this->branches
+                    ->firstWhere('id', $branch->id);
+
+                return $branchRelation
+                    ? $branchRelation->pivot->activation_status
+                    : null;
+            }),
 
             'sort' =>$this->when($request->routeIs([
                     'user.api.public.product.single',
@@ -111,7 +134,7 @@ class VendorMenuCategoryResource extends JsonResource
                     'user.api.public.branch.product.get_products',
                     'user.api.vendor.menu_category.single',
                 ]),ProductResource::collection($this->products)),
-                
+
             'branches' => $this->when($request->routeIs([
                     'user.api.vendor.menu_category.single',
                 ]),VendorBranchResource::collection($this->branches)),
