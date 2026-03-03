@@ -8,11 +8,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 class VendorMenuCategoryResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+    private $depth;
+
+    public function __construct($resource, $depth = 1)
+    {
+        parent::__construct($resource);
+
+        $this->depth = $depth;
+    }
     public function toArray(Request $request): array
     {
         //check if branch_slug in route
@@ -38,7 +41,12 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.offer.single',
-            ]),$this->parent_category != null? new VendorMenuCategoryResource($this->parent_category): null ),
+            ]) && $this->depth > 0, function () {
+                            return new VendorMenuCategoryResource(
+                                $this->parent_category,
+                                $this->depth - 1   // ↓ نقص العمق
+                            );
+                        }),
 
             'name' =>$this->when($request->routeIs([
                 'user.api.public.product.single',

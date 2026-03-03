@@ -17,49 +17,56 @@ class MenuCategorycontroller extends BaseController
 {
     public function index(Request $request)
     {
-        $all_menu_categories= $this->vendor->menu_categories();
+        $all_menu_categories = $this->vendor->menu_categories();
 
-        if($request->activation_status)
-        {
-            $all_menu_categories = $all_menu_categories->where('activation_status',$request->activation_status);
+        if ($request->activation_status) {
+            $all_menu_categories = $all_menu_categories
+                ->where('activation_status', $request->activation_status);
         }
-
-        if($request->per_page != null)
+        if($request->category_type == "main_category")
         {
-            $all_menu_categories =$all_menu_categories->paginate($request->per_page);
-            if($all_menu_categories->isEmpty())
-            {
+            $all_menu_categories=$all_menu_categories->whereNull('parent_category_id');
+        }
+        if($request->category_type == "sub_category")
+        {
+            $all_menu_categories=$all_menu_categories->whereNotNull('parent_category_id');
+        }
+        $depth = 2;
+        if ($request->per_page != null) {
+
+            $all_menu_categories = $all_menu_categories
+                ->paginate($request->per_page);
+            if ($all_menu_categories->isEmpty()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'No Menu Categories Found',
                     'data' => []
-                ], 200);
+                ]);
             }
-
             return VendorMenuCategoryResource::collection($all_menu_categories)
-            ->additional([
-                'success' => true,
-                'message' => 'Get Menu Categories Successfully'
-            ])
-            ->response()
-            ->setStatusCode(200);
+                ->additional([
+                    'success' => true,
+                    'success' => true,
+                    'message' => 'Get Menu Categories Successfully'
+                ]);
         }
-        else
-        {
+        else {
             $all_menu_categories = $all_menu_categories->get();
-            if($all_menu_categories->isEmpty())
-            {
+            if ($all_menu_categories->isEmpty()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'No Menu Categories Found',
                     'data' => []
-                ], 200);
+                ]);
             }
             return response()->json([
                 'success' => true,
-                'message' => 'Get Menu CategorySuccefully',
-                'data' => VendorMenuCategoryResource::collection($all_menu_categories)
-            ], 200);
+                'message' => 'Get Menu Category Successfully',
+                'data' => VendorMenuCategoryResource::collection(
+                    collect($all_menu_categories)
+                        ->map(fn($item) => new VendorMenuCategoryResource($item, $depth))
+                )
+            ]);
         }
     }
     public function create(CreateRequest $request)
