@@ -68,6 +68,7 @@ class VendorResource extends JsonResource
 
             'message_notes' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
+                'user.api.public.branch.get_vendor_data',
             ]),$this->message_notes),
 
             'vendor_social_media' => $this->when(
