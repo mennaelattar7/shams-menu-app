@@ -118,7 +118,8 @@ class VendorMenuCategoryResource extends JsonResource
             ]),$this->activation_status),
 
             'activation_status_in_branch' => $this->when($request->routeIs([
-                'user.api.public.branch.getMenuCategories'])&&$branch != null, function () use ($branch) {
+                'user.api.public.branch.getMenuCategories',
+                'user.api.public.branch.product.get_products'])&&$branch != null, function () use ($branch) {
                 $branchRelation = $this->branches
                     ->firstWhere('id', $branch->id);
 
