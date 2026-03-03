@@ -56,6 +56,26 @@ class VendorResource extends JsonResource
                 'user.api.public.branch.get_vendor_data',
             ]),$this->slogan),
 
+            'phone_number' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data.get',
+                'user.api.public.branch.get_vendor_data',
+            ]),$this->phone_number),
+
+            'whats_app_number' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data.get',
+                'user.api.public.branch.get_vendor_data',
+            ]),$this->whats_app_number),
+
+            'email' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data.get',
+                'user.api.public.branch.get_vendor_data',
+            ]),$this->email),
+
+            'currencies' =>$this->when($request->routeIs([
+                'user.api.vendor.setting.vendor_data.get',
+                'user.api.public.branch.get_vendor_data',
+            ]), Shams__CurrencyResource::collection($this->currencies)),
+
             'rating' =>$this->when($request->routeIs([
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.public.branch.get_vendor_data',
@@ -74,6 +94,7 @@ class VendorResource extends JsonResource
             'vendor_social_media' => $this->when(
                 $request->routeIs([
                     'user.api.public.branch.get_vendor_data',
+                    'user.api.vendor.setting.vendor_data.get',
                 ]),
                 function () {
 
