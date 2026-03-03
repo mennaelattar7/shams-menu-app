@@ -31,6 +31,7 @@ class ProductResource extends JsonResource
         $offers = $this->offers()
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
+            ->where('vendor_branch___offers.activation_status','active')
             ->get();
 
         $offer = $offers->first();
@@ -41,6 +42,7 @@ class ProductResource extends JsonResource
 
         if($offer) {
             if($offer->discount_type == "fixed") {
+
                 $price_after_discount = $this->variants->first()->price - $offer->discount_value;
             } elseif($offer->discount_type == "percent") {
                 $price_after_discount = $this->variants->first()->price - ($this->variants->first()->price * $offer->discount_value / 100);
@@ -185,7 +187,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.product.get_products',
                 'user.api.public.customer.get_favourite_products',
-            ]),$this->discount_type),
+            ]),$offer?->discount_type),
 
             'discount_value' =>$this->when($request->routeIs([
                 'user.api.public.branch.product.single',
@@ -198,7 +200,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.offer.single',
                 'user.api.public.branch.product.get_products',
                 'user.api.public.customer.get_favourite_products',
-            ]),$this->discount_value),
+            ]),$offer?->discount_value),
 
             'currency' =>$this->when($request->routeIs([
                 'user.api.public.branch.product.single',
