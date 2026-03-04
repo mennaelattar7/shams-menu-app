@@ -19,8 +19,8 @@ class ProductController extends BaseController
     public function index(Request $request)
     {
         $vendor = $this->vendor;
-        $all_products = Product::query();
-
+        $categories_ids = $vendor->menu_categories()->pluck('id')->toArray();
+        $all_products = Product::query()->whereIn('category_id', $categories_ids);
 
         /*
         |--------------------------------
@@ -28,7 +28,6 @@ class ProductController extends BaseController
         |--------------------------------
         */
         if ($request->branch_slug) {
-
             $branch = VendorBranche::where('slug', $request->branch_slug)->first();
 
             if (!$branch) {
@@ -37,12 +36,11 @@ class ProductController extends BaseController
                     'message' => 'This Branch Not Exist',
                 ], 404);
             }
-
-            $all_products = $branch->products()->with('category');
-
-            if ($request->availability_status) {
-                $all_products = $all_products->wherePivot('availability_status', $request->availability_status);
-            }
+            $all_products = $all_products->whereHas('branches', function ($q) use ($branch){
+                $q->where('branch_id', $branch->id)
+                ->where('product___product_branches.activation_status', 'active')
+                ->where('product___product_branches.availability_status', 'available');
+            });
         }
 
         /*

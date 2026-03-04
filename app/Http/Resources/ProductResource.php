@@ -231,7 +231,8 @@ class ProductResource extends JsonResource
             }),
             'availability_status_in_branch' => $this->when($request->routeIs([
                 'user.api.public.branch.product.get_products',
-                'user.api.public.branch.product.single'
+                'user.api.public.branch.product.single',
+                'user.api.vendor.product.index',
                 ])&&$branch != null, function () use ($branch) {
                 $branchRelation = $this->branches
                     ->firstWhere('id', $branch->id);
@@ -240,6 +241,18 @@ class ProductResource extends JsonResource
                     ? $branchRelation->pivot->availability_status
                     : null;
             }),
+
+            'availability_status_in_branch' => $this->when($request->routeIs([
+                'user.api.vendor.product.index',
+                ])&&$request->branch_slug != null, function () use ($request){
+                    $branch = VendorBranche::where('slug',$request->branch_slug)->first();
+                    $branchRelation = $this->branches
+                        ->firstWhere('id', $branch->id);
+                return $branchRelation
+                    ? $branchRelation->pivot->availability_status
+                    : null;
+            }),
+
 
             'activation_status_in_branch' => $this->when($request->routeIs([
                 'user.api.public.branch.product.get_products',
@@ -251,6 +264,19 @@ class ProductResource extends JsonResource
                     ? $branchRelation->pivot->activation_status
                     : null;
             }),
+
+            'activation_status_in_branch' => $this->when($request->routeIs([
+                'user.api.vendor.product.index'
+                ])&&$request->branch_slug != null, function () use ($request) {
+                    $branch = VendorBranche::where('slug',$request->branch_slug)->first();
+                $branchRelation = $this->branches
+                    ->firstWhere('id', $branch->id);
+
+                return $branchRelation
+                    ? $branchRelation->pivot->activation_status
+                    : null;
+            }),
+
             'availability_branches' => $this->when(
                 $request->routeIs(['user.api.public.menu_category.get_products']),
                 $this->branches->map(function ($branch) {
