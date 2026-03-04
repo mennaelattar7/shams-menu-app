@@ -328,11 +328,25 @@ class BranchController extends BaseController
         $table_requests = $requests_query->get();
 
         /* 👇 حساب count لكل request_type */
+        $default_counts = [
+            'invoice' => 0,
+            'issue' => 0,
+            'ready_to_order' => 0,
+            'other' => 0,
+        ];
+
         $counts_by_type = VendorBranch__TableRequest::whereIn('branch_table_id', $tables_ids)
             ->select('request_type', DB::raw('count(*) as count'))
             ->groupBy('request_type')
-            ->get()
-            ->pluck('count', 'request_type');
+            ->pluck('count', 'request_type')
+            ->toArray();
+
+        /*
+        |--------------------------------
+        | Fill missing enum keys with 0
+        |--------------------------------
+        */
+        $counts_by_type = array_merge($default_counts, $counts_by_type);
         if($table_requests->isNotEmpty())
         {
             return response()->json([
