@@ -20,6 +20,7 @@ class VendorBranch__TableRequestResource extends JsonResource
             'request_number' =>$this->request_number,
             'request_type' =>$this->request_type,
             'current_status' =>$this->current_status,
+            'notes' =>$this->notes,
             'requested_at' =>$this->requested_at,
             'completed_at' =>$this->completed_at,
             'status_history' =>$this->when($request->routeIs([
