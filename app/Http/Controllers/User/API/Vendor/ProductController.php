@@ -28,12 +28,19 @@ class ProductController extends BaseController
         |--------------------------------
         */
         if ($request->branch_slug) {
-            $branch = VendorBranche::where('slug', $request->branch_slug)->first();
 
+            $branch = VendorBranche::where('slug', $request->branch_slug)->first();
             if (!$branch) {
                 return response()->json([
                     'success' => false,
                     'message' => 'This Branch Not Exist',
+                ], 404);
+            }
+            if($branch->vendor->id != $vendor->id)
+            {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Branch Not Exist in This vendor',
                 ], 404);
             }
             $all_products = $all_products->whereHas('branches', function ($q) use ($branch){
@@ -348,6 +355,13 @@ class ProductController extends BaseController
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch != null)
         {
+            if($branch->vendor->id != $this->vendor->id)
+            {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Branch Not Exist in This vendor',
+                ], 404);
+            }
             $product = Product::where('slug',$product_slug)->first();
             if($product != null)
             {
@@ -388,6 +402,13 @@ class ProductController extends BaseController
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch != null)
         {
+            if($branch->vendor->id != $this->vendor->id)
+            {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Branch Not Exist in This vendor',
+                ], 404);
+            }
             $product = Product::where('slug',$product_slug)->first();
             if($product != null)
             {

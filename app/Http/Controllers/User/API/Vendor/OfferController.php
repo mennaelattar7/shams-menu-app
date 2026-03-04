@@ -61,6 +61,13 @@ class OfferController extends BaseController
         }
         else
         {
+            if($branch->vendor->id != $this->vendor->id)
+            {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Branch Not Exist in This vendor',
+                ], 404);
+            }
             //check if ther is products
             if($branch->products->isEmpty())
             {

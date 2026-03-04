@@ -154,11 +154,18 @@ class BranchController extends BaseController
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
 
-        if($branch == null)
+        if($branch == null )
         {
             return response()->json([
                 'success' => true,
                 'message' => 'This Branch Not exist Or Inactive',
+            ], 404);
+        }
+        if($branch->vendor->id != $this->vendor->id)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Branch Not Exist in This vendor',
             ], 404);
         }
         return response()->json([
@@ -253,6 +260,13 @@ class BranchController extends BaseController
                 'message' => 'This Branch Not exist',
             ], 404);
         }
+        if($branch->vendor->id != $this->vendor->id)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Branch Not Exist in This vendor',
+            ], 404);
+        }
         $branch->activation_status = $request->activation_status;
         $branch->save();
         return response()->json([
@@ -268,6 +282,13 @@ class BranchController extends BaseController
             return response()->json([
                 'success' => true,
                 'message' => 'This Branch Not exist',
+            ], 404);
+        }
+        if($branch->vendor->id != $this->vendor->id)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Branch Not Exist in This vendor',
             ], 404);
         }
         if($category_type != null)
@@ -317,6 +338,13 @@ class BranchController extends BaseController
             return response()->json([
                 'success' => true,
                 'message' => 'This Branch Not exist',
+            ], 404);
+        }
+        if($branch->vendor->id != $this->vendor->id)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Branch Not Exist in This vendor',
             ], 404);
         }
         $requests_query = VendorBranch__TableRequest::whereIn('branch_table_id', $tables_ids);
