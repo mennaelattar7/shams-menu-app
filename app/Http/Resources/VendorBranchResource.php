@@ -17,19 +17,19 @@ class VendorBranchResource extends JsonResource
     {
         $currentDay = now()->dayOfWeekIso;
         $currentTime = now()->format('H:i:s');
-        $operating_days = VendorBranch__OperatingHour::where([
+        $operating_day = VendorBranch__OperatingHour::where([
             ['branch_id',$this->id],
             ['day_of_week',$currentDay]
         ]
-        )->get();
-
-        if($operating_days->isNotEmpty())
+        )->first();
+        if($operating_day)
         {
-            $operating_hours = $operating_days->where('start_time', '<=', $currentTime)
-            ->where('end_time', '>=', $currentTime)
-            ->first();
-            $start_time = $operating_hours ? $operating_hours->start_time : $operating_days->first()->start_time;
-            $end_time = $operating_hours ? $operating_hours->end_time :$operating_days->first()->end_time;
+            $operating_hours = $operating_day->shifts
+                                    ->where('start_time', '<=', $currentTime)
+                                    ->where('end_time', '>=', $currentTime)->first();
+            
+            $start_time = $operating_hours ? $operating_hours->start_time : null;
+            $end_time = $operating_hours ? $operating_hours->end_time :null;
             if($operating_hours)
             {
                 if($operating_hours->is_open == "yes")

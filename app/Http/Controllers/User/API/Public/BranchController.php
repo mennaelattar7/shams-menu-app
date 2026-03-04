@@ -45,7 +45,6 @@ class BranchController extends Controller
                 'message' =>'Branch not found',
             ],404);
         }
-
     }
     public function getBranchTables($locale,$branch_slug)
     {
