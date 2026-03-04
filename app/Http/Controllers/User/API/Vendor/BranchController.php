@@ -362,6 +362,7 @@ class BranchController extends BaseController
             return response()->json([
                 'success' =>true,
                 'message' =>'There Are No Table Requests',
+                'data' =>[]
             ],404);
         }
 
