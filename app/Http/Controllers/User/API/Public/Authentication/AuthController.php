@@ -25,51 +25,51 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
-        //check user is exist
-        $user = User::where([
-            ['phone_number',$request->phone_number],
-            ['account_type',"customer"]
-        ])->first();
+        //check phone number exist
+        $user = User::where('phone_number',$request->phone_number)->first();
         if($user)
         {
-            //check activation account
-            if($user->activation_status == "active")
+            if($user->account_type == "customer")
             {
-                if($user->account_status == "approved")
+                //check activation account
+                if($user->activation_status == "active")
                 {
-                    //add in user__OTPs
-                    $user_otp = new User_OTP();
-                    $user_otp->user_id = $user->id;
-                    $user_otp->otp = rand(1000, 9999);
-                    $user_otp->type = "customer_login";
-                    $user_otp->expired_at = Carbon::now()->addMinutes(20);
-                    $user_otp->save();
+                    if($user->account_status == "approved")
+                    {
+                        //add in user__OTPs
+                        $user_otp = new User_OTP();
+                        $user_otp->user_id = $user->id;
+                        $user_otp->otp = rand(1000, 9999);
+                        $user_otp->type = "customer_login";
+                        $user_otp->expired_at = Carbon::now()->addMinutes(20);
+                        $user_otp->save();
+                        return response()->json([
+                            'success' => true,
+                            'message' => 'this user already exist and we will send OTP',
+                            'otp' => $user_otp->otp,
+                            'activation_status' => $user->activation_status,
+                            'account_status' => $user->account_status
+                        ]);
+                    }
+                    else
+                    {
+                        return response()->json([
+                            'success' => true,
+                            'message' => 'this user already exist but there is problem in his account',
+                            'activation_status' => $user->activation_status,
+                            'account_status' => $user->account_status
+                        ]);
+                    }
+                }
+                elseif($user->activation_status == "inactive")
+                {
                     return response()->json([
                         'success' => true,
-                        'message' => 'this user already exist and we will send OTP',
-                        'otp' => $user_otp->otp,
+                        'message' => 'this user already exist but not send OTP Yet',
                         'activation_status' => $user->activation_status,
                         'account_status' => $user->account_status
                     ]);
                 }
-                else
-                {
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'this user already exist but there is problem in his account',
-                        'activation_status' => $user->activation_status,
-                        'account_status' => $user->account_status
-                    ]);
-                }
-            }
-            elseif($user->activation_status == "inactive")
-            {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'this user already exist but not send OTP Yet',
-                    'activation_status' => $user->activation_status,
-                    'account_status' => $user->account_status
-                ]);
             }
         }
         else

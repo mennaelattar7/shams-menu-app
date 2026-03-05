@@ -203,9 +203,14 @@ class AuthController extends Controller
         //check password is null exist
         $user = User::where([
             ['phone_number',$request->phone_number],
-            // ['account_type',"vendor_representative"],
-            // ['activation_status',"active"]
         ])->first();
+        if($user->account_type == "customer" || $user->account_type == "shams_employee" || $user->account_type == "guest")
+        {
+            return response()->json([
+                'success' =>'false',
+                'message' => 'Access denied.'
+            ], 403);
+        }
 
         if($user && !$user->password)
         {
