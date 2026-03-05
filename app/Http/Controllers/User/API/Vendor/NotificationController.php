@@ -60,4 +60,15 @@ class NotificationController extends BaseController
             'message' => 'Notification marked as read'
         ],200);
     }
+
+    public function count()
+    {
+        $user = Auth::user();
+        $notifications_count = $user->notifications()->count();
+        return response()->json([
+            'success' =>true,
+            'message' =>'get Notification Count Successfuly',
+            'data' => $notifications_count
+        ],200);
+    }
 }
