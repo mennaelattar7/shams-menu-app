@@ -391,7 +391,7 @@ class BranchController extends BaseController
                 'success' =>true,
                 'message' =>'There Are No Table Requests',
                 'data' =>[]
-            ],404);
+            ],200);
         }
 
     }
