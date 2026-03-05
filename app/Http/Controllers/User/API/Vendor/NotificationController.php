@@ -41,4 +41,23 @@ class NotificationController extends BaseController
             'data' => Notificationresource::collection($notifications)
         ]);
     }
+
+    public function markAsRead ($locale,$notification_id)
+    {
+        $user = Auth::user();
+        $notification = $user->notifications()->where('id',$notification_id)->first();
+        if(!$notification)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Notification not found'
+            ], 404);
+        }
+        $notification->markAsRead();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notification marked as read'
+        ],200);
+    }
 }

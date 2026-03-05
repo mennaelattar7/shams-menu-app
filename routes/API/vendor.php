@@ -320,6 +320,8 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         Route::prefix('notifications')->name('notification.')->group(function(){
             Route::get('/',[NotificationController::class,'index'])
                   ->name('index');
+            Route::get('/{notification_id}',[NotificationController::class,'markAsRead'])
+                  ->name('nark_as_read');
         });
 
 

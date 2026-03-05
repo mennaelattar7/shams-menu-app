@@ -17,7 +17,8 @@ class Notificationresource extends JsonResource
         return [
             'id' =>$this->id,
             'content' => $this->data,
-            'read_at' =>$this->read_at
+            'read_at' =>$this->read_at,
+            'status' =>$this->read_at != null ? 'read':'unread'
         ];
     }
 }
