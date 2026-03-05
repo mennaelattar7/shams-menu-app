@@ -90,7 +90,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
     });
     Route::middleware('auth:sanctum')->group(function () {
-        // token : 124|oBVpITzn5xkseXeBx0NKDs1JpRAWxUlwbreYPZt4c50f154b
+        // token : 169|HSweFda2LONFdtMcwhKms93LtwYas23AOCbKgwXmf464b249  vendor_id : 16
         Route::prefix('home')->name('home.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
                  ->name('most_viewed_product')
@@ -101,6 +101,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::post('select-langs',[LangController::class,'selectLangs'])->name('create');
         });
         //branches Routes
+
         Route::prefix('branches')->name('branch.')->group(function(){
             Route::get('/all/{activation_status?}/{city_id?}/{district_id?}/{branch_name?}',[BranchController::class,'index'])
                  ->name('index')
