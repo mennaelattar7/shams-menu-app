@@ -20,6 +20,11 @@ class Role extends SpatieRole
     ];
     public $guarded = [];
 
+    public function position()
+    {
+        return $this->belongsTo(Vendor__EmployeePosition::class,'position_id','id');
+    }
+
     // public function created_by()
     // {
     //     return $this->belongsTo(User::class,'created_by_id','id');

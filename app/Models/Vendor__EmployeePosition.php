@@ -31,6 +31,11 @@ class Vendor__EmployeePosition extends Model
         return $this->belongsTo(Role::class,'role_id','id');
     }
 
+    public function employees()
+    {
+        return $this->hasmany(Vendor__Employee::class,'position_id','id');
+    }
+
     public function vendor()
     {
         return $this->belongsTo(Vendor::class,'vendor_id','id');

@@ -211,7 +211,6 @@ class AuthController extends Controller
                 'message' => 'Access denied.'
             ], 403);
         }
-
         if($user && !$user->password)
         {
             $user->password = Hash::make($request->password);

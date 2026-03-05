@@ -15,6 +15,7 @@ use App\Http\Controllers\User\API\Vendor\HomeController;
 use App\Http\Controllers\User\API\Vendor\LangController;
 use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
 use App\Http\Controllers\User\API\Vendor\MenuDesignSettingController;
+use App\Http\Controllers\User\API\Vendor\NotificationController;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
 use App\Http\Controllers\User\API\Vendor\TableRequestController;
 use App\Http\Controllers\User\API\Vendor\UserController;
@@ -90,7 +91,8 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
     });
     Route::middleware('auth:sanctum')->group(function () {
-        // token : 169|HSweFda2LONFdtMcwhKms93LtwYas23AOCbKgwXmf464b249  vendor_id : 16
+        // token : 169|HSweFda2LONFdtMcwhKms93LtwYas23AOCbKgwXmf464b249 (vendor representative)  vendor_id : 16
+        //token : 170|1JSUBkw8Ce8We46X5skGLw5mAh4K80pz4eJsFm8A5cc2346e (waiter) vendor_id : 16
         Route::prefix('home')->name('home.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
                  ->name('most_viewed_product')
@@ -312,6 +314,14 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     ->middleware(VendorBranch__FeatureEdit::class);
             });
         });
+
+        //Notification Routes
+
+        Route::prefix('notifications')->name('notification.')->group(function(){
+            Route::get('/',[NotificationController::class,'index'])
+                  ->name('index');
+        });
+
 
     });
 });

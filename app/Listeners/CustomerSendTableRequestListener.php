@@ -3,6 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\CustomerSendTableRequestEvent;
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
 use App\Notifications\CustomerSendTableRequestNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -24,15 +27,20 @@ class CustomerSendTableRequestListener
     {
         $table_request = $event->table_request;
         $vendor = $table_request->table->branch->vendor;
-        $vendor_representatives = $vendor->vendor_representatives;
-        foreach($vendor_representatives as $one_represent)
+        $role =Role::query()
+            ->whereHas('permissions', function ($q) {
+                $q->where('name', '9_notify_vendor_branch___table_request')
+                ->where('guard_name', 'api');
+            })
+            ->first();
+        $employees = $role->position->employees->where('vendor_id',$vendor->id);
+        foreach($employees as $one_employee)
         {
-            $user = $one_represent->user;
+            $user = $one_employee->user;
             if($user->activation_status == "active" && $user->account_status == "approved")
             {
                 $user->notify(new CustomerSendTableRequestNotification($event->table_request));
             }
-
         }
     }
 }
