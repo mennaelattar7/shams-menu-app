@@ -64,11 +64,17 @@ class NotificationController extends BaseController
     public function count()
     {
         $user = Auth::user();
-        $notifications_count = $user->notifications()->count();
+        $all_notifications_count = $user->notifications()->count();
+        $unread_notifications_count = $user->unreadNotifications()->count();
+        $read_notifications_count = $user->readNotifications()->count();
         return response()->json([
             'success' =>true,
             'message' =>'get Notification Count Successfuly',
-            'data' => $notifications_count
+            'data' => [
+                'all_notifications_count' => $all_notifications_count,
+                'unread_notifications_count' =>$unread_notifications_count,
+                'read_notifications_count' =>$read_notifications_count
+            ]
         ],200);
     }
 }
