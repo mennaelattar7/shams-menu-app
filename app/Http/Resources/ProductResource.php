@@ -244,6 +244,7 @@ class ProductResource extends JsonResource
 
             'availability_status_in_branch' => $this->when($request->routeIs([
                 'user.api.vendor.product.index',
+                'user.api.public.branch.product.get_products',
                 ])&&$request->branch_slug != null, function () use ($request){
                     $branch = VendorBranche::where('slug',$request->branch_slug)->first();
                     $branchRelation = $this->branches
