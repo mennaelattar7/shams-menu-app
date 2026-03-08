@@ -349,6 +349,7 @@ class ProductResource extends JsonResource
             'badges' =>$this->when($request->routeIs([
                 'user.api.public.branch.product.single',
                 'user.api.vendor.menu_category.products',
+                'user.api.public.branch.product.get_products',
                 'user.api.vendor.product.single',
 
             ]),ProductBadgeResource::collection($this->badges)),
@@ -381,6 +382,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.index',
                 'user.api.vendor.menu_category.products',
                 'user.api.vendor.product.single',
+                'user.api.public.branch.product.get_products',
 
             ]),$this->sort),
 

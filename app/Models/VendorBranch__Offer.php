@@ -37,7 +37,7 @@ class VendorBranch__Offer extends Model
     }
     public function products()
     {
-        return $this->belongsToMany(Product::class,'vendor_branch___offer_products','offer_id','product_id')->withPivot('activation_status');
+        return $this->belongsToMany(Product::class,'vendor_branch___offer_products','offer_id','product_id')->orderBy('products.sort')->withPivot('activation_status');
     }
     public function created_by()
     {
