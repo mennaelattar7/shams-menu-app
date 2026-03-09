@@ -43,7 +43,7 @@ class CustomerFavouriteController extends Controller
             return response()->json([
                 'success' =>true,
                 'message' =>'Product Removed from Favourite List',
-                'status' =>'added'
+                'status' =>'removed'
             ],200);
         }
         else
@@ -57,30 +57,9 @@ class CustomerFavouriteController extends Controller
             return response()->json([
                 'success' =>true,
                 'message'=>'Product Added In Favourite List',
-                'status' =>'removed'
+                'status' =>'added'
             ],200);
         }
-
-
-
-
-
-
-
-        // $products = $request->products_ids;
-        // $customer = Auth::user()->customer;
-        // $data = [];
-        // foreach($products as $one_product_id)
-        // {
-        //     $data[$one_product_id]=[
-        //         'branch_id' => $branch->id
-        //     ];
-        // }
-        // $customer->favourites()->sync($data);
-        // return response()->json([
-        //     'success' =>true,
-        //     'message'=>'Product Added In Favourite List'
-        // ],200);
     }
     public function getFavouriteProducts($locale,$branch_slug)
     {

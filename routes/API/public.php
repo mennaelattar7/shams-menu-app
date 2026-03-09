@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('public')->name('public.')->group(function(){
 
-//customer Token 158|HSDZpPRsPIjHWV3vh3X8uraNEsNgDWQnjXFuV8qO1b8a3ded
+//customer Token 196|LolO8GnRdbm1iHnkU0312OL3qq7fc870zePowXBy4b97444f
     //Authentication Routes
     Route::prefix('auth')->name('auth.')->group(function(){
         //login routes
