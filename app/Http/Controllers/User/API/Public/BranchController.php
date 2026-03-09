@@ -46,6 +46,7 @@ class BranchController extends Controller
                 return response()->json([
                     'success' =>true,
                     'message' =>'get Branch Data Succesfully',
+                    'visitor_id' =>$visitorId,
                     'data' => new VendorBranchResource($branch)
                 ],200);
             }

@@ -60,4 +60,46 @@ class BranchTrackingController extends BaseController
             ],404);
         }
     }
+    public function visits($locale, $branch_slug)
+    {
+        $vendor = $this->vendor;
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if($branch->vendor->id == $vendor->id)
+        {
+            $visits_per_hour = VendorBranch__Tracking::where('branch_id', $branch->id)
+                ->select(
+                    DB::raw('HOUR(created_at) as hour'),
+                    DB::raw('count(*) as visits'),
+                    DB::raw('count(DISTINCT IFNULL(customer_id, uuid)) as unique_customers')
+                )
+                ->groupBy('hour')
+                ->orderBy('hour')
+                ->get();
+
+            // نحول كل ساعة لنطاق زمني 11:00 - 12:00
+            $data = $visits_per_hour->map(function($item){
+                $start = str_pad($item->hour, 2, '0', STR_PAD_LEFT) . ':00';
+                $end   = str_pad($item->hour + 1, 2, '0', STR_PAD_LEFT) . ':00';
+                return [
+                    'peak_range' => $start . ' - ' . $end,
+                    'visits' => $item->visits,
+                    'customers' => $item->unique_customers
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Visits and customers grouped by hour',
+                'data' => $data
+            ], 200);
+        }
+        else
+        {
+            return response()->json([
+                'success' =>false,
+                'message' =>'this Branch not found in this vendor'
+            ],404);
+        }
+
+    }
 }

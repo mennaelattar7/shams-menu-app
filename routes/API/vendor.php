@@ -340,11 +340,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::prefix('/peak-times')->name('peak_time.')->group(function(){
                     Route::get('/statistics',[BranchTrackingController::class,'statistics'])
                         ->name('statistics');
+                    Route::get('/visits',[BranchTrackingController::class,'visits'])
+                        ->name('visits');
                 });
             });
-
         });
-
-
     });
 });
