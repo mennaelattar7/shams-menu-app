@@ -18,6 +18,7 @@ use App\Http\Controllers\User\API\Vendor\MenuDesignSettingController;
 use App\Http\Controllers\User\API\Vendor\NotificationController;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
 use App\Http\Controllers\User\API\Vendor\Reports\PeakTime\BranchTrackingController;
+use App\Http\Controllers\User\API\Vendor\Reports\ProductFav\ProductFavouritController;
 use App\Http\Controllers\User\API\Vendor\Reports\ProductViews\ProductTrackingController;
 use App\Http\Controllers\User\API\Vendor\Reports\WaiterResponded\TableRequestController as WaiterRespondedTableRequestController;
 use App\Http\Controllers\User\API\Vendor\TableRequestController;
@@ -348,6 +349,12 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     Route::get('/statistics',[ProductTrackingController::class,'statistics'])
                         ->name('statistics');
                     Route::get('/',[ProductTrackingController::class,'index'])
+                        ->name('index');
+                });
+                Route::prefix('/products/fav')->name('product.fav')->group(function(){
+                    Route::get('/statistics',[ProductFavouritController::class,'statistics'])
+                        ->name('statistics');
+                    Route::get('/',[ProductFavouritController::class,'index'])
                         ->name('index');
                 });
             });
