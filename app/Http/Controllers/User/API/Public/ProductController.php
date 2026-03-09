@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\API\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\Product__Tracking;
 use App\Models\Vendor__MenuCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Redis;
 
 class ProductController extends Controller
 {
-    public function single($locale,$branch_slug,$product_slug,)
+    public function single($locale,$branch_slug,$product_slug,Request $request)
     {
 
         //check if product exist
@@ -35,35 +36,18 @@ class ProductController extends Controller
                 ],200);
 
             }
-            //redis
-            $viewsKey = "product:{$product->id}:views";
-            $logsKey = "product:{$product->id}:view_logs";
-            //incement inside hash
-            Redis::hincrby($viewsKey,'total_views',1);
-
-            if(Auth::check())
-            {
-                Redis::hincrby($viewsKey,'customer_views',1);
-            }
-            else
-            {
-                Redis::hincrby($viewsKey,'guest_views',1);
-            }
-            //logs
-            $log = [
-                'user_type' => Auth::check() ? 'customer' : 'guest',
-                'user_id'   => Auth::id(),
-                'ip'        => request()->ip(),
-                'viewed_at' => now()->toDateTimeString(),
-            ];
-            Redis::rpush($logsKey, json_encode($log));
+            $visitorId = $request->header('visitor_id');
+            $new_product_tracking = new Product__Tracking();
+            $new_product_tracking->product_id = $product->id;
+            $new_product_tracking->customer_id = Auth::check()?Auth::user()->id:null;
+            $new_product_tracking->uuid = $visitorId;
+            $new_product_tracking->save();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Get Prodct Successfuly',
                 'data' => new ProductResource($product)
             ],200);
-
         }
     }
 

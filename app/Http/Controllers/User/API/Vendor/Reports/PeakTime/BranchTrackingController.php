@@ -19,9 +19,7 @@ class BranchTrackingController extends BaseController
         if($branch->vendor->id == $vendor->id)
         {
             $all_visits = $branch->visits->count();
-
-
-        // 1️⃣ نجمع عدد الزيارات لكل ساعة
+            // 1️⃣ نجمع عدد الزيارات لكل ساعة
             $visits_per_hour = VendorBranch__Tracking::where('branch_id', $branch->id)
                 ->select(DB::raw('HOUR(created_at) as hour'), DB::raw('count(*) as visits'))
                 ->groupBy('hour')

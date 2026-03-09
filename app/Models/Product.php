@@ -55,12 +55,6 @@ class Product extends Model
     {
         return $this->hasMany(Product__ProductVariant::class,'product_id','id');
     }
-
-    public function views()
-    {
-        return $this->hasMany(Product__View::class,'product_id','id');
-    }
-
     public function allergens()
     {
         return $this->belongsToMany(Shams__ProductAllergen::class,'product___product_allergens','product_id','allergen_id')->withPivot('created_by_id');
@@ -72,6 +66,10 @@ class Product extends Model
     public function product_type()
     {
         return $this->belongsTo(Shams__ProductType::class,'product_type_id','id');
+    }
+    public function views()
+    {
+        return $this->hasMany(Product__Tracking::class,'product_id','id');
     }
 
     public function created_by()

@@ -18,6 +18,7 @@ use App\Http\Controllers\User\API\Vendor\MenuDesignSettingController;
 use App\Http\Controllers\User\API\Vendor\NotificationController;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
 use App\Http\Controllers\User\API\Vendor\Reports\PeakTime\BranchTrackingController;
+use App\Http\Controllers\User\API\Vendor\Reports\ProductViews\ProductTrackingController;
 use App\Http\Controllers\User\API\Vendor\Reports\WaiterResponded\TableRequestController as WaiterRespondedTableRequestController;
 use App\Http\Controllers\User\API\Vendor\TableRequestController;
 use App\Http\Controllers\User\API\Vendor\UserController;
@@ -342,6 +343,12 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                         ->name('statistics');
                     Route::get('/visits',[BranchTrackingController::class,'visits'])
                         ->name('visits');
+                });
+                Route::prefix('/products/views')->name('product.views')->group(function(){
+                    Route::get('/statistics',[ProductTrackingController::class,'statistics'])
+                        ->name('statistics');
+                    Route::get('/',[ProductTrackingController::class,'index'])
+                        ->name('index');
                 });
             });
         });
