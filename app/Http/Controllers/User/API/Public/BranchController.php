@@ -16,8 +16,10 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
-    public function getBranchData($locale,$branch_slug)
+    public function getBranchData($locale,$branch_slug,Request $request)
     {
+        $visitorId = $request->header('device-id');
+        dd($visitorId);
         //check branch exist
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch)
