@@ -17,6 +17,7 @@ use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
 use App\Http\Controllers\User\API\Vendor\MenuDesignSettingController;
 use App\Http\Controllers\User\API\Vendor\NotificationController;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
+use App\Http\Controllers\User\API\Vendor\Reports\WaiterResponded\TableRequestController as WaiterRespondedTableRequestController;
 use App\Http\Controllers\User\API\Vendor\TableRequestController;
 use App\Http\Controllers\User\API\Vendor\UserController;
 use App\Http\Controllers\User\API\Vendor\VendorController;
@@ -316,7 +317,6 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
 
         //Notification Routes
-
         Route::prefix('notifications')->name('notification.')->group(function(){
             Route::get('/',[NotificationController::class,'index'])
                   ->name('index');
@@ -325,6 +325,16 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::get('/{notification_id}',[NotificationController::class,'markAsRead'])
                   ->name('mark_as_read');
 
+        });
+
+        //reports
+        Route::prefix('reports')->name('report.')->group(function(){
+            Route::prefix('/waiter-responded/{branch_slug}')->name('waiter_responded.')->group(function(){
+                Route::get('/statistics',[WaiterRespondedTableRequestController::class,'statistics'])
+                    ->name('statistics');
+                Route::get('/table-requests',[WaiterRespondedTableRequestController::class,'index'])
+                    ->name('index');
+            });
         });
 
 
