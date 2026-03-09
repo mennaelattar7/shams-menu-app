@@ -26,42 +26,6 @@ Route::group([
 
         //customer
         require __DIR__.'/API/public.php';
-
-
-        // Route::prefix('branches')->name('branch.')->group(function(){
-        //     Route::get('/{branch_id}',[VendorBranchController::class,'getBranchData'])->name('getBranchData.');
-        // });
-        // Route::prefix('vendors')->name('vendor.')->group(function(){
-        //     Route::get('/{slug}',[VendorController::class,'getVendorData'])->name('getVendorData.');
-        //     Route::get('/{slug}/menu-categories',[VendorController::class,'getVendorMenuCategories'])->name('VendorMenuCategories');
-        //     Route::get('/{slug}/branches',[VendorController::class,'getVendorMenuCategories'])->name('VendorMenuCategories');
-        // });
-        // Route::prefix('categories')->name('category.')->group(function(){
-        //     Route::get('/{slug}/products',[VendorMenuCategoryController::class,'products'])->name('products');
-        // });
-        // Route::prefix('auth')
-        //       ->name('api.auth.')
-        //       ->group(function(){
-        //             //Register Routes
-        //             Route::post('register',[AuthController::class,'register'])
-        //                  ->name('register'); //Done
-        //             Route::post('verify-otp-register', [AuthController::class, 'verifyOtpRegister'])
-        //                  ->name('verifyOtpRegister'); //Done
-
-        //             Route::post('login',[AuthController::class,'login'])
-        //                  ->name('login');
-
-        //             Route::post('resend-otp-register', [AuthController::class, 'resendOtpRegister'])
-        //                  ->name('resendOtpRegister');
-        // });
-
-        // Route::middleware('auth:sanctum')->group(function () {
-        //     Route::post('logout',[AuthController::class,'logout'])
-        //         ->name('logout');
-        //     Route::get('profile', function (Request $request) {
-        //         return $request->user();
-        //     });
-        // });
     });
 });
 

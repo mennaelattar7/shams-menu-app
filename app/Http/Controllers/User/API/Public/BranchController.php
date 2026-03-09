@@ -11,19 +11,36 @@ use App\Http\Resources\VendorBranch__TableResource;
 use App\Http\Resources\VendorBranchResource;
 use App\Http\Resources\VendorMenuCategoryResource;
 use App\Models\Vendor__MenuCategory;
+use App\Models\VendorBranch__Tracking;
 use App\Models\VendorBranche;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cookie;
 
 class BranchController extends Controller
 {
     public function getBranchData($locale,$branch_slug,Request $request)
     {
-        $visitorId = $request->header('device-id');
-        dd($visitorId);
+
+        // 1️⃣ جلب UUID من request header لو موجود
+        $visitorId = $request->header('visitor_id');
+
+        // 2️⃣ لو مش موجود، يولد UUID جديد
+        if(!$visitorId){
+            $visitorId = (string) Str::uuid();
+        }
+
+
         //check branch exist
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch)
         {
+            $new_branch_tracking = new VendorBranch__Tracking();
+            $new_branch_tracking->branch_id = $branch->id;
+            $new_branch_tracking->customer_id = Auth::check()?Auth::user()->id:null;
+            $new_branch_tracking->uuid = $visitorId;
+            $new_branch_tracking->save();
             if($branch->activation_status == "active")
             {
                 return response()->json([

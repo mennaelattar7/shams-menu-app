@@ -72,6 +72,10 @@ class VendorBranche extends Model
     {
         return $this->hasMany(VendorBranch__Offer::class,'branch_id','id');
     }
+    public function visits()
+    {
+        return $this->hasMany(VendorBranch__Tracking::class,'branch_id','id');
+    }
     public function created_by()
     {
         return $this->belongsTo(User::class,'created_by_id','id');

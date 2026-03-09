@@ -17,6 +17,7 @@ use App\Http\Controllers\User\API\Vendor\MenuCategorycontroller;
 use App\Http\Controllers\User\API\Vendor\MenuDesignSettingController;
 use App\Http\Controllers\User\API\Vendor\NotificationController;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
+use App\Http\Controllers\User\API\Vendor\Reports\PeakTime\BranchTrackingController;
 use App\Http\Controllers\User\API\Vendor\Reports\WaiterResponded\TableRequestController as WaiterRespondedTableRequestController;
 use App\Http\Controllers\User\API\Vendor\TableRequestController;
 use App\Http\Controllers\User\API\Vendor\UserController;
@@ -329,12 +330,19 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
 
         //reports
         Route::prefix('reports')->name('report.')->group(function(){
-            Route::prefix('/waiter-responded/{branch_slug}')->name('waiter_responded.')->group(function(){
-                Route::get('/statistics',[WaiterRespondedTableRequestController::class,'statistics'])
-                    ->name('statistics');
-                Route::get('/table-requests',[WaiterRespondedTableRequestController::class,'index'])
-                    ->name('index');
+            Route::prefix('/{branch_slug}')->group(function(){
+                Route::prefix('/waiter-responded')->name('waiter_responded.')->group(function(){
+                    Route::get('/statistics',[WaiterRespondedTableRequestController::class,'statistics'])
+                        ->name('statistics');
+                    Route::get('/table-requests',[WaiterRespondedTableRequestController::class,'index'])
+                        ->name('index');
+                });
+                Route::prefix('/peak-times')->name('peak_time.')->group(function(){
+                    Route::get('/statistics',[BranchTrackingController::class,'statistics'])
+                        ->name('statistics');
+                });
             });
+
         });
 
 
