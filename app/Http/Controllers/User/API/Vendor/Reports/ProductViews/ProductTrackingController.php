@@ -50,4 +50,39 @@ class ProductTrackingController extends BaseController
             ],404);
         }
     }
+
+    public function index($locale, $branch_slug)
+    {
+        $vendor = $this->vendor;
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if($branch->vendor->id == $vendor->id)
+        {
+            $all_products = $branch->products()
+                ->select('products.id','products.name','products.slug')
+                ->selectRaw('(select count(*) from product___trackings where product___trackings.product_id = products.id) as views_count')
+                ->get();
+
+            if(!$all_products)
+            {
+                return response()->json([
+                    'success' =>true,
+                    'message' =>'There Are No Products',
+                    'data' => []
+                ],200);
+            }
+            return response()->json([
+                'success' =>true,
+                'message' =>'get all products',
+                'data' => $all_products
+            ],200);
+        }
+        else
+        {
+            return response()->json([
+                'success' =>false,
+                'message' =>'this Branch not found in this vendor'
+            ],404);
+        }
+
+    }
 }
