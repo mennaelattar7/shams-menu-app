@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vendor__Review extends Model
 {
-    //
+    protected $table = "vendor___reviews";
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

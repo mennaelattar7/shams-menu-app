@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\User\API\Vendor\Reports\ProductFav;
+namespace App\Http\Controllers\User\API\Vendor\Reports\ProductReviews;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\API\Vendor\BaseController;
-use App\Models\Customer__Favourite;
+use App\Http\Resources\Vendor__ReviewResource;
 use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 
-class ProductFavouritController extends BaseController
+class ProductReviewController extends BaseController
 {
     public function statistics($locale, $branch_slug)
     {
@@ -16,29 +16,24 @@ class ProductFavouritController extends BaseController
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch->vendor->id == $vendor->id)
         {
-            $all_products = $branch->products()->with('favourites')->get();
-            $all_favourites = $all_products->pluck('favourites')->flatten();
+            $average_rating = $branch->reviews->avg('rating');
+            $reviews_count = $branch->reviews->count();
 
-            //Products Fav
-            $all_products_ids = $branch->products->pluck('id')->toArray();
-            $all_products_fav = Customer__Favourite::whereIn('product_id',$all_products_ids)->get()->unique('product_id');
-
-
-            if(!$all_favourites)
+            if(!$reviews_count)
             {
                 return response()->json([
                     'success' =>true,
-                    'message' =>'There is No Favourite List',
+                    'message' =>'There are No Reviews',
                     'data' => []
                 ],200);
             }
 
             return response()->json([
                 'success' =>true,
-                'message' =>'get all Favourites List in this branch successfully',
+                'message' =>'get all Reviews on this branch successfully',
                 'data' => [
-                    'favourits_count' =>$all_favourites->count(),
-                    'products_fav' =>$all_products_fav->count()
+                    'average_rating' =>$average_rating,
+                    'reviews_count' =>$reviews_count
                 ]
             ],200);
         }
@@ -57,23 +52,20 @@ class ProductFavouritController extends BaseController
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch->vendor->id == $vendor->id)
         {
-            $all_products = $branch->products()
-                ->select('products.id','products.name','products.slug')
-                ->selectRaw('(select count(*) from customer___favourites where customer___favourites.product_id = products.id) as favs_count')
-                ->get();
+            $all_reviews = $branch->reviews()->get();
 
-            if(!$all_products)
+            if(!$all_reviews)
             {
                 return response()->json([
                     'success' =>true,
-                    'message' =>'There Are No Products',
+                    'message' =>'There Are No Reviews',
                     'data' => []
                 ],200);
             }
             return response()->json([
                 'success' =>true,
-                'message' =>'get all products',
-                'data' => $all_products
+                'message' =>'get all Reviews',
+                'data' => Vendor__ReviewResource::collection($all_reviews)
             ],200);
         }
         else

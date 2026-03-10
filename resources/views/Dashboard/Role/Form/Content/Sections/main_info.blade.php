@@ -188,6 +188,9 @@
                                     <a class="nav-link" id="v-vendor_branch___offer-tab" data-toggle="pill" href="#v-vendor_branch___offer" role="tab" aria-controls="v-vendor_branch___offer" aria-selected="true">
                                         {{ trans('Dashboard.Offers')}}
                                     </a>
+                                    <a class="nav-link" id="v-vendor___ad-tab" data-toggle="pill" href="#v-vendor___ad" role="tab" aria-controls="v-vendor___ad" aria-selected="true">
+                                        {{ trans('Dashboard.Ads')}}
+                                    </a>
                                     <a class="nav-link" id="v-vendor___employee_position-tab" data-toggle="pill" href="#v-vendor___employee_position" role="tab" aria-controls="v-vendor___employee_position" aria-selected="true">
                                         {{ trans('Dashboard.Employee_Possions')}}
                                     </a>
@@ -349,6 +352,27 @@
                                     <div class="tab-pane" id="v-vendor_branch___offer" role="tabpanel" aria-labelledby="v-vendor_branch___offer-tab">
                                         <h6><i>-- {{ $role->guard_name }} Guard Name --</i></h6>
                                         @foreach($vendor_branch___offer_permissions->where('guard_name',$role->guard_name) as $one_permission)
+                                            <div class="col-md-12">
+                                                <div class="fancy-checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="permission_ids[]" value="{{$one_permission->id}}"
+                                                        @if($role->hasPermissionTo($one_permission))
+                                                            checked="checked"
+                                                        @endif
+                                                        @if(Route::currentRouteName() == "dashboard.role.show")
+                                                            disabled
+                                                        @endif
+                                                        >
+                                                        <span>{{$one_permission->display_name}}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <div class="tab-pane" id="v-vendor___ad" role="tabpanel" aria-labelledby="v-vendor___ad-tab">
+                                        <h6><i>-- {{ $role->guard_name }} Guard Name --</i></h6>
+                                        @foreach($vendor___ad_permissions->where('guard_name',$role->guard_name) as $one_permission)
                                             <div class="col-md-12">
                                                 <div class="fancy-checkbox">
                                                     <label>

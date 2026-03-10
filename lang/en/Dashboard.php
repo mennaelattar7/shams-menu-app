@@ -65,5 +65,6 @@ return [
     'Offers' =>'Offers',
     'Table_Requests' =>'Table Requests',
     'Employee_Possions' =>'Employee Possions',
-    'Menu_themes' =>'Menu themes'
+    'Menu_themes' =>'Menu themes',
+    'Ads' =>'Ads'
 ];

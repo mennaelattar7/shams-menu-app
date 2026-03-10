@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\User\API\Vendor\AdController;
 use App\Http\Controllers\User\API\Vendor\MenuThemeController;
 use App\Http\Controllers\User\API\Vendor\OfferController;
 use App\Http\Controllers\User\API\Vendor\PermissionController;
@@ -19,6 +19,7 @@ use App\Http\Controllers\User\API\Vendor\NotificationController;
 use App\Http\Controllers\User\API\Vendor\ProductController ;
 use App\Http\Controllers\User\API\Vendor\Reports\PeakTime\BranchTrackingController;
 use App\Http\Controllers\User\API\Vendor\Reports\ProductFav\ProductFavouritController;
+use App\Http\Controllers\User\API\Vendor\Reports\ProductReviews\ProductReviewController;
 use App\Http\Controllers\User\API\Vendor\Reports\ProductViews\ProductTrackingController;
 use App\Http\Controllers\User\API\Vendor\Reports\WaiterResponded\TableRequestController as WaiterRespondedTableRequestController;
 use App\Http\Controllers\User\API\Vendor\TableRequestController;
@@ -239,7 +240,6 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
 
             });
         });
-
         //Offer Routes
         Route::prefix('offers')->name('offer.')->group(function(){
             Route::post('create',[OfferController::class,'create'])
@@ -290,6 +290,22 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::get('/get_vendor_theme',[MenuThemeController::class,'getVendorTheme'])
                   ->name('get_vendor_theme')
                   ->middleware(Vendor__MenuThemeGetVendorTheme::class);
+        });
+        //ad Routes
+        Route::prefix('ads')->name('ad.')->group(function(){
+            Route::post('create',[AdController::class,'create'])
+                  ->name('create')
+                  ->middleware(Vendor__AdCreate::class);
+
+            Route::get('/',[AdController::class,'index'])
+                  ->name('index')
+                  ->middleware(Vendor__AdIndex::class);
+
+            Route::prefix('/{offer_slug}')->group(function(){
+                Route::get('/',[AdController::class,'single'])
+                    ->name('single')
+                    ->middleware(Vendor__AdSingle::class);
+            });
         });
 
         //Settings Routes
@@ -355,6 +371,12 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     Route::get('/statistics',[ProductFavouritController::class,'statistics'])
                         ->name('statistics');
                     Route::get('/',[ProductFavouritController::class,'index'])
+                        ->name('index');
+                });
+                Route::prefix('/products/reviews')->name('product.reviews')->group(function(){
+                    Route::get('/statistics',[ProductReviewController::class,'statistics'])
+                        ->name('statistics');
+                    Route::get('/',[ProductReviewController::class,'index'])
                         ->name('index');
                 });
             });

@@ -17,9 +17,16 @@ class BaseController extends Controller
         {
             $this->vendor = Auth::user()->vendor_representative->vendor;
         }
-        else
+        elseif(Auth::user()->employee)
         {
             $this->vendor = Auth::user()->employee->vendor;
+        }
+        else
+        {
+            return response()->json([
+                'success' => false,
+                'message' =>'This user is not allowed to access as a vendor representative or employee'
+            ],403);
         }
         $this->user = Auth::user();
     }
