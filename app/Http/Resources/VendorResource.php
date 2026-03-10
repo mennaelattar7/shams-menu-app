@@ -22,6 +22,7 @@ class VendorResource extends JsonResource
                 'user.api.vendor.setting.vendor_data.get',
                 'user.api.vendor.employee_position.index',
                 'user.api.vendor.user.index',
+                'user.api.vendor.ad.index',
                 'user.api.vendor.menu_theme.get_vendor_theme',
             ]),$this->company_name),
 
@@ -30,6 +31,7 @@ class VendorResource extends JsonResource
                 'user.api.public.branch.get_vendor_data',
                 'user.api.vendor.employee_position.index',
                 'user.api.vendor.user.index',
+                'user.api.vendor.ad.index',
                 'user.api.vendor.menu_theme.get_vendor_theme',
             ]),$this->slug),
 
@@ -38,6 +40,7 @@ class VendorResource extends JsonResource
                 'user.api.public.branch.get_vendor_data',
                 'user.api.vendor.employee_position.index',
                 'user.api.vendor.user.index',
+                'user.api.vendor.ad.index',
                 'user.api.vendor.menu_theme.get_vendor_theme',
             ]),$this->brand_name),
 

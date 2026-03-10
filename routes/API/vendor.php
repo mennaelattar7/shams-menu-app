@@ -65,6 +65,10 @@ use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Create as Vend
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Index as VendorBranch__OfferIndex;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Single as VendorBranch__OfferSingle;
 
+use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Create as Vendor__AdCreate;
+use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Index as Vendor__AdIndex;
+use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Single as Vendor__AdSingle;
+
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Create as Vendor__EmployeePositionCreate;
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Index as Vendor__EmployeePositionIndex;
 
@@ -301,7 +305,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                   ->name('index')
                   ->middleware(Vendor__AdIndex::class);
 
-            Route::prefix('/{offer_slug}')->group(function(){
+            Route::prefix('/{ad_slug}')->group(function(){
                 Route::get('/',[AdController::class,'single'])
                     ->name('single')
                     ->middleware(Vendor__AdSingle::class);

@@ -27,7 +27,7 @@ class VendorBranchResource extends JsonResource
             $operating_hours = $operating_day->shifts
                                     ->where('start_time', '<=', $currentTime)
                                     ->where('end_time', '>=', $currentTime)->first();
-            
+
             $start_time = $operating_hours ? $operating_hours->start_time : null;
             $end_time = $operating_hours ? $operating_hours->end_time :null;
             if($operating_hours)
