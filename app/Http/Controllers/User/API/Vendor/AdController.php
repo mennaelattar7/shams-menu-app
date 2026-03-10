@@ -65,7 +65,6 @@ class AdController extends BaseController
             $ads = $ads->whereDate('start_date', '<=', $endDate)
                         ->whereDate('end_date', '>=', $startDate);
         }
-
         $ads = $ads->get();
         return response()->json([
             'success'=>true,
