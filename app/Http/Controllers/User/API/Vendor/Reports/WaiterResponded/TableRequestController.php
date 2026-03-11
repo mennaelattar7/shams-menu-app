@@ -40,19 +40,20 @@ class TableRequestController extends BaseController
 
             $completed_requests = $table_requests_collection->whereNotNull('completed_at');
 
-            $average_seconds = $completed_requests->avg(function ($request) {
+            $average_response = $completed_requests->avg(function ($request) {
                 return Carbon::parse($request->requested_at)
-                    ->diffInSeconds($request->completed_at);
+                    ->diffInMinutes($request->completed_at);
             });
 
             $delayed_requests_count = $table_requests_collection->whereNull('completed_at')->count();
 
-            $average_response_time = $average_seconds ? gmdate('H:i:s', $average_seconds) : null;
+
+            // $average_response_time = $average_seconds ? gmdate('H:i:s', $average_seconds) : null;
             return response()->json([
                     'success' =>true,
                     'message' =>'Get Data Successfully',
                     'data' =>[
-                        'average_response_time' => $average_response_time,
+                        'average_response' => round($average_response),
                         'delayed_requests_count' =>$delayed_requests_count
                     ]
                 ],200);
