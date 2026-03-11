@@ -4,6 +4,7 @@ use App\Http\Controllers\User\API\Vendor\AdController;
 use App\Http\Controllers\User\API\Vendor\MenuThemeController;
 use App\Http\Controllers\User\API\Vendor\OfferController;
 use App\Http\Controllers\User\API\Vendor\PermissionController;
+use App\Http\Controllers\User\API\Vendor\SocialMediaController;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdatevendorData;
 use App\Http\Middleware\custom_middleware\API\Vendor\UpdateVendorRatings;
 use Illuminate\Support\Facades\Route;
@@ -113,8 +114,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::get('/',[LangController::class,'index'])->name('index');
             Route::post('select-langs',[LangController::class,'selectLangs'])->name('create');
         });
+        Route::prefix('social-media')->name('social_media')->group(function(){
+            Route::get('/',[SocialMediaController::class,'index'])->name('index');
+        });
         //branches Routes
-
         Route::prefix('branches')->name('branch.')->group(function(){
             Route::get('/all/{activation_status?}/{city_id?}/{district_id?}/{branch_name?}',[BranchController::class,'index'])
                  ->name('index')
