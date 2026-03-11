@@ -19,6 +19,8 @@ Route::prefix('public')->name('public.')->group(function(){
         //login routes
         Route::post('login',[AuthController::class,'login'])->name('login');
         Route::post('verify-otp',[AuthController::class,'verifyOtpLogin'])->name('verify_otp_login');
+        Route::post('resend-otp',[AuthController::class,'resendOtp'])->name('resend_otp');
+
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('logout',[AuthController::class,'logout'])->name('logout');

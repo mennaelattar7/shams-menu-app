@@ -109,6 +109,73 @@ class AuthController extends Controller
         }
     }
 
+    public function resendOtp(Request $request)
+    {
+        //check phone number exist
+        $user = User::where('phone_number', $request->phone_number)->where('account_type','customer')->first();
+        if($user)
+        {
+            //check if ther is another active otp
+            $user_otps = $user->user_OTPs->whereNotNull('otp')->where('status','active');
+            foreach($user_otps as $one_otp)
+            {
+                $one_otp->otp = null;
+                $one_otp->status = 'inactive';
+                $one_otp->save();
+            }
+
+            if($user->account_type == "customer")
+            {
+                if($user->activation_status == "active" && $user->account_status == "approved")
+                {
+                    //add new OTP
+                    $user_otp = new User_OTP();
+                    $user_otp->user_id = $user->id;
+                    $user_otp->otp = rand(1000, 9999);
+                    $user_otp->type = "customer_login";
+                    $user_otp->expired_at = Carbon::now()->addMinutes(20);
+                    $user_otp->save();
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'OTP resent successfully',
+                        'otp' => $user_otp->otp
+                    ]);
+                }
+                elseif($user->activation_status == "inactive")
+                {
+                    //OTP for activation
+                    $user_otp = new User_OTP();
+                    $user_otp->user_id = $user->id;
+                    $user_otp->otp = rand(1000, 9999);
+                    $user_otp->type = "customer_register";
+                    $user_otp->expired_at = Carbon::now()->addMinutes(20);
+                    $user_otp->save();
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'OTP resent for activation',
+                        'otp' => $user_otp->otp
+                    ]);
+                }
+                else
+                {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'there is problem in this account'
+                    ]);
+                }
+            }
+        }
+        else
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'user not found'
+            ]);
+        }
+    }
+
     public function verifyOtpLogin(VerifyingLoginOTPRequest $request)
     {
         $user = User::where([
