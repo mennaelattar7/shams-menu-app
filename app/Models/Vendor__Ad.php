@@ -28,7 +28,7 @@ class Vendor__Ad extends Model
 
     public function branches()
     {
-        return $this->hasMany(VendorBranch__Ad::class,'vendor_ad_id','id');
+        return $this->belongsToMany(VendorBranche::class,'vendor_branch___ads','vendor_ad_id','branch_id');
     }
     public function vendor()
     {

@@ -68,6 +68,7 @@ use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Single as Vend
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Create as Vendor__AdCreate;
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Index as Vendor__AdIndex;
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Single as Vendor__AdSingle;
+use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Edit as Vendor__AdEdit;
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\ToggleActivation as Vendor__AdToggleActivation;
 
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Create as Vendor__EmployeePositionCreate;
@@ -310,9 +311,13 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::get('/',[AdController::class,'single'])
                     ->name('single')
                     ->middleware(Vendor__AdSingle::class);
+                Route::post('/update',[AdController::class,'update'])
+                      ->name('update')
+                      ->middleware(Vendor__AdEdit::class);
                 Route::post('/toggle-activation',[AdController::class,'toggleActivationAd'])
                         ->name('toggle_activation')
                         ->middleware(Vendor__AdToggleActivation::class);
+
 
             });
         });

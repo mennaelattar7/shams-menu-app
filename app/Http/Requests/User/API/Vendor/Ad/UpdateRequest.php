@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Request;
 
-class CreateRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,41 +24,52 @@ class CreateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(Request $request): array
+    public function rules(): array
     {
         return [
+
             'name.en' => [
+                'sometimes',
                 'required',
             ],
+
             'name.ar' => [
+                'sometimes',
                 'required',
             ],
+
             'product_id' =>[
                 'nullable',
                 'exists:products,id'
             ],
+
             'start_date' =>[
-                'required',
+                'sometimes',
                 'date'
             ],
+
             'end_date' =>[
-                'required',
+                'sometimes',
                 'date'
             ],
+
             'activation_status' =>[
-                'required',
+                'sometimes',
                 'in:active,inactive'
             ],
+
             'image' => [
-                'required',
+                'nullable',
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-                'max:2048' // 2MB
+                'max:2048'
             ],
+
             'branch_ids' =>[
-                'required',
+                'sometimes',
                 'array'
             ],
+
             'branch_ids.*'=>[
                 'integer',
                 'exists:vendor___branches,id'
