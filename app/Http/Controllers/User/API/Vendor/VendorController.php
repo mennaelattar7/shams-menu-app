@@ -8,6 +8,8 @@ use App\Http\Requests\User\API\Vendor\Vendor\UpdateRequest;
 use App\Http\Resources\VendorResource;
 use App\Models\SocialMediaIcon;
 use App\Models\Vendor__Currency;
+use App\Models\VendorBranch__Feature;
+use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -93,9 +95,37 @@ class VendorController extends BaseController
         ],200);
     }
 
-    public function updateBranchFeatureActivation()
+    public function updateBranchFeatureActivation($locale,$branch_slug,Request $request)
     {
-
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if(!$branch)
+        {
+            return response()->json([
+                'status' =>false,
+                'message' =>"This Branch Not Exist",
+            ],404);
+        }
+        else
+        {
+            if($branch->vendor->id != $this->vendor->id)
+            {
+                return response()->json([
+                    'status' =>false,
+                    'message' =>"this Branch Not Related To This Vendor",
+                ]);
+            }
+            VendorBranch__Feature::where('branch_id',$branch->id)->update(['activation_status' => 'inactive']);
+            foreach($request->activation_feature_ids as $one_feature_id)
+            {
+                $branch_feature = VendorBranch__Feature::where('branch_id',$branch->id)->where('feature_id',$one_feature_id)->first();
+                $branch_feature->activation_status ="active";
+                $branch_feature->save();
+            }
+            return response()->json([
+                'status' =>true,
+                'message' =>"Update Branch Features Successfully",
+            ],200);
+        }
     }
 
     public function getRolesPremissions()

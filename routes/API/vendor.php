@@ -328,7 +328,6 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         //Settings Routes
         Route::prefix('settings')->name('setting.')->group(function(){
             Route::get('/my-roles-permissions',[VendorController::class,'getRolesPremissions'])->name('get_roles_premissions');
-
             Route::prefix('vendor-data')->name('vendor_data.')->group(function(){
                 Route::get('/',[VendorController::class,'getVendorData'])
                     ->name('get')
@@ -346,7 +345,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     ->name('update_rating')
                     ->middleware(UpdateVendorRatings::class);
 
-                Route::post('/update-branch-feature-activation',[VendorController::class,'updateBranchFeatureActivation'])
+                Route::post('/{branch_slug}/update-branch-feature-activation',[VendorController::class,'updateBranchFeatureActivation'])
                     ->name('update_branch_feature_activation')
                     ->middleware(VendorBranch__FeatureEdit::class);
             });
