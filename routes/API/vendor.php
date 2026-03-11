@@ -68,6 +68,7 @@ use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Single as Vend
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Create as Vendor__AdCreate;
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Index as Vendor__AdIndex;
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Single as Vendor__AdSingle;
+use App\Http\Middleware\custom_middleware\API\Vendor__Ad\ToggleActivation as Vendor__AdToggleActivation;
 
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Create as Vendor__EmployeePositionCreate;
 use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Index as Vendor__EmployeePositionIndex;
@@ -100,7 +101,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
     });
     Route::middleware('auth:sanctum')->group(function () {
-        // token : 169|HSweFda2LONFdtMcwhKms93LtwYas23AOCbKgwXmf464b249 (vendor representative)  vendor_id : 16
+        // token : 200|vez6eow7jCm5GH3ElC94zBK9pzJf18ccVBBCN4ZM395b4365 (vendor representative)  vendor_id : 16
         //token : 170|1JSUBkw8Ce8We46X5skGLw5mAh4K80pz4eJsFm8A5cc2346e (waiter) vendor_id : 16
         Route::prefix('home')->name('home.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
@@ -309,6 +310,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::get('/',[AdController::class,'single'])
                     ->name('single')
                     ->middleware(Vendor__AdSingle::class);
+                Route::post('/toggle-activation',[AdController::class,'toggleActivationAd'])
+                        ->name('toggle_activation')
+                        ->middleware(Vendor__AdToggleActivation::class);
+
             });
         });
 

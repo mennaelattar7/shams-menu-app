@@ -164,5 +164,31 @@ class AdController extends BaseController
 
     }
 
+    public function toggleActivationAd($locale,$ad_slug)
+    {
+        $ad = Vendor__Ad::where('slug',$ad_slug)->first();
+        if(!$ad)
+        {
+            return response()->json([
+                'success' => false,
+                'message' =>'this ad not found'
+            ],404);
+        }
+        //toggle activation
+        if($ad->activation_status == "active")
+        {
+            $ad->activation_status = "inactive";
+        }
+        else
+        {
+            $ad->activation_status = "active";
+        }
+        $ad->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Change Activation Status Succefully',
+        ], 200);
+    }
+
 
 }
