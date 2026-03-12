@@ -31,6 +31,7 @@ use App\Http\Middleware\custom_middleware\API\Branch\Create as BranchCreate;
 use App\Http\Middleware\custom_middleware\API\Branch\Edit as BranchEdit;
 use App\Http\Middleware\custom_middleware\API\Branch\Single as BranchSingle;
 use App\Http\Middleware\custom_middleware\API\Branch\Index as BranchIndex;
+use App\Http\Middleware\custom_middleware\API\Branch\Delete as BranchDelete;
 use App\Http\Middleware\custom_middleware\API\Branch\GetBranchFeatures as BranchGetBranchFeatures;
 use App\Http\Middleware\custom_middleware\API\Branch\GetCategories as BranchGetCategories;
 use App\Http\Middleware\custom_middleware\API\Branch\GetProducts as BranchGetProducts;
@@ -137,7 +138,11 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::prefix('/{branch_slug}')->group(function(){
                 Route::get('/branch-data',[BranchController::class,'getBranchData'])
                         ->name('branch_data')
-                        ->middleware(BranchSingle::class); // Final Done
+                        ->middleware(BranchSingle::class);
+                        
+                Route::post('delete',[BranchController::class,'delete'])
+                  ->name('delete')
+                  ->middleware(BranchDelete::class);
 
                 Route::post('/toggle-activation',[BranchController::class,'toggleActivationBranch'])
                         ->name('toggle_activation')
@@ -145,7 +150,9 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
 
                 Route::put('/update-branch-data',[BranchController::class,'updateBranchData'])
                       ->name('update_branch_data')
-                      ->middleware(BranchEdit::class); // Final Done
+                      ->middleware(BranchEdit::class);
+
+
 
                 Route::get('/features',[BranchController::class,'getBranchFeatures'])
                         ->name('get_branch_features')

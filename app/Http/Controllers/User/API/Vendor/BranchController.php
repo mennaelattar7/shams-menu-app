@@ -150,6 +150,32 @@ class BranchController extends BaseController
         ]);
 
     }
+    public function delete($loacle,$branch_slug)
+    {
+
+        $branch = VendorBranche::where('slug',$branch_slug)->first();
+        if($branch == null)
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'This Branch Not exist',
+            ], 404);
+        }
+        if($branch->vendor->id != $this->vendor->id)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Branch Not Exist in This vendor',
+            ], 404);
+        }
+        
+        $branch->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Branch deleted successfully'
+        ]);
+    }
     public function getBranchData($loacle,$branch_slug)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
@@ -395,7 +421,6 @@ class BranchController extends BaseController
         }
 
     }
-
     public function getProducts($locale,$branch_slug,$availability_status=null)
     {
         $branch = VendorBranche::where('slug',$branch_slug)->first();
