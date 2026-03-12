@@ -136,7 +136,7 @@ class VendorController extends BaseController
             'data' =>[
                 'representative_vendor_name' => Auth::user()->name,
                 'roles' =>Auth::user()->getRoleNames(),
-                'permissions' => Auth::user()->getAllPermissions()->pluck('display_name')
+                'permissions' => Auth::user()->getAllPermissions()->pluck('display_name_ar')
             ]
         ],200);
     }
