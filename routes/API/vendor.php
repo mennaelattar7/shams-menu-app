@@ -65,6 +65,7 @@ use App\Http\Middleware\custom_middleware\API\TableRequest\Single as TableReques
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Create as VendorBranch__OfferCreate;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Index as VendorBranch__OfferIndex;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Single as VendorBranch__OfferSingle;
+use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Edit as VendorBranch__OfferEdit;
 
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Create as Vendor__AdCreate;
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Index as Vendor__AdIndex;
@@ -263,6 +264,9 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::get('/',[OfferController::class,'single'])
                     ->name('single')
                     ->middleware(VendorBranch__OfferSingle::class);
+                Route::post('/update',[OfferController::class,'update'])
+                      ->name('update')
+                      ->middleware(VendorBranch__OfferEdit::class);
             });
         });
 

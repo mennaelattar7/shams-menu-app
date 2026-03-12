@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\Offer\CreateRequest;
+use App\Http\Requests\User\API\Vendor\Offer\UpdateRequest;
 use App\Http\Resources\VendorBranch__OfferResource;
 use App\Models\Vendor__MenuCategory;
 use App\Models\VendorBranch__Offer;
@@ -183,6 +184,130 @@ class OfferController extends BaseController
             'success' =>true,
             'message' => 'Get Offer Successfully',
             'data' => new VendorBranch__OfferResource($offer)
+        ],200);
+    }
+
+    public function update(UpdateRequest $request,$locale, $offer_slug)
+    {
+
+        $offer = VendorBranch__Offer::where('slug',$offer_slug)->first();
+
+        if(!$offer)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Offer Not Exist'
+            ],404);
+        }
+
+        $branch = VendorBranche::find($request->branch_id);
+
+        if(!$branch)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Branch not exist'
+            ],404);
+        }
+
+        if($branch->vendor->id != $this->vendor->id)
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Branch Not Exist in This vendor',
+            ],404);
+        }
+
+        //check if there are products
+        if($branch->products->isEmpty())
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'There Are No Products To Assign Offer For Them'
+            ],404);
+        }
+
+        //update offer
+        $offer->branch_id = $branch->id;
+        $offer->name = $request->name;
+        $offer->discount_type = $request->discount_type;
+        $offer->discount_value = $request->discount_value;
+        $offer->start_date = $request->start_date;
+        $offer->end_date = $request->end_date;
+        $offer->activation_status = $request->activation_status;
+        $offer->save();
+
+        if($request->category_id)
+        {
+            $category = Vendor__MenuCategory::find($request->category_id);
+
+            if(!$category)
+            {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Category not Exist'
+                ],404);
+            }
+
+            if($category->parent_category_id == null)
+            {
+                if($category->sub_categories->isEmpty())
+                {
+                    $products = $category->products;
+                }
+                else
+                {
+                    $products = $category->sub_categories()
+                        ->with('products')
+                        ->get()
+                        ->pluck('products')
+                        ->flatten()
+                        ->unique();
+                }
+            }
+            else
+            {
+                $products = $category->products;
+            }
+        }
+        else
+        {
+            $products = $branch->categories()
+                ->with('products')
+                ->get()
+                ->pluck('products')
+                ->flatten()
+                ->unique();
+        }
+
+        if($products->isEmpty())
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'There Are No Products To Assign Offer For Them'
+            ],404);
+        }
+
+        if($request->product_ids)
+        {
+            $products = $products->whereIn('id',$request->product_ids);
+        }
+
+        //delete old offer products
+        VendorBranch__OfferProduct::where('offer_id',$offer->id)->delete();
+
+        foreach($products as $one_product)
+        {
+            $new_offer_product = new VendorBranch__OfferProduct();
+            $new_offer_product->created_by_id = $this->user->id;
+            $new_offer_product->product_id = $one_product->id;
+            $new_offer_product->offer_id = $offer->id;
+            $new_offer_product->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Update Offer Successfully'
         ],200);
     }
 }
