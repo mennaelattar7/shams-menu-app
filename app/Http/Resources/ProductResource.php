@@ -94,6 +94,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
                 'user.api.public.customer.get_favourite_products',
+                'user.api.public.branch.get_ad',
             ]),$this->name),
 
             'name_object' => $this->when($request->routeIs([
@@ -110,6 +111,7 @@ class ProductResource extends JsonResource
                 'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.public.branch.get_ad',
             ]),json_decode($this->getRawOriginal('name'), true)),
 
             'slug' =>$this->when($request->routeIs([
@@ -127,6 +129,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
                 'user.api.public.customer.get_favourite_products',
+                'user.api.public.branch.get_ad',
             ]),$this->slug),
 
             'description' =>$this->when($request->routeIs([

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class Vendor__AdResource extends JsonResource
 {
@@ -20,7 +21,7 @@ class Vendor__AdResource extends JsonResource
             'product' => new ProductResource($this->product),
             'name' => $this->name,
             'slug' =>$this->slug,
-            'image'=>$this->image,
+            'image'=>$this->image ? url(Storage::url($this->image))  : null,
             'start_date' => $this->start_date,
             'end_date'=>$this->end_date,
             'activation_status' =>$this->activation_status,

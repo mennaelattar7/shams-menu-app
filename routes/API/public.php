@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\API\Public\AdController;
 use App\Http\Controllers\User\API\Public\Authentication\AuthController;
 use App\Http\Controllers\User\API\Public\BranchController;
 use App\Http\Controllers\User\API\Public\CustomerFavouriteController;
@@ -37,6 +38,7 @@ Route::prefix('public')->name('public.')->group(function(){
             Route::get('/features',[BranchController::class,'getFeatures'])->name('get_features');
             Route::get('/menu_theme',[BranchController::class,'getMenuTheme'])->name('get_menu_theme');
             Route::get('/social_media',[BranchController::class,'getSocialMedia'])->name('get_social_media');
+            Route::get('/ad',[AdController::class,'getAd'])->name('get_ad');
         });
     });
 
