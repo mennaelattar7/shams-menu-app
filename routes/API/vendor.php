@@ -110,6 +110,8 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
                  ->name('most_viewed_product')
                  ->middleware(MostViewed::class);
+            Route::get('/statistics',[HomeController::class,'statistics'])
+                        ->name('statistics');
         });
         Route::prefix('langs')->name('lang')->group(function(){
             Route::get('/',[LangController::class,'index'])->name('index');
