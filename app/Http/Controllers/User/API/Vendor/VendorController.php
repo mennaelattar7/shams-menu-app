@@ -59,6 +59,8 @@ class VendorController extends BaseController
         ],200);
     }
 
+
+
     public function updateSocialMedia(Request $request)
     {
         $vendor = $this->vendor;
@@ -136,7 +138,7 @@ class VendorController extends BaseController
             'data' =>[
                 'representative_vendor_name' => Auth::user()->name,
                 'roles' =>Auth::user()->getRoleNames(),
-                'permissions' => Auth::user()->getAllPermissions()->pluck('display_name_ar')
+                'permissions' => Auth::user()->getAllPermissions()->pluck('display_name')
             ]
         ],200);
     }
