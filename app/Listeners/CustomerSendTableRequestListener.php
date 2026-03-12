@@ -33,13 +33,19 @@ class CustomerSendTableRequestListener
                 ->where('guard_name', 'api');
             })
             ->first();
-        $employees = $role->position->employees->where('vendor_id',$vendor->id);
-        foreach($employees as $one_employee)
+        if($role)
         {
-            $user = $one_employee->user;
-            if($user->activation_status == "active" && $user->account_status == "approved")
+            if($role->position)
             {
-                $user->notify(new CustomerSendTableRequestNotification($event->table_request));
+                $employees = $role->position->employees->where('vendor_id',$vendor->id);
+                foreach($employees as $one_employee)
+                {
+                    $user = $one_employee->user;
+                    if($user->activation_status == "active" && $user->account_status == "approved")
+                    {
+                        $user->notify(new CustomerSendTableRequestNotification($event->table_request));
+                    }
+                }
             }
         }
     }

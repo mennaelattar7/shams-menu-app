@@ -51,7 +51,10 @@ class TableRequestController extends Controller
 
             //add this status in vendor_branch___table_request__status_histories table
             $new_table_request_status = new VendorBranch__TableRequest_StatusHistory();
-            $new_table_request_status->created_by_id =$new_table_request->customer->user->id;
+            if(Auth::check())
+            {
+                $new_table_request_status->created_by_id =$new_table_request->customer->user->id;
+            }
             $new_table_request_status->table_request_id = $new_table_request->id;
             $new_table_request_status->status = 'pending';
             $new_table_request_status->save();
