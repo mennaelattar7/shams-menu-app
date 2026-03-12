@@ -187,6 +187,32 @@ class OfferController extends BaseController
         ],200);
     }
 
+    public function toggleActivationOffer($locale,$offer_slug)
+    {
+        $offer = VendorBranch__Offer::where('slug',$offer_slug)->first();
+        if(!$offer)
+        {
+            return response()->json([
+                'success' => false,
+                'message' =>'this offer not found'
+            ],404);
+        }
+        //toggle activation
+        if($offer->activation_status == "active")
+        {
+            $offer->activation_status = "inactive";
+        }
+        else
+        {
+            $offer->activation_status = "active";
+        }
+        $offer->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Change Activation Status Succefully',
+        ], 200);
+    }
+
     public function update(UpdateRequest $request,$locale, $offer_slug)
     {
 

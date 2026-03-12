@@ -66,6 +66,7 @@ use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Create as Vend
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Index as VendorBranch__OfferIndex;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Single as VendorBranch__OfferSingle;
 use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\Edit as VendorBranch__OfferEdit;
+use App\Http\Middleware\custom_middleware\API\VendorBranch__Offer\ToggleActivation as VendorBranch__OfferToggleActivation;
 
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Create as Vendor__AdCreate;
 use App\Http\Middleware\custom_middleware\API\Vendor__Ad\Index as Vendor__AdIndex;
@@ -78,7 +79,6 @@ use App\Http\Middleware\custom_middleware\API\Vendor__EmployeePosition\Index as 
 
 use App\Http\Middleware\custom_middleware\API\Vendor__MenuTheme\Edit as Vendor__MenuThemeEdit;
 use App\Http\Middleware\custom_middleware\API\Vendor__MenuTheme\GetVendorTheme as Vendor__MenuThemeGetVendorTheme;
-
 
 use App\Http\Middleware\custom_middleware\API\User\Create as UserCreate;
 use App\Http\Middleware\custom_middleware\API\User\Index as UserIndex;
@@ -269,6 +269,9 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::post('/update',[OfferController::class,'update'])
                       ->name('update')
                       ->middleware(VendorBranch__OfferEdit::class);
+                Route::post('/toggle-activation',[OfferController::class,'toggleActivationOffer'])
+                        ->name('toggle_activation')
+                        ->middleware(VendorBranch__OfferToggleActivation::class);
             });
         });
 
