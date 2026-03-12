@@ -20,6 +20,7 @@ class Vendor__AdResource extends JsonResource
             'vendor' => new VendorResource($this->vendor),
             'product' => new ProductResource($this->product),
             'name' => $this->name,
+            'name_object' => json_decode($this->getRawOriginal('name'), true),
             'slug' =>$this->slug,
             'image'=>$this->image ? url(Storage::url($this->image))  : null,
             'start_date' => $this->start_date,
