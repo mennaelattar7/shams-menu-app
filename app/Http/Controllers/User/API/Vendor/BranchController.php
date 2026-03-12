@@ -152,7 +152,6 @@ class BranchController extends BaseController
     }
     public function delete($loacle,$branch_slug)
     {
-
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch == null)
         {
@@ -168,7 +167,7 @@ class BranchController extends BaseController
                 'message' => 'This Branch Not Exist in This vendor',
             ], 404);
         }
-        
+
         $branch->delete();
 
         return response()->json([

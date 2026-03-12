@@ -42,6 +42,7 @@ use App\Http\Middleware\custom_middleware\API\MenuCategory\Create as MenuCategor
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Index as MenuCategoryIndex;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Single as MenuCategorySingle;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\Edit as MenuCategoryEdit;
+use App\Http\Middleware\custom_middleware\API\MenuCategory\Delete as MenuCategoryDelete;
 use App\Http\Middleware\custom_middleware\API\MenuCategory\ToggleActivation as MenuCategoryToggleActivation;
 
 use App\Http\Middleware\custom_middleware\API\Product\Index as ProductIndex;
@@ -139,7 +140,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::get('/branch-data',[BranchController::class,'getBranchData'])
                         ->name('branch_data')
                         ->middleware(BranchSingle::class);
-                        
+
                 Route::post('delete',[BranchController::class,'delete'])
                   ->name('delete')
                   ->middleware(BranchDelete::class);
@@ -190,6 +191,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                 Route::post('/update',[MenuCategorycontroller::class,'update'])
                     ->name('update')
                     ->middleware(MenuCategoryEdit::class);
+
+                Route::post('delete',[MenuCategorycontroller::class,'delete'])
+                  ->name('delete')
+                  ->middleware(MenuCategoryDelete::class);
 
                 Route::post('/toggle-activation',[MenuCategorycontroller::class,'toggleActivation'])
                         ->name('toggle_activation')

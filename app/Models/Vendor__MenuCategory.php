@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vendor__MenuCategory extends Model
 {
     use HasSlug;
+    use SoftDeletes;
     protected $table = "vendor___menu_categories";
     protected $casts = [
         'name' => 'array',

@@ -138,6 +138,25 @@ class MenuCategorycontroller extends BaseController
             'data' => new VendorMenuCategoryResource($category)
         ],200);
     }
+
+    public function delete($loacle,$category_slug)
+    {
+        $category = Vendor__MenuCategory::where('slug',$category_slug)->first();
+        if($category == null)
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'This category Not exist',
+            ], 404);
+        }
+
+        $category->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'category deleted successfully'
+        ]);
+    }
     public function update($locale,$category_slug,UpdateRequest $request)
     {
         $category = Vendor__MenuCategory::where('slug',$category_slug)->first();
