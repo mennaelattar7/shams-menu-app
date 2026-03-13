@@ -216,7 +216,6 @@ class AdController extends BaseController
     }
     public function update(UpdateRequest $request, $locale, $ad_slug)
     {
-        dd('mms');
         $ad = Vendor__Ad::where('slug', $ad_slug)
             ->where('vendor_id', $this->vendor->id)
             ->first();
