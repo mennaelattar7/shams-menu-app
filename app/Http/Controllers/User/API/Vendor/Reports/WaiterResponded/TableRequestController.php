@@ -114,6 +114,21 @@ class TableRequestController extends BaseController
         {
             $table_requests = $table_requests->where('request_type',$request->request_type);
         }
+        if($request->response_status)
+        {
+            if($request->response_status == "fast")
+            {
+                $table_requests = $table_requests->whereNotNull('completed_at')
+                                                ->whereRaw('TIMESTAMPDIFF(MINUTE, requested_at, completed_at) <= ?', [30]);
+            }
+            elseif($request->response_status == "late")
+            {
+                $table_requests = $table_requests->where(function($q){
+                    $q->whereNull('completed_at')
+                    ->orWhereRaw('TIMESTAMPDIFF(MINUTE, requested_at, completed_at) > ?', [30]);
+                });
+            }
+        }
 
         if($request->per_page)
         {

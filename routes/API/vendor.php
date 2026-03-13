@@ -382,7 +382,6 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                   ->name('mark_as_read');
 
         });
-
         //reports
         Route::prefix('reports')->name('report.')->group(function(){
             Route::prefix('/{branch_slug}')->group(function(){
