@@ -27,26 +27,31 @@ class CustomerSendTableRequestListener
     {
         $table_request = $event->table_request;
         $vendor = $table_request->table->branch->vendor;
-        $role =Role::query()
+        $roles =Role::query()
             ->whereHas('permissions', function ($q) {
                 $q->where('name', '9_notify_vendor_branch___table_request')
                 ->where('guard_name', 'api');
             })
-            ->first();
-        if($role)
+            ->get();
+
+        if($roles)
         {
-            if($role->position)
+            foreach($roles as $one_role)
             {
-                $employees = $role->position->employees->where('vendor_id',$vendor->id);
-                foreach($employees as $one_employee)
+                if($one_role->position)
                 {
-                    $user = $one_employee->user;
-                    if($user->activation_status == "active" && $user->account_status == "approved")
+                    $employees = $one_role->position->employees->where('vendor_id',$vendor->id);
+                    foreach($employees as $one_employee)
                     {
-                        $user->notify(new CustomerSendTableRequestNotification($event->table_request));
+                        $user = $one_employee->user;
+                        if($user->activation_status == "active" && $user->account_status == "approved")
+                        {
+                            $user->notify(new CustomerSendTableRequestNotification($event->table_request));
+                        }
                     }
                 }
             }
+
         }
     }
 }

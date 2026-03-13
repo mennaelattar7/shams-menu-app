@@ -60,11 +60,21 @@ class TableRequestController extends Controller
             $new_table_request_status->save();
 
 
-            event(new CustomerSendTableRequestEvent($new_table_request));
-            return response()->json([
-                'success'=>true,
-                'message'=>'request was sended',
-            ],200);
+            try {
+                event(new CustomerSendTableRequestEvent($new_table_request));
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'request was sent',
+                ], 200);
+
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'request was not sent',
+                    'error' => $e->getMessage(),
+                ], 500);
+            }
         }
         else
         {
