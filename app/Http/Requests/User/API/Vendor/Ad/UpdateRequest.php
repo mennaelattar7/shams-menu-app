@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User\API\Vendor\Ad;
 
+use App\Models\Vendor__Ad;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -26,15 +27,17 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $ad = Vendor__Ad::where('slug', $this->route('ad_slug'))->first();
+        $adId = $ad?->id;
         return [
 
+
             'name.en' => [
-                'sometimes',
                 'required',
+
             ],
 
             'name.ar' => [
-                'sometimes',
                 'required',
             ],
 

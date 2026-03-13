@@ -218,16 +218,25 @@ class AdController extends BaseController
     {
         $ad = Vendor__Ad::where('slug', $ad_slug)
             ->where('vendor_id', $this->vendor->id)
-            ->firstOrFail();
+            ->first();
+        if(!$ad)
+        {
+            return response()->json([
+                'success' =>false,
+                'message'=>'this Ad Not Exist'
+            ],404);
+        }
 
-        $productId = $request->product_id ?? $ad->product_id;
+
+        $productId = $request->product_id ?? null;
+
+
 
         // check active ads overlap
-        if ($request->activation_status == 'active') {
-
+        if ($request->activation_status == 'active')
+        {
             $activeAd = Vendor__Ad::where('vendor_id', $this->vendor->id)
                 ->where('activation_status', 'active')
-                ->where('product_id', $productId)
                 ->where('id', '!=', $ad->id)
                 ->where(function ($q) use ($request) {
                     $q->where('start_date', '<=', $request->end_date)
@@ -246,7 +255,6 @@ class AdController extends BaseController
         // check duplicate ad
         $duplicateAd = Vendor__Ad::where('vendor_id', $this->vendor->id)
             ->where('name', $request->name)
-            ->where('product_id', $productId)
             ->where('id', '!=', $ad->id)
             ->first();
 
@@ -257,6 +265,7 @@ class AdController extends BaseController
             ]);
         }
 
+        
         // update ad fields
         $ad->name = $request->name ?? $ad->name;
         $ad->product_id = $productId;
