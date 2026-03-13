@@ -24,11 +24,18 @@ class AdController extends Controller
                            ->whereDate('start_date', '<=', Carbon::today())
                            ->whereDate('end_date', '>=', Carbon::today())
                            ->first();
+        if(!$ads)
+        {
+            return response()->json([
+                'success' =>false,
+                'message' =>"there is no active ad",
+                'data' =>null
+            ],200);
+        }
         return response()->json([
             'success' =>true,
             'message'=>'get Current activation ad Successfully',
             'data' => new Vendor__AdResource($ads)
         ],200);
-
     }
 }
