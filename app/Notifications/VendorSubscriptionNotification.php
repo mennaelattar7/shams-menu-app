@@ -44,6 +44,8 @@ class VendorSubscriptionNotification extends Notification
         }
 
         return [
+            'title' => 'قرب انتهاء الاشتراك',
+            'message' => 'اشتراكك سينتهي خلال 3 ايام يرجي تجديد الاشتراك لتجنب ايقاف الخدمه',
             'vendor_id' => $this->subscription->vendor_id,
             'subscription_id' => $this->subscription->id,
             'message' => $message

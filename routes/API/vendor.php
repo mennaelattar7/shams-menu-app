@@ -89,11 +89,6 @@ use App\Models\Vendor__PackegeSubscription;
 use Carbon\Carbon;
 
 Route::prefix('vendor')->name('vendor.')->group(function(){
-    // Route::get('send_notification',function(){
-
-    //     $subscription = Vendor__PackegeSubscription::first();
-    //     event(new \App\Events\VendorSubscriptionExpiringEvent($subscription));
-    // });
     //Authentication Routes
     Route::prefix('auth')->name('auth.')->group(function(){
         //register routes

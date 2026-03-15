@@ -9,6 +9,6 @@ class Vendor__PackegeSubscription extends Model
     protected $table = "vendor___package_subscriptions";
     public function vendor()
     {
-        return $this->belongsTo(Vendor::class, 'vendor_id');
+        return $this->belongsTo(Vendor::class, 'vendor_id','id');
     }
 }

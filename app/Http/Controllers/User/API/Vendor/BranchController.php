@@ -75,9 +75,8 @@ class BranchController extends BaseController
         $user = $this->user;
         $vendor = $this->vendor;
         //get last subscription package of vendor
-        $package = $vendor->package_subscriptions()
+        $package = $vendor->package_subscription()
                           ->where('status','active')
-                          ->latest('start_at')
                           ->first();
         //get package features
         $features = $package->features()->where('shams___vendor_package_features.activation_status','active')->get();

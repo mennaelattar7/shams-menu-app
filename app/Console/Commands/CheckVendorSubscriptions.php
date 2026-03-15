@@ -22,7 +22,10 @@ class CheckVendorSubscriptions extends Command
         // الاشتراكات اللي قربت تنتهي (قبل يوم)
         $expiringSubscriptions = Vendor__PackegeSubscription::where('status','active')
             ->where('expiring_notification_sent', 'false')
-            ->whereDate('end_at', Carbon::tomorrow())
+            ->whereBetween('end_at', [
+                Carbon::now(),
+                Carbon::now()->addDays(3)
+            ])
             ->get();
 
         foreach ($expiringSubscriptions as $subscription)

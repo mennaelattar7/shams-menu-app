@@ -10,6 +10,7 @@ use App\Http\Requests\User\API\Vendor\Auth\ResetPasswordRequest;
 use App\Http\Requests\User\API\Vendor\Auth\VerifyingOTPRequest;
 use App\Http\Resources\UserResource;
 use App\Models\PasswordResetToken;
+use App\Models\Shams__VendorPackage;
 use App\Models\User;
 use App\Models\User__AccountStatusHistory;
 use App\Models\User_OTP;
@@ -17,6 +18,7 @@ use App\Models\Vendor;
 use App\Models\Vendor__MenuTheme;
 use App\Models\Vendor__MenuThemeDetail;
 use App\Models\Vendor__PackegeSubscription;
+use App\Models\Vendor__PackegeSubscriptionHistory;
 use App\Models\Vendor_VendorType;
 use App\Models\VendorRepresentative;
 use Illuminate\Http\Request;
@@ -68,17 +70,31 @@ class AuthController extends Controller
         $new_vendor_representative->save();
 
         //add in vendor___package_subscriptions table
+        $package = Shams__VendorPackage::find(1);
+
         $new_vendor_package_subscription = new Vendor__PackegeSubscription();
         $new_vendor_package_subscription->created_by_id = $new_user->id;
         $new_vendor_package_subscription->vendor_id = $new_vendor->id;
-        $new_vendor_package_subscription->package_id = 1;
+        $new_vendor_package_subscription->package_id = $package->id;
         $new_vendor_package_subscription->start_at = now();
-        $new_vendor_package_subscription->end_at = now()->addYear();
+        $new_vendor_package_subscription->end_at = now()->addDay($package->duration_days);
         $new_vendor_package_subscription->end_trial_at = now()->addDays(30);
         $new_vendor_package_subscription->status = 'active';
-        $new_vendor_package_subscription->price_at_purchase = 0;
+        $new_vendor_package_subscription->price_at_purchase = $package->price;
         $new_vendor_package_subscription->paid_amount = 0;
         $new_vendor_package_subscription->save();
+
+        //add in vendor___packege_subscription_histories
+        $new_subscription_history = new Vendor__PackegeSubscriptionHistory();
+        $new_subscription_history->created_by_id = $new_user->id;
+        $new_subscription_history->vendor_id = $new_vendor->id;
+        $new_subscription_history->start_at = now();
+        $new_subscription_history->end_at = now()->addDay($package->duration_days);
+        $new_subscription_history->status = 'active';
+        $new_subscription_history->price_at_purchase = $package->price;
+        $new_subscription_history->paid_amount = 0;
+        $new_subscription_history->save();
+
 
         //add in vendor___menu_themes table
         $new_vendor_menu_theme = new Vendor__MenuTheme();

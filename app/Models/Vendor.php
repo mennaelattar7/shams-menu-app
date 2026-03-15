@@ -84,9 +84,9 @@ class Vendor extends Model
     {
         return $this->belongsToMany(Lang::class,'vendor___langs','vendor_id','lang_id');
     }
-    public function package_subscriptions()
+    public function package_subscription()
     {
-        return $this->belongsToMany(Shams__VendorPackage::class,'vendor___package_subscriptions','vendor_id','package_id');
+        return $this->hasOne(Vendor__PackegeSubscription::class,'vendor_id','id');
     }
 
     public function currencies()
