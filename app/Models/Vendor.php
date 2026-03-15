@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Illuminate\Notifications\Notifiable;
 
 class Vendor extends Model
 {
     use HasSlug;
+    use Notifiable;
 
     protected $table = "vendors";
     public $fillable =[

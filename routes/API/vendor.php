@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\VendorSubscriptionExpiringEvent;
 use App\Http\Controllers\User\API\Vendor\AdController;
 use App\Http\Controllers\User\API\Vendor\MenuThemeController;
 use App\Http\Controllers\User\API\Vendor\OfferController;
@@ -84,9 +85,15 @@ use App\Http\Middleware\custom_middleware\API\Vendor__MenuTheme\GetVendorTheme a
 
 use App\Http\Middleware\custom_middleware\API\User\Create as UserCreate;
 use App\Http\Middleware\custom_middleware\API\User\Index as UserIndex;
-
+use App\Models\Vendor__PackegeSubscription;
+use Carbon\Carbon;
 
 Route::prefix('vendor')->name('vendor.')->group(function(){
+    // Route::get('send_notification',function(){
+
+    //     $subscription = Vendor__PackegeSubscription::first();
+    //     event(new \App\Events\VendorSubscriptionExpiringEvent($subscription));
+    // });
     //Authentication Routes
     Route::prefix('auth')->name('auth.')->group(function(){
         //register routes
@@ -106,7 +113,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
     });
     Route::middleware('auth:sanctum')->group(function () {
-        // token : 200|AiaG5UOTfrWj4MZ92fSXTKauMWbVOknGjTXbmSNs9278b8c1 (vendor representative)  vendor_id : 16
+        // token : 214|nKcPmJQZ4DvgLDlHnGEej0FOXC8Uzl0KsW2bHq2V555eff47 (vendor representative)  vendor_id : 16
         //token : 170|1JSUBkw8Ce8We46X5skGLw5mAh4K80pz4eJsFm8A5cc2346e (waiter) vendor_id : 16
         Route::prefix('home')->name('home.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
