@@ -11,4 +11,4 @@ Artisan::command('inspire', function () {
 Schedule::command('otp:deactivate-expired-otps')
     ->everyMinute();
 Schedule::command('subscriptions:check')
-    ->everySecond();
+    ->everyMinute();
