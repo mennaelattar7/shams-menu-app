@@ -11,4 +11,9 @@ class Vendor__PackegeSubscription extends Model
     {
         return $this->belongsTo(Vendor::class, 'vendor_id','id');
     }
+
+    public function package()
+    {
+        return $this->belongsTo(Shams__VendorPackage::class, 'package_id','id');
+    }
 }
