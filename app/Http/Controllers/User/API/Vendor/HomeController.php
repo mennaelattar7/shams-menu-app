@@ -102,4 +102,15 @@ class HomeController extends BaseController
             'data' => ProductResource::collection($all_products)
         ],200);
     }
+    public function mostFavouriteProducts()
+    {
+        $all_products = Product::withCount('favourites')->whereHas('category',function($q){
+                $q->where('vendor_id',$this->vendor->id);
+            })->orderByDesc('favourites_count')->take(3)->get();
+        return response()->json([
+            'success' =>true,
+            'message' =>'get the most favourite Products',
+            'data' => ProductResource::collection($all_products)
+        ],200);
+    }
 }

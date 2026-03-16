@@ -114,6 +114,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
                  ->name('most_viewed_product')
                  ->middleware(MostViewed::class);
+
+            Route::get('most-favourite-products',[HomeController::class,'mostFavouriteProducts'])
+                 ->name('most_favourite_product');
+
             Route::get('/statistics',[HomeController::class,'statistics'])
                         ->name('statistics');
         });

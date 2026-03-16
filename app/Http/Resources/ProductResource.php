@@ -97,6 +97,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.ad.single',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.vendor.home.most_favourite_product',
                 'user.api.public.customer.get_favourite_products',
                 'user.api.public.branch.get_ad',
             ]),$this->name),
@@ -115,6 +116,7 @@ class ProductResource extends JsonResource
                 'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.vendor.home.most_favourite_product',
                 'user.api.public.branch.get_ad',
             ]),json_decode($this->getRawOriginal('name'), true)),
 
@@ -132,6 +134,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.ad.single',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.vendor.home.most_favourite_product',
                 'user.api.public.customer.get_favourite_products',
                 'user.api.public.branch.get_ad',
             ]),$this->slug),
@@ -171,6 +174,7 @@ class ProductResource extends JsonResource
                 'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.vendor.home.most_favourite_product',
                 'user.api.public.customer.get_favourite_products',
             ]) && $this->variants->count() == 1 ,$this->variants->first()->price),
 
@@ -185,6 +189,7 @@ class ProductResource extends JsonResource
                 'user.api.public.branch.product.get_products',
                 'user.api.vendor.menu_category.single',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.vendor.home.most_favourite_product',
                 'user.api.public.customer.get_favourite_products',
             ]) && $this->variants->count() == 1 ,$price_after_discount),
 
@@ -341,6 +346,7 @@ class ProductResource extends JsonResource
                 'user.api.vendor.product.single',
                 'user.api.public.branch.product.get_products',
                 'user.api.vendor.home.most_viewed_product',
+                'user.api.vendor.home.most_favourite_product',
                 'user.api.public.customer.get_favourite_products',
             ]),$this->image ? url(Storage::url($this->image))  : null),
 
@@ -402,6 +408,10 @@ class ProductResource extends JsonResource
                 'user.api.vendor.home.most_viewed_product',
                 'user.api.vendor.menu_category.products',
             ]),$this->views->count()),
+
+            'favourites_count' =>$this->when($request->routeIs([
+                'user.api.vendor.home.most_favourite_product',
+            ]),$this->favourites->count()),
         ];
     }
 }
