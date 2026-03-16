@@ -71,7 +71,6 @@ class Product extends Model
     {
         return $this->hasMany(Product__Tracking::class,'product_id','id');
     }
-
     public function favourites()
     {
         return $this->hasMany(Customer__Favourite::class,'product_id','id');

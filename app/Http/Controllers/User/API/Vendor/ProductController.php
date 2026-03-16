@@ -343,6 +343,34 @@ class ProductController extends BaseController
                 'message' => 'This Product Not exist',
             ], 404);
         }
+        if($product->offers()->exists())
+        {
+            $product->offers()->detach();
+        }
+        if($product->branches()->exists())
+        {
+            $product->branches()->detach();
+        }
+        if($product->cooking_levels()->exists())
+        {
+            $product->cooking_levels()->detach();
+        }
+        if($product->variants()->exists())
+        {
+            $product->variants()->forceDelete();
+        }
+        if($product->allergens()->exists())
+        {
+            $product->allergens()->detach();
+        }
+        if($product->views()->exists())
+        {
+            $product->views()->forceDelete();
+        }
+        if($product->favourites()->exists())
+        {
+            $product->favourites()->forceDelete();
+        }
         $product->forceDelete();
         return response()->json([
             'success' => true,
