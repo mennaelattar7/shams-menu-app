@@ -40,13 +40,18 @@ class ProductResource extends JsonResource
         $price_after_discount = $this->variants->first()->price; // السعر الافتراضي
 
 
-        if($offer) {
-            if($offer->discount_type == "fixed") {
+        $variant = $this->variants->first();
 
-                $price_after_discount = $this->variants->first()->price - $offer->discount_value;
-            } elseif($offer->discount_type == "percent") {
-                $price_after_discount = $this->variants->first()->price - ($this->variants->first()->price * $offer->discount_value / 100);
+        if ($offer && $variant) {
+
+            if ($offer->discount_type == "fixed") {
+                $price_after_discount = $variant->price - $offer->discount_value;
+
+            } else if ($offer->discount_type == "percent") {
+                $price_after_discount = $variant->price - ($variant->price * $offer->discount_value / 100);
             }
+
+            $price_after_discount = max($price_after_discount, 0);
         }
 
         if(Auth::check())

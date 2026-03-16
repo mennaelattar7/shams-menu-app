@@ -145,13 +145,33 @@ class MenuCategorycontroller extends BaseController
         if($category == null)
         {
             return response()->json([
-                'success' => true,
+                'success' => false,
                 'message' => 'This category Not exist',
             ], 404);
         }
 
-        $category->delete();
 
+        //check category has products
+        if($category->products()->exists())
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This category cannot be deleted because it contains products. Please move these products to another category before deleting it.'
+            ],422);
+        }
+        //check category has sub-categories
+        if($category->sub_categories()->exists())
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'This category cannot be deleted because it contains Sub Categories. Please move these Categories to another category before deleting it.'
+            ],422);
+        }
+        if($category->branches()->exists())
+        {
+            $category->branches()->detach();
+        }
+        $category->delete();
         return response()->json([
             'success' => true,
             'message' => 'category deleted successfully'
