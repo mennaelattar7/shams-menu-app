@@ -233,7 +233,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                       ->name('update')
                       ->middleware(ProductEdit::class);
 
-                Route::get('/delete-permanently',[ProductController::class,'deletePermanently'])
+                Route::get('/delete',[ProductController::class,'deletePermanently'])
                     ->name('delete_permanently')
                     ->middleware(ProductDeletePermanently::class);
 

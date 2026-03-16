@@ -102,13 +102,13 @@ class TableRequestController extends BaseController
         {
             $startOfMonth = Carbon::now()->startOfMonth(); // أول يوم في الشهر
             $endOfMonth   = Carbon::now()->endOfMonth();
-            $table_requests = $table_requests->whereBetween('requested_at', [$startOfMonth, $endOfMonth]);;
+            $table_requests = $table_requests->whereBetween('requested_at', [$startOfMonth, $endOfMonth]);
         }
         if($request->time_period =="custom")
         {
             $startdate = Carbon::parse($request->start_date)->startOfDay(); // بداية اليوم
             $enddate   = Carbon::parse($request->end_date)->endOfDay();     // نهاية اليوم 23:59:59
-            $table_requests = $table_requests->whereBetween('requested_at', [$startdate, $enddate]);;
+            $table_requests = $table_requests->whereBetween('requested_at', [$startdate, $enddate]);
         }
         if($request->request_type)
         {

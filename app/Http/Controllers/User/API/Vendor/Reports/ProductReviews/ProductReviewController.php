@@ -7,6 +7,7 @@ use App\Http\Controllers\User\API\Vendor\BaseController;
 use App\Http\Resources\Vendor__ReviewResource;
 use App\Models\VendorBranche;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ProductReviewController extends BaseController
 {
@@ -46,13 +47,41 @@ class ProductReviewController extends BaseController
         }
     }
 
-    public function index($locale, $branch_slug)
+    public function index($locale, $branch_slug,Request $request)
     {
         $vendor = $this->vendor;
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch->vendor->id == $vendor->id)
         {
-            $all_reviews = $branch->reviews()->get();
+            $all_reviews = $branch->reviews();
+
+            if($request->time_period =="this_day")
+            {
+                $all_reviews = $all_reviews->whereDate('created_at', Carbon::today());
+            }
+            if($request->time_period =="this_week")
+            {
+                $startOfWeek = Carbon::now()->startOfWeek();
+                $endOfWeek = Carbon::now()->endOfWeek();
+                $all_reviews = $all_reviews->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+            }
+            if($request->time_period =="this_month")
+            {
+                $startOfMonth = Carbon::now()->startOfMonth(); // أول يوم في الشهر
+                $endOfMonth   = Carbon::now()->endOfMonth();
+                $all_reviews = $all_reviews->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+            }
+            if($request->time_period =="custom")
+            {
+                $startdate = Carbon::parse($request->start_date)->startOfDay(); // بداية اليوم
+                $enddate   = Carbon::parse($request->end_date)->endOfDay();     // نهاية اليوم 23:59:59
+                $all_reviews = $all_reviews->whereBetween('created_at', [$startdate, $enddate]);
+            }
+            if($request->stars)
+            {
+                $all_reviews =$all_reviews->where('rating',$request->stars);
+            }
+            $all_reviews = $all_reviews->get();
 
             if(!$all_reviews)
             {
