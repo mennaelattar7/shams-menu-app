@@ -43,11 +43,10 @@ class ProductResource extends JsonResource
         $variant = $this->variants->first();
 
         if ($offer && $variant) {
-
             if ($offer->discount_type == "fixed") {
                 $price_after_discount = $variant->price - $offer->discount_value;
 
-            } else if ($offer->discount_type == "percent") {
+            } else if ($offer->discount_type == "percentage") {
                 $price_after_discount = $variant->price - ($variant->price * $offer->discount_value / 100);
             }
 

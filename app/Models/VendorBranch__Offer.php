@@ -10,6 +10,7 @@ class VendorBranch__Offer extends Model
 {
     use HasSlug;
     protected $table = "vendor_branch___offers";
+    
     protected $casts = [
         'name' => 'array',
     ];
