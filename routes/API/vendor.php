@@ -360,6 +360,10 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
                     ->name('update')
                     ->middleware(UpdatevendorData::class);
 
+                Route::post('/update-account-data',[VendorController::class,'UpdateAccountData'])
+                    ->name('update_account_data')
+                    ->middleware(UpdatevendorData::class);
+
                 Route::post('/update-social-media',[VendorController::class,'updateSocialMedia'])
                     ->name('social_media')
                     ->middleware(UpdatevendorSocialMedia::class);

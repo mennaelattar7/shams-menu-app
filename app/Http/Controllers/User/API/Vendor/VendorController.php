@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\API\Vendor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\API\Vendor\Vendor\UpdateRatingsRequest;
 use App\Http\Requests\User\API\Vendor\Vendor\UpdateRequest;
+use App\Http\Requests\User\API\Vendor\Vendor\UpdateAccountDataRequest;
 use App\Http\Resources\VendorResource;
 use App\Models\SocialMediaIcon;
 use App\Models\Vendor__Currency;
@@ -13,6 +14,7 @@ use App\Models\VendorBranche;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 
 class VendorController extends BaseController
@@ -56,6 +58,19 @@ class VendorController extends BaseController
         return response()->json([
             'status' =>true,
             'message' =>"Vendor Updated Successfully",
+        ],200);
+    }
+
+    public function UpdateAccountData(UpdateAccountDataRequest $request)
+    {
+        $user = $this->user;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return response()->json([
+            'sucess' =>true,
+            'message' =>'Update Account Data Successfully'
         ],200);
     }
 
