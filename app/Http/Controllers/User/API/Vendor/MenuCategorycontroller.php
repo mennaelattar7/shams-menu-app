@@ -171,7 +171,7 @@ class MenuCategorycontroller extends BaseController
         {
             $category->branches()->detach();
         }
-        $category->delete();
+        $category->forceDelete();
         return response()->json([
             'success' => true,
             'message' => 'category deleted successfully'
