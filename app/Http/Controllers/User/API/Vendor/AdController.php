@@ -90,7 +90,7 @@ class AdController extends BaseController
                 return response()->json([
                     'success' => false,
                     'message' => 'There is already an active ad for this vendor during the selected period',
-                ]);
+                ],422);
             }
         }
         //check if this ad exist in vendor
@@ -104,7 +104,7 @@ class AdController extends BaseController
             return response()->json([
                 'success' =>false,
                 'message' =>'this ad already exist in Vendor',
-            ]);
+            ],422);
         }
 
         $new_ad = new Vendor__Ad();
@@ -154,7 +154,7 @@ class AdController extends BaseController
                     return response()->json([
                         'success' =>false,
                         'message' =>'this product not active in this branch',
-                    ]);
+                    ],404);
                 }
                 $new_ad->product_id = $request->product_id;
                 $new_ad->save();
@@ -168,7 +168,7 @@ class AdController extends BaseController
             'success' => true,
             'message' => 'Ad created successfully',
             'data' => $new_ad
-        ]);
+        ],200);
 
     }
 
@@ -248,7 +248,7 @@ class AdController extends BaseController
                 return response()->json([
                     'success' => false,
                     'message' => 'There is already an active ad for this vendor during the selected period',
-                ]);
+                ],422);
             }
         }
 
@@ -262,7 +262,7 @@ class AdController extends BaseController
             return response()->json([
                 'success' => false,
                 'message' => 'this ad already exist in Vendor',
-            ]);
+            ],422);
         }
 
 
@@ -301,7 +301,7 @@ class AdController extends BaseController
                     return response()->json([
                         'success' => false,
                         'message' => 'branch not found',
-                    ]);
+                    ],404);
                 }
 
                 // check branch belong to vendor
@@ -309,7 +309,7 @@ class AdController extends BaseController
                     return response()->json([
                         'success' => false,
                         'message' => '(' . $branch->name . ') not exist in Vendor',
-                    ]);
+                    ],404);
                 }
 
                 // check product active in branch
@@ -324,7 +324,7 @@ class AdController extends BaseController
                         return response()->json([
                             'success' => false,
                             'message' => 'this product not active in this branch',
-                        ]);
+                        ],422);
                     }
                 }
 
@@ -339,9 +339,6 @@ class AdController extends BaseController
             'success' => true,
             'message' => 'Ad updated successfully',
             'data' => $ad
-        ]);
+        ],200);
     }
-
-
-
 }
