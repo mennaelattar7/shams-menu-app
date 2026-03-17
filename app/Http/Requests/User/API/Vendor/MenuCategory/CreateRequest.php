@@ -5,6 +5,9 @@ namespace App\Http\Requests\User\API\Vendor\MenuCategory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
@@ -14,16 +17,27 @@ class CreateRequest extends FormRequest
     }
     public function rules(): array
     {
+        $vendor = Auth::user()->vendor_representative->vendor;
         $rules =[
             'parent_category_id' =>[
                 'nullable',
                 'integer',
                 'exists:vendor___menu_categories,id'
             ],
-            'name'=>[
+
+            'name.en' => [
                 'required',
-                'array',
-                'unique:vendor___menu_categories,name'
+                Rule::unique('vendor___menu_categories', 'name->en')
+                ->where(function($q) use ($vendor){
+                    $q->where('vendor_id',$vendor->id);
+                }),
+            ],
+            'name.ar' => [
+                'required',
+                Rule::unique('vendor___menu_categories', 'name->ar')
+                ->where(function($q) use ($vendor){
+                    $q->where('vendor_id',$vendor->id);
+                }),
             ],
             'image' => [
                 'nullable',

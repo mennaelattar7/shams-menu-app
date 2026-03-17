@@ -108,7 +108,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
         });
     });
     Route::middleware('auth:sanctum')->group(function () {
-        // token : 214|nKcPmJQZ4DvgLDlHnGEej0FOXC8Uzl0KsW2bHq2V555eff47 (vendor representative)  vendor_id : 16
+        // token : 230|U0UUR81adFANntGOVJUdZWyjrMjoLLEtyHf8AkpC522b3b32 (vendor representative)  vendor_id : 16
         //token : 170|1JSUBkw8Ce8We46X5skGLw5mAh4K80pz4eJsFm8A5cc2346e (waiter) vendor_id : 16
         Route::prefix('home')->name('home.')->group(function(){
             Route::get('most-viewed-products',[HomeController::class,'mostViewedProducts'])
