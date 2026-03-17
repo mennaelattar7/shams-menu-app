@@ -20,7 +20,7 @@ class Shams__VendorFeatureResource extends JsonResource
             'slug' => $this->slug,
             'code' =>$this->code,
             'description' =>$this->description,
-            'activation_status' =>$this->activation_status
+            'activation_status' =>$this->pivot->activation_status
         ];
     }
 }

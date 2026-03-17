@@ -270,6 +270,7 @@ class BranchController extends BaseController
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         $branch_features = $branch->features()->where('shams___vendor_features.activation_status','active')->get();
 
+
         return response()->json([
             'success' => true,
             'message' => 'Get Branch Features Successfuly',
