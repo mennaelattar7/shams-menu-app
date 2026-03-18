@@ -22,6 +22,7 @@ class Vendor__ReviewResource extends JsonResource
             'id'=>$this->id,
             'user_phone_number' => $this->user?->phone_number,
             'rating' => $this->rating,
+            'notes' =>$this->notes,
             'created_at' => $formatted
         ];
     }
