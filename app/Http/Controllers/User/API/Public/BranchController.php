@@ -111,6 +111,7 @@ class BranchController extends Controller
         }
         $items = $activation_features->whereIn('code', ['main_category', 'subcategory']);
         $category_collection = collect();
+
         if($items->count() == 2)
         {
             $categories = $branch->categories()
@@ -141,7 +142,6 @@ class BranchController extends Controller
                 $main_categories = $branch->categories()
                                     ->wherePivot('activation_status','active')
                                     ->where('vendor___menu_categories.activation_status','active')
-                                    ->where('parent_category_id',null)
                                     ->get();
                 foreach($main_categories as $one_category)
                 {

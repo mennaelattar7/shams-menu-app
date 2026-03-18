@@ -43,9 +43,9 @@ class VendorMenuCategoryResource extends JsonResource
                 'user.api.vendor.offer.single',
             ]) && $this->depth > 0, function () {
                             return new VendorMenuCategoryResource(
-                                $this->parent_category,
-                                $this->depth - 1   // ↓ نقص العمق
-                            );
+                                    $this->parent_category,
+                                    $this->depth > 0 ? $this->depth - 1 : 0
+                                );
                         }),
 
             'name' =>$this->when($request->routeIs([

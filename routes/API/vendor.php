@@ -137,7 +137,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
             Route::post('create',[BranchController::class,'create'])
                   ->name('create')
                   ->middleware(BranchCreate::class);
-
+                  
             Route::post('/categories/by-branches/{category_type?}',[BranchController::class,'getCategoriesByBranches'])
                 ->name('categories.by_branches')
                 ->middleware(BranchGetCategories::class);
@@ -179,6 +179,7 @@ Route::prefix('vendor')->name('vendor.')->group(function(){
 
             });
         });
+
         //menu categories
         Route::prefix('menu-categories')->name('menu_category.')->group(function(){
             Route::get('/',[MenuCategorycontroller::class,'index'])

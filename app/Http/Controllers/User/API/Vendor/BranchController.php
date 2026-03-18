@@ -503,6 +503,5 @@ class BranchController extends BaseController
                 'message' =>'There Are No '.$category_type.' Categories in This Banch',
             ],404);
         }
-
     }
 }
