@@ -78,7 +78,8 @@ class MenuCategorycontroller extends BaseController
         $new_vendor_menu_category->parent_category_id = $request->parent_category_id;
         $new_vendor_menu_category->name = $request->name;
         $new_vendor_menu_category->activation_status = $request->activation_status;
-        $new_vendor_menu_category->sort = $request->sort;
+        $this->vendor->menu_categories()->increment('sort');
+        $new_vendor_menu_category->sort = 1;
         if(request()->hasFile('image'))
         {
             $file=$request->image;
