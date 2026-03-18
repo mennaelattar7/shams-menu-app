@@ -27,6 +27,56 @@ class VendorMenuCategoryResource extends JsonResource
         {
             $branch = null;
         }
+        $features = $branch->features;
+        $activation_features = collect();
+        foreach($features as $one_feature)
+        {
+            if($one_feature->activation_status == "active")
+            {
+                if($one_feature->pivot->activation_status == "active")
+                {
+                    $activation_features->push($one_feature);
+                }
+            }
+        }
+        $items = $activation_features->whereIn('code', ['main_category', 'subcategory']);
+
+        if($items->count() == 2)
+        {
+            $products = $this->products;
+        }
+        elseif($items->count() == 1)
+        {
+            if($items->first()->code == "main_category")
+            {
+                $products = collect();
+                if ($branch) {
+                    if ($this->sub_categories && $this->sub_categories->isNotEmpty()) {
+
+                        // 👇 هات كل IDs بتاعة sub categories
+                        $subIds = $this->sub_categories->pluck('id');
+
+                        // 👇 هات المنتجات بتاعتهم
+                        $products = $branch->products()
+                            ->wherePivot('activation_status', 'active')
+                            ->whereIn('category_id', $subIds)
+                            ->get();
+
+                    } else {
+                        // 👇 لو مفيش sub categories
+                        $products = $branch->products()
+                            ->wherePivot('activation_status', 'active')
+                            ->where('category_id', $this->id)
+                            ->get();
+                    }
+                }
+            }
+            else
+            {
+                $products = $this->products;
+            }
+        }
+
         return [
             'id'=>$this->id,
             'parent_category' =>$this->when($request->routeIs([
@@ -138,10 +188,16 @@ class VendorMenuCategoryResource extends JsonResource
                     'user.api.public.branch.product.get_products',
                     'user.api.vendor.menu_category.single',
                 ]),$this->sort),
+
+            //in vendor
             'products' =>$this->when($request->routeIs([
-                    'user.api.public.branch.product.get_products',
                     'user.api.vendor.menu_category.single',
                 ]),ProductResource::collection($this->products)),
+
+            //in public
+            'products' =>$this->when($request->routeIs([
+                    'user.api.public.branch.product.get_products',
+                ]),ProductResource::collection($products)),
 
             'branches' => $this->when($request->routeIs([
                     'user.api.vendor.menu_category.single',

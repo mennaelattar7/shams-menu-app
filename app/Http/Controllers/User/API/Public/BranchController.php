@@ -111,16 +111,15 @@ class BranchController extends Controller
         }
         $items = $activation_features->whereIn('code', ['main_category', 'subcategory']);
         $category_collection = collect();
-
         if($items->count() == 2)
         {
             $categories = $branch->categories()
                         ->wherePivot('activation_status','active') //branches
-                        ->where('vendor___menu_categories.activation_status','active')
                         ->get();
+            $categories = $categories->where('activation_status','active');
             foreach($categories as $one_category)
             {
-                if($one_category->products->count()>0)
+                if($one_category->products->count() > 0)
                 {
                     $category_collection->push($one_category);
                 }
@@ -134,6 +133,7 @@ class BranchController extends Controller
                 'data' => $data
             ], 200);
         }
+
         elseif($items->count() == 1)
         {
             if($items->first()->code == "main_category")
@@ -142,32 +142,27 @@ class BranchController extends Controller
                 $main_categories = $branch->categories()
                                     ->wherePivot('activation_status','active')
                                     ->where('vendor___menu_categories.activation_status','active')
+                                    ->whereNull('parent_category_id')
                                     ->get();
+
                 foreach($main_categories as $one_category)
                 {
                     if($one_category->sub_categories->isNotEmpty())
                     {
                         foreach($one_category->sub_categories as $one_sub)
                         {
-                            $categories->push($one_sub);
-                            foreach($categories as $one_category)
+                            if($one_sub->products->count()>0)
                             {
-                                if($one_category->products->count()>0)
-                                {
-                                    $category_collection->push($one_category);
-                                }
+                                $categories->push($one_category);
                             }
                         }
                     }
-                    $categories->push($one_category);
-                    foreach($categories as $one_category)
+                    else
                     {
-                        if($one_category->products->count()>0)
-                        {
-                            $category_collection->push($one_category);
-                        }
+                        $categories->push($one_category);
                     }
                 }
+                $categories = $categories->unique('id');
                 if($categories->isEmpty())
                 {
                     return response()->json([
@@ -180,7 +175,7 @@ class BranchController extends Controller
                     return response()->json([
                         'success' =>true,
                         'message' =>'get products successfully',
-                        'data' => VendorMenuCategoryResource::collection($category_collection)
+                        'data' => VendorMenuCategoryResource::collection($categories)
                     ],200);
                 }
             }
@@ -191,6 +186,7 @@ class BranchController extends Controller
                                     ->where('vendor___menu_categories.activation_status','active')
                                     ->where('parent_category_id','!=',null)
                                     ->get();
+                $category_collection2 = collect();
                 if($categories->isEmpty())
                 {
                     return response()->json([
@@ -200,10 +196,18 @@ class BranchController extends Controller
                 }
                 else
                 {
+                    foreach($categories as $one_category)
+                    {
+                        if($one_category->products->count()>0)
+                        {
+                            $category_collection2->push($one_category);
+                        }
+                    }
+
                     return response()->json([
                         'success' =>true,
                         'message' =>'get products successfully',
-                        'data' => VendorMenuCategoryResource::collection($categories)
+                        'data' => VendorMenuCategoryResource::collection($category_collection2)
                     ],200);
                 }
 

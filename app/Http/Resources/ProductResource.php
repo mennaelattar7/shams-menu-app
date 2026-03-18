@@ -253,7 +253,6 @@ class ProductResource extends JsonResource
                 ])&&$branch != null, function () use ($branch) {
                 $branchRelation = $this->branches
                     ->firstWhere('id', $branch->id);
-
                 return $branchRelation
                     ? $branchRelation->pivot->availability_status
                     : null;
@@ -277,14 +276,14 @@ class ProductResource extends JsonResource
                 'user.api.public.branch.product.single'])&&$branch != null, function () use ($branch) {
                 $branchRelation = $this->branches
                     ->firstWhere('id', $branch->id);
-
                 return $branchRelation
                     ? $branchRelation->pivot->activation_status
                     : null;
             }),
 
             'activation_status_in_branch' => $this->when($request->routeIs([
-                'user.api.vendor.product.index'
+                'user.api.vendor.product.index',
+                'user.api.public.branch.product.get_products',
                 ])&&$request->branch_slug != null, function () use ($request) {
                     $branch = VendorBranche::where('slug',$request->branch_slug)->first();
                 $branchRelation = $this->branches
