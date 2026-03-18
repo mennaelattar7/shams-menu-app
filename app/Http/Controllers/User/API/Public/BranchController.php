@@ -114,9 +114,8 @@ class BranchController extends Controller
         if($items->count() == 2)
         {
             $categories = $branch->categories()
-                        ->wherePivot('activation_status','active')
+                        ->wherePivot('activation_status','active') //branches
                         ->where('vendor___menu_categories.activation_status','active')
-                        ->where('parent_category_id','!=',null)
                         ->get();
             foreach($categories as $one_category)
             {
@@ -125,11 +124,14 @@ class BranchController extends Controller
                     $category_collection->push($one_category);
                 }
             }
+            $data = $category_collection->map(function ($category) {
+                return new VendorMenuCategoryResource($category, 2); // حددي depth هنا
+            });
             return response()->json([
-                'success' =>true,
-                'message' =>'get products successfully',
-                'data' => VendorMenuCategoryResource::collection($category_collection)
-            ],200);
+                'success' => true,
+                'message' => 'get products successfully',
+                'data' => $data
+            ], 200);
         }
         elseif($items->count() == 1)
         {
