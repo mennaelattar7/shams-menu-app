@@ -90,17 +90,17 @@ class ProductTrackingController extends BaseController
                 $all_views_ids_array = $all_views->whereBetween('created_at', [$startdate, $enddate])->pluck('product_id')->toArray();
                 $all_products->whereIn('products.id',$all_views_ids_array);
             }
-            if($request->sub_category_slug)
+            if($request->sub_category_id)
             {
-                $category = Vendor__MenuCategory::where('slug',$request->sub_category_slug)->first();
+                $category = Vendor__MenuCategory::find($request->sub_category_id);
                 if($category)
                 {
                     $all_products = $all_products->where('products.category_id',$category->id);
                 }
 
             }
-            if ($request->main_category_slug) {
-                $category = Vendor__MenuCategory::where('slug',$request->main_category_slug)->first();
+            if ($request->main_category_id) {
+                $category = Vendor__MenuCategory::find($request->main_category_id);
                 if($category)
                 {
                     $sub_categories_ids = $category->sub_categories()->pluck('id');
