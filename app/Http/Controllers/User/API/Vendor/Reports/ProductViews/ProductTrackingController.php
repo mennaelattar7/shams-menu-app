@@ -97,7 +97,6 @@ class ProductTrackingController extends BaseController
                 {
                     $all_products = $all_products->where('products.category_id',$category->id);
                 }
-
             }
             if ($request->main_category_id) {
                 $category = Vendor__MenuCategory::find($request->main_category_id);
@@ -107,8 +106,6 @@ class ProductTrackingController extends BaseController
                     $all_products = $all_products->whereIn('products.category_id', $sub_categories_ids);
                 }
             }
-
-
             $all_products = $all_products->get();
             if(!$all_products)
             {
