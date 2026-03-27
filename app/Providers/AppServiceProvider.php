@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(ViewFactory $view): void
     {
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
         $view->composer('Dashboard.*', function($view){
             $count_users = User::count();
             $count_roles = Role::count();
