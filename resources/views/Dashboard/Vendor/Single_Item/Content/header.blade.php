@@ -13,7 +13,7 @@
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                {{ $vendor->name }}
+                {{ $vendor->company_name }}
             </li>
         </ol>
         </nav>

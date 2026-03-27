@@ -18,7 +18,7 @@ Route::group(['namespace' => 'App\Http\Controllers\User'], function () {
                             'uses' => 'AuthController@getVerificationCode'
                 ));
                 Route::post('/verification-code', array(
-                            'as' => 'verification_code',
+                            'as' => 'verification_code_post',
                             'uses' => 'AuthController@postVerificationCode'
                 ));
                 Route::get('/change-password', array(

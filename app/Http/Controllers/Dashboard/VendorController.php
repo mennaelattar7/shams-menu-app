@@ -7,6 +7,7 @@ use App\Models\Vendor;
 use Illuminate\Http\Request;
 use App\Http\Requests\Dashboard\Vendor\VendorRequest;
 use App\Models\Quarter;
+use App\Models\Vendor__Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\DataTables;
@@ -161,7 +162,18 @@ class VendorController extends Controller
     }
     public function show($locale,Vendor $vendor,Request $request)
     {
-        return view('Dashboard.Vendor.Single_Item.index',compact('vendor'));
+        $name = $vendor->company_name ?? '';
+        $words = explode(' ', trim($name));
+
+        if(count($words) > 1){
+            $initials = strtoupper(substr($words[0],0,1) . substr($words[1],0,1));
+        } else {
+            $initials = strtoupper(substr($name,0,2));
+        }
+        //get avarage review
+        $avarage_reviews = round($vendor->reviews->avg('rating'));
+
+        return view('Dashboard.Vendor.Single_Item.index',compact('vendor','initials','avarage_reviews'));
     }
     public function edit($locale ,Vendor $vendor,Request $request)
     {

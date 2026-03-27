@@ -13,6 +13,7 @@ class ProductFavouritController extends BaseController
     public function statistics($locale, $branch_slug)
     {
         $vendor = $this->vendor;
+        
         $branch = VendorBranche::where('slug',$branch_slug)->first();
         if($branch->vendor->id == $vendor->id)
         {

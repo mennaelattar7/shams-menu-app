@@ -34,6 +34,7 @@ class CustomerSendTableRequestListener
             })
             ->get();
 
+
         if($roles)
         {
             foreach($roles as $one_role)

@@ -20,13 +20,13 @@
                     </div>
                     <div class="body">
                         <div class="row">
-                            <div class="col-md-12" style="text-align: right">
+                            <div class="col-md-6">
+                                @include('Dashboard.Vendor.Single_Item.Content.main_dates')
+                            </div>
+                            <div class="col-md-6" style="text-align: right">
                                 @include('Dashboard.Vendor.Single_Item.Content.main_links')
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                           @include('Dashboard.Vendor.Single_Item.Content.main_dates')
+
                         </div>
                         <div id="accordion" class="accordion">
                             <div class="mb-0 card">

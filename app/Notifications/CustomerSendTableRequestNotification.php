@@ -25,6 +25,7 @@ class CustomerSendTableRequestNotification extends Notification
 
     public function toDatabase($notifiable)
     {
+
         return [
             'customer' => $this->table_request?->customer?->user?->name,
             'table_number' => $this->table_request->table->table_number,

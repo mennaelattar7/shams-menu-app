@@ -76,6 +76,11 @@ class Vendor extends Model
         return $this->hasMany(Vendor__EmployeePosition::class,'vendor_id','id');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Vendor__Review::class,'vendor_id','id');
+    }
+
     public function employees()
     {
         return $this->hasMany(Vendor__Employee::class,'vendor_id','id');

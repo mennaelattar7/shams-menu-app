@@ -24,7 +24,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
                         'uses' => 'AuthController@getLogin'
             ));
             Route::post('/login', array(
-                        'as' => 'auth.login',
+                        'as' => 'auth.login_post',
                         'uses' => 'AuthController@postLogin'
             ));
 
@@ -34,7 +34,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
                         'uses' => 'AuthController@getChangePassword'
             ));
             Route::post('/change-password', array(
-                        'as' => 'auth.change_password',
+                        'as' => 'auth.change_password_post',
                         'uses' => 'AuthController@postChangePassword'
             ));
 

@@ -38,6 +38,10 @@
         <!-- Shams Style -->
         <link rel="stylesheet" href="{{ asset('shams/dashboard/shams_assets/css/style.css')}}">
         <style>
+            body
+            {
+                font-size: 38px
+            }
             .light_version .fancy-checkbox input[type="checkbox"]+span:before {
                 border-color: #17A2B8;
             }
@@ -111,6 +115,12 @@
             .btn-info {
                 background-color: #117a8b;
                 border-color:#117a8b
+            }
+            .text-muted {
+                color: #ffffff !important;
+            }
+            .breadcrumb-item.active {
+                color: #e1f1ff;
             }
         </style>
 
